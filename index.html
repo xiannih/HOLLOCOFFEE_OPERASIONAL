@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>HOLLO COFFEE & ROASTERY'S — Operational Station</title>
-  <!-- Tailwind CSS & Lucide Icons -->
+  <title>HOLLO COFFEE — Operational Station</title>
+  <!-- Tailwind CSS dengan class-based dark mode & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { light: '#000000', dark: '#ffffff' }
+          }
+        }
+      }
+    }
+  </script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -16,72 +28,76 @@
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   </style>
 </head>
-<body class="bg-stone-950 text-stone-100 min-h-screen pb-24 select-none md:select-auto">
+<body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 select-none md:select-auto">
 
-  <!-- TOAST NOTIFIKASI -->
-  <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-stone-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 text-xs font-semibold">
-    <div id="toast-icon-bg" class="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
-      <i id="toast-icon" data-lucide="info" class="w-4 h-4"></i>
+  <!-- TOAST NOTIFIKASI MINIMALIS -->
+  <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold">
+    <div id="toast-icon-bg" class="w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
+      <i id="toast-icon" data-lucide="info" class="w-3.5 h-3.5"></i>
     </div>
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN KRU -->
-  <div id="login-screen" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-xl flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-stone-800 text-stone-100">
+  <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT DITUTUP) -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
       <div class="text-center mb-6">
-        <div class="w-16 h-16 bg-gradient-to-tr from-amber-600 to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl font-black shadow-lg shadow-amber-600/30 text-stone-950">HC</div>
-        <h1 class="text-xl font-black tracking-wider uppercase text-amber-400">HOLLO COFFEE</h1>
-        <p class="text-xs text-stone-400 font-medium">Stasiun Operasional & Kasir Terintegrasi</p>
+        <div class="w-14 h-14 bg-black dark:bg-white text-white dark:text-black rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-black shadow-md tracking-tighter">HC</div>
+        <h1 class="text-lg font-black tracking-tight uppercase">HOLLO COFFEE</h1>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">Stasiun Operasional & Kasir Pintar</p>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">Username Kru</label>
-          <input id="login-user" type="text" placeholder="mis. boy / pace / el / eko" class="w-full bg-stone-800/80 border border-stone-700 rounded-2xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 text-stone-100 placeholder-stone-500" />
+          <label class="block text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1.5">Username</label>
+          <input id="login-user" type="text" placeholder="mis. boy / pace / el / eko" class="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-zinc-900 dark:text-zinc-100 placeholder-zinc-400" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">PIN Rahasia (4–8 Digit)</label>
-          <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-stone-800/80 border border-stone-700 rounded-2xl px-4 py-3 text-center tracking-widest text-lg font-black focus:outline-none focus:ring-2 focus:ring-amber-500 text-stone-100 placeholder-stone-600" />
+          <label class="block text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1.5">PIN Stasiun (4–8 Digit)</label>
+          <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-center tracking-widest text-lg font-black focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-zinc-900 dark:text-zinc-100 placeholder-zinc-400" />
         </div>
-        <button onclick="handleLogin()" id="btn-login" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow-lg shadow-amber-600/30 transition active:scale-95 flex items-center justify-center gap-2">
+        <button onclick="handleLogin()" id="btn-login" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow transition active:scale-95 flex items-center justify-center gap-2">
           <span>Buka Stasiun</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
-      <p class="text-[11px] text-center text-stone-500 mt-5 font-medium leading-relaxed">
-        Super Admin: Username <code class="text-amber-400 font-bold">boy</code>.<br>PIN tersimpan di tab <code class="text-stone-300 font-bold">PIN_RAJA</code> Sheet Anda.
+      <p class="text-[11px] text-center text-zinc-400 dark:text-zinc-600 mt-5 font-medium leading-relaxed">
+        Sesi otomatis berakhir saat browser ditutup demi keamanan stasiun kasir.
       </p>
     </div>
   </div>
 
-  <!-- TOP APP BAR -->
-  <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800 sticky top-0 z-30">
+  <!-- TOP APP BAR DENGAN TOMBOL MODE GELAP/TERANG -->
+  <header class="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-9 h-9 bg-gradient-to-tr from-amber-600 to-amber-500 rounded-xl flex items-center justify-center font-black text-sm text-stone-950 shadow-md">HC</div>
+        <div class="w-8 h-8 bg-black dark:bg-white text-white dark:text-black rounded-xl flex items-center justify-center font-black text-xs shadow-sm">HC</div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-black tracking-wider text-amber-400">HOLLO COFFEE & ROASTERY'S</span>
-            <span id="live-fase-badge" class="inline-flex items-center gap-1 text-[9px] font-black bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">
-              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 pulse-dot"></span> OPERASIONAL
+            <span class="text-xs font-black tracking-wider uppercase">HOLLO COFFEE</span>
+            <span id="live-fase-badge" class="inline-flex items-center gap-1 text-[9px] font-black bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded-full border border-zinc-300 dark:border-zinc-700">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-dot"></span> LIVE
             </span>
           </div>
-          <div class="text-[10px] text-stone-400 flex items-center gap-1.5 font-medium mt-0.5">
-            <span id="live-clock" class="font-mono text-stone-200">00:00:00</span>
+          <div class="text-[10px] text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5 font-medium mt-0.5">
+            <span id="live-clock" class="font-mono text-zinc-800 dark:text-zinc-200 font-bold">00:00:00</span>
             <span>•</span>
-            <span id="live-timeline-status" class="text-stone-400 font-semibold">-</span>
+            <span id="live-timeline-status" class="hidden sm:inline font-semibold">-</span>
             <span>•</span>
-            <span id="hdr-user-info" class="text-amber-300 font-bold">-</span>
+            <span id="hdr-user-info" class="font-bold text-zinc-900 dark:text-zinc-100">-</span>
           </div>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 active:rotate-180 transition duration-300">
+      <div class="flex items-center gap-1.5">
+        <!-- TOGGLE THEME: HITAM / PUTIH -->
+        <button onclick="toggleTheme()" title="Ganti Mode Gelap/Terang" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition">
+          <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
+        </button>
+        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 active:rotate-180 transition duration-300">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
         </button>
-        <button onclick="handleLogout()" title="Keluar Stasiun" class="p-2.5 rounded-xl bg-stone-800 hover:bg-rose-900/40 text-stone-400 hover:text-rose-300 transition">
+        <button onclick="handleLogout()" title="Keluar Stasiun" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-zinc-600 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 transition">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </button>
       </div>
@@ -94,126 +110,121 @@
     <!-- ================= 1. TAB DASHBOARD ================= -->
     <section id="pane-dashboard" class="space-y-4">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
-          <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Checklist Selesai</span>
-          <div class="text-xl font-black text-amber-400 mt-1" id="dash-check-pct">0%</div>
-          <span class="text-[10px] text-stone-500 block mt-0.5" id="dash-check-ratio">0/39 Tugas</span>
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Checklist Hari Ini</span>
+          <div class="text-2xl font-black mt-1" id="dash-check-pct">0%</div>
+          <span class="text-[10px] text-zinc-500 block mt-0.5" id="dash-check-ratio">0/39 Tugas</span>
         </div>
-        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
-          <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block">Perlu Restock</span>
-          <div class="text-xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
-          <span class="text-[10px] text-stone-500 block mt-0.5">Bahan menipis</span>
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <span class="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Bahan Restock</span>
+          <div class="text-2xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Di bawah batas aman</span>
         </div>
-        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
-          <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Stok</span>
-          <div class="text-xl font-black text-stone-200 mt-1" id="dash-total-stok">149</div>
-          <span class="text-[10px] text-stone-500 block mt-0.5">Barista • Kitchen • Server</span>
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Database Stok</span>
+          <div class="text-2xl font-black mt-1" id="dash-total-stok">149</div>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Barista • Kitchen • Server</span>
         </div>
-        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
-          <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Menu Aktif</span>
-          <div class="text-xl font-black text-emerald-400 mt-1" id="dash-total-menu">63</div>
-          <span class="text-[10px] text-stone-500 block mt-0.5">Minuman & Makanan</span>
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Menu Aktif</span>
+          <div class="text-2xl font-black mt-1" id="dash-total-menu">63</div>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Minuman & Makanan</span>
         </div>
       </div>
 
-      <!-- Timeline Harian HOLLO Sesuai Parameter Sheet -->
-      <div class="bg-stone-900/90 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
-          <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4"></i> Alur Timeline Operasional Cafe Hari Ini
+      <!-- Timeline Harian Sesuai Parameter Sheet -->
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+        <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2.5">
+          <h3 class="text-xs font-black uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="clock" class="w-4 h-4"></i> Alur Timeline Operasional Cafe
           </h3>
-          <span class="text-[10px] text-stone-400">Parameter Sheet B6:B11</span>
+          <span class="text-[10px] text-zinc-400">Parameter Sheet B6:B11</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs">
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">08:30</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Prep Shift 1</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Semua divisi prep</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">08:30</span>
+            <span class="font-bold block text-[11px] mt-0.5">Prep Shift 1</span>
           </div>
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">09:00</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Buka Kasir 1</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Pelayanan mulai</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">09:00</span>
+            <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 1</span>
           </div>
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">16:30</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Serah Terima</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Hitung uang & kas</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">16:30</span>
+            <span class="font-bold block text-[11px] mt-0.5">Serah Terima</span>
           </div>
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">17:00</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Buka Kasir 2</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Shift malam</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">17:00</span>
+            <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 2</span>
           </div>
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">23:00</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Closing Awal</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Cuci alat & kompor</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">23:00</span>
+            <span class="font-bold block text-[11px] mt-0.5">Closing Awal</span>
           </div>
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800">
-            <span class="text-[9px] text-amber-400 font-bold block">00:00</span>
-            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Close Order</span>
-            <span class="text-[9px] text-stone-500 mt-1 block">Tutup buku kasir</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+            <span class="text-[9px] font-bold text-zinc-500 block">00:00</span>
+            <span class="font-bold block text-[11px] mt-0.5">Close Order</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 vs SHIFT 2 & HANDOVER) ================= -->
+    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 & 2 + HANDOVER) ================= -->
     <section id="pane-checklist" class="hidden space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-stone-900 p-3 rounded-2xl border border-stone-800">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <button onclick="setChecklistShift('1')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-amber-500 text-stone-950 shadow" data-shift="1">
+          <button onclick="setChecklistShift('1')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow" data-shift="1">
             ☀️ Shift 1 (Opening • 08:30)
           </button>
-          <button onclick="setChecklistShift('2')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-stone-800 text-stone-400" data-shift="2">
+          <button onclick="setChecklistShift('2')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-shift="2">
             🌙 Shift 2 (Closing • 17:00)
           </button>
-          <button onclick="setChecklistShift('SEMUA')" class="chk-shift-btn px-3 py-2 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-shift="SEMUA">
+          <button onclick="setChecklistShift('SEMUA')" class="chk-shift-btn px-3 py-2 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-shift="SEMUA">
             Semua
           </button>
         </div>
         <div class="flex items-center gap-2">
-          <button onclick="openModalAddChecklist()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1 shadow">
+          <span id="chk-shift-progress" class="text-xs font-black">0% Selesai</span>
+          <button id="btn-add-task-top" onclick="openModalAddChecklist()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1 shadow">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Tugas
           </button>
         </div>
       </div>
 
       <!-- KOTAK HANDOVER SERAH TERIMA 16:30 -->
-      <div class="bg-gradient-to-r from-amber-950/40 to-stone-900 p-4 rounded-3xl border border-amber-800/40 shadow-xl space-y-3">
-        <div class="flex items-center justify-between border-b border-amber-800/40 pb-2">
-          <span class="text-xs font-black text-amber-300 flex items-center gap-2">
-            <i data-lucide="arrow-right-left" class="w-4 h-4 text-amber-400"></i>
+      <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+        <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+          <span class="text-xs font-black flex items-center gap-2">
+            <i data-lucide="arrow-right-left" class="w-4 h-4"></i>
             Handover Pergantian Shift (16:30) — Catatan untuk Shift Berikutnya:
           </span>
-          <button onclick="saveHandoverNotes()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">
+          <button onclick="saveHandoverNotes()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">
             Simpan Handover
           </button>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
-            <label class="block font-bold text-amber-200/80 mb-1">☕ Prep Kurang Barista:</label>
-            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2 liter..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200 placeholder-stone-600"></textarea>
+            <label class="block font-bold text-zinc-500 mb-1">☕ Prep Kurang Barista:</label>
+            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2 liter..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
           </div>
           <div>
-            <label class="block font-bold text-amber-200/80 mb-1">🍳 Prep Kurang Kitchen:</label>
-            <textarea id="ho-kit" rows="2" placeholder="mis. Saus bolognese habis, gas sisa 1..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200 placeholder-stone-600"></textarea>
+            <label class="block font-bold text-zinc-500 mb-1">🍳 Prep Kurang Kitchen:</label>
+            <textarea id="ho-kit" rows="2" placeholder="mis. Saus bolognese habis, gas sisa 1..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
           </div>
           <div>
-            <label class="block font-bold text-amber-200/80 mb-1">🍽️ Prep Kurang Server:</label>
-            <textarea id="ho-srv" rows="2" placeholder="mis. Tisu meja habis, sabun toilet tipis..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200 placeholder-stone-600"></textarea>
+            <label class="block font-bold text-zinc-500 mb-1">🍽️ Prep Kurang Server:</label>
+            <textarea id="ho-srv" rows="2" placeholder="mis. Tisu meja habis, sabun toilet tipis..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
           </div>
         </div>
       </div>
 
       <!-- Filter Divisi Checklist -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-        <button onclick="setChecklistDiv('SEMUA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950" data-div="SEMUA">Semua Stasiun</button>
-        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400" data-div="BARISTA">Barista</button>
-        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400" data-div="KITCHEN">Kitchen</button>
-        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400" data-div="SERVER">Server</button>
-        <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400" data-div="KASIR">Kasir</button>
+        <button onclick="setChecklistDiv('SEMUA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black" data-div="SEMUA">Semua Stasiun</button>
+        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="BARISTA">Barista</button>
+        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="KITCHEN">Kitchen</button>
+        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="SERVER">Server</button>
+        <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="KASIR">Kasir</button>
       </div>
 
       <div id="checklist-cards-container" class="space-y-2.5"></div>
@@ -221,18 +232,18 @@
 
     <!-- ================= 3. TAB STOK OPNAME ================= -->
     <section id="pane-stok" class="hidden space-y-4">
-      <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg space-y-3">
+      <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <button onclick="setStokDivFilter('SEMUA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950" data-div="SEMUA">Semua (149)</button>
-            <button onclick="setStokDivFilter('BARISTA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="BARISTA">Barista (65)</button>
-            <button onclick="setStokDivFilter('KITCHEN')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="KITCHEN">Kitchen (71)</button>
-            <button onclick="setStokDivFilter('SERVER')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="SERVER">Server (13)</button>
+            <button onclick="setStokDivFilter('SEMUA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black" data-div="SEMUA">Semua (149)</button>
+            <button onclick="setStokDivFilter('BARISTA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="BARISTA">Barista (65)</button>
+            <button onclick="setStokDivFilter('KITCHEN')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="KITCHEN">Kitchen (71)</button>
+            <button onclick="setStokDivFilter('SERVER')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="SERVER">Server (13)</button>
           </div>
           <div class="flex items-center gap-2">
-            <input type="text" id="stok-search" oninput="renderStokCards()" placeholder="Cari nama barang..." class="bg-stone-950 border border-stone-800 rounded-xl px-3 py-1.5 text-xs text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full sm:w-44" />
-            <button onclick="openModalLogKejadian()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shrink-0 shadow">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> Catat Waste/Masuk
+            <input type="text" id="stok-search" oninput="renderStokCards()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white w-full sm:w-44" />
+            <button onclick="openModalLogKejadian()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shrink-0 shadow">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log / Waste
             </button>
           </div>
         </div>
@@ -241,91 +252,91 @@
       <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- ================= 4. TAB KASIR & HITUNG FISIK ================= -->
+    <!-- ================= 4. TAB KASIR & SERAH TERIMA ================= -->
     <section id="pane-kasir" class="hidden space-y-4">
-      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-xl mx-auto space-y-4">
-        <div class="border-b border-stone-800 pb-3 flex justify-between items-center">
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-xl mx-auto space-y-4">
+        <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex justify-between items-center">
           <div>
-            <h3 class="text-sm font-black text-amber-400">Serah Terima Kasir & Laci Uang</h3>
-            <p class="text-[11px] text-stone-400">Kas Awal + Tunai − Pengeluaran = Uang Seharusnya di Laci</p>
+            <h3 class="text-sm font-black">Serah Terima Kasir & Laci Uang</h3>
+            <p class="text-[11px] text-zinc-500">Kas Awal + Tunai − Pengeluaran = Uang Seharusnya di Laci</p>
           </div>
-          <span class="text-[10px] font-bold bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-xl">Stasiun Kasir</span>
+          <span class="text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-xl">Stasiun Kasir</span>
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-xs">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Tipe Serah Terima</label>
-            <select id="kas-tipe" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Tipe Serah Terima</label>
+            <select id="kas-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
               <option value="Kas Awal Shift 1">Kas Awal Shift 1 (Opening 08:30)</option>
               <option value="Serah Terima 16:30">Serah Terima 16:30 (Shift 1 → 2)</option>
               <option value="Tutup Kasir 00:00">Tutup Kasir 00:00 (Closing Akhir)</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Petugas Kasir</label>
-            <input type="text" id="kas-petugas" readonly class="w-full bg-stone-950/60 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-400" />
+            <label class="block font-bold text-zinc-500 mb-1">Petugas Kasir</label>
+            <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-400" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-xs">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Modal Kas Awal (Rp)</label>
-            <input type="number" id="kas-modal" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-100" />
+            <label class="block font-bold text-zinc-500 mb-1">Modal Kas Awal (Rp)</label>
+            <input type="number" id="kas-modal" oninput="calcCashBalance()" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Pengeluaran Tunai / Nota (Rp)</label>
-            <input type="number" id="kas-keluar" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-rose-400" />
+            <label class="block font-bold text-zinc-500 mb-1">Pengeluaran Tunai / Nota (Rp)</label>
+            <input type="number" id="kas-keluar" oninput="calcCashBalance()" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-rose-500" />
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-xs">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Penjualan Tunai POS (Rp)</label>
-            <input type="number" id="kas-tunai" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-emerald-400" />
+            <label class="block font-bold text-zinc-500 mb-1">Penjualan Tunai POS (Rp)</label>
+            <input type="number" id="kas-tunai" oninput="calcCashBalance()" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-emerald-600 dark:text-emerald-400" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Penjualan QRIS / EDC (Rp)</label>
-            <input type="number" id="kas-nontunai" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-300" />
+            <label class="block font-bold text-zinc-500 mb-1">Penjualan QRIS / EDC (Rp)</label>
+            <input type="number" id="kas-nontunai" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-500" />
           </div>
         </div>
 
         <!-- KALKULATOR LEMBAR PECAHAN LACI -->
-        <div class="bg-stone-950 p-4 rounded-2xl border border-stone-800 space-y-3">
+        <div class="bg-zinc-50 dark:bg-zinc-950 p-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-3">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+            <span class="text-xs font-bold flex items-center gap-1.5">
               <i data-lucide="calculator" class="w-4 h-4"></i> Hitung Lembaran Fisik di Laci:
             </span>
-            <button onclick="togglePecahanCalc()" id="btn-toggle-pecahan" class="text-[10px] text-stone-400 hover:text-white underline">Buka Hitung Lembar</button>
+            <button onclick="togglePecahanCalc()" id="btn-toggle-pecahan" class="text-[10px] text-zinc-400 hover:underline">Buka Hitung Lembar</button>
           </div>
 
-          <div id="pecahan-grid" class="hidden grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-2 border-t border-stone-800">
-            <div><span class="text-stone-500">100.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="100000" /></div>
-            <div><span class="text-stone-500">50.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="50000" /></div>
-            <div><span class="text-stone-500">20.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="20000" /></div>
-            <div><span class="text-stone-500">10.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="10000" /></div>
-            <div><span class="text-stone-500">5.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="5000" /></div>
-            <div><span class="text-stone-500">2.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="2000" /></div>
-            <div><span class="text-stone-500">1.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="1000" /></div>
-            <div><span class="text-stone-500">Koin/Lain:</span><input type="number" min="0" placeholder="Rp" oninput="calcPecahan()" class="koin-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" /></div>
+          <div id="pecahan-grid" class="hidden grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-2 border-t border-zinc-200 dark:border-zinc-800">
+            <div><span class="text-zinc-400">100.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="100000" /></div>
+            <div><span class="text-zinc-400">50.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="50000" /></div>
+            <div><span class="text-zinc-400">20.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="20000" /></div>
+            <div><span class="text-zinc-400">10.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="10000" /></div>
+            <div><span class="text-zinc-400">5.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="5000" /></div>
+            <div><span class="text-zinc-400">2.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="2000" /></div>
+            <div><span class="text-zinc-400">1.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" data-val="1000" /></div>
+            <div><span class="text-zinc-400">Koin/Lain:</span><input type="number" min="0" placeholder="Rp" oninput="calcPecahan()" class="koin-inp w-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-lg p-1.5 text-center font-bold" /></div>
           </div>
 
           <div class="flex justify-between items-center text-xs pt-1">
-            <span class="text-stone-400">Uang Seharusnya (Sistem):</span>
-            <span id="kas-seharusnya-label" class="font-bold text-stone-200">Rp 0</span>
+            <span class="text-zinc-400">Uang Seharusnya (Sistem):</span>
+            <span id="kas-seharusnya-label" class="font-bold">Rp 0</span>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-amber-300 mb-1">Total Uang Fisik Riil di Laci (Rp)</label>
-            <input type="number" id="kas-fisik-total" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-900 border-2 border-amber-500 rounded-xl p-3 font-black text-amber-400 text-base" />
+            <label class="block text-xs font-bold mb-1">Total Uang Fisik Riil di Laci (Rp)</label>
+            <input type="number" id="kas-fisik-total" oninput="calcCashBalance()" placeholder="0" class="w-full bg-white dark:bg-zinc-900 border-2 border-black dark:border-white rounded-xl p-3 font-black text-base" />
           </div>
 
-          <div class="flex justify-between items-center pt-2 border-t border-stone-800">
-            <span class="text-xs font-bold text-stone-300">Hasil Selisih Kas:</span>
-            <span id="kas-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-stone-800 text-stone-400">Belum dihitung</span>
+          <div class="flex justify-between items-center pt-2 border-t border-zinc-200 dark:border-zinc-800">
+            <span class="text-xs font-bold text-zinc-500">Hasil Selisih Kas:</span>
+            <span id="kas-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-zinc-200 dark:bg-zinc-800 text-zinc-500">Belum dihitung</span>
           </div>
         </div>
 
-        <button onclick="saveSerahKas()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow-lg transition">
+        <button onclick="saveSerahKas()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow transition">
           Simpan Laporan Kasir ke Sheet
         </button>
       </div>
@@ -333,20 +344,20 @@
 
     <!-- ================= 5. TAB KALENDER (JADWAL KRU & LOG HARIAN) ================= -->
     <section id="pane-kalender" class="hidden space-y-4">
-      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-4">
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
           <div>
-            <h3 id="cal-month-title" class="text-base font-black text-amber-400">November 2026</h3>
-            <p class="text-[11px] text-stone-400">Jadwal Shift Kru, Waste & Catatan Kejadian</p>
+            <h3 id="cal-month-title" class="text-base font-black">Bulan Berjalan</h3>
+            <p class="text-[11px] text-zinc-500">Jadwal Shift Kru, Libur & Log Kejadian</p>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button onclick="navCalToday()" class="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-bold text-amber-300">Hari Ini</button>
-            <button onclick="navCalMonth(1)" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+            <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button onclick="navCalToday()" class="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-xs font-bold">Hari Ini</button>
+            <button onclick="navCalMonth(1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
           </div>
         </div>
 
-        <div class="grid grid-cols-7 text-center text-[10px] font-black uppercase text-stone-500">
+        <div class="grid grid-cols-7 text-center text-[10px] font-black uppercase text-zinc-400">
           <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
         </div>
 
@@ -354,27 +365,27 @@
       </div>
 
       <!-- Detail Tanggal Terpilih & Tombol Atur Jadwal -->
-      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
-        <div class="border-b border-stone-800 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <span class="text-xs font-black text-amber-400" id="cal-selected-label">Rincian Tanggal</span>
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+        <div class="border-b border-zinc-100 dark:border-zinc-800 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <span class="text-xs font-black" id="cal-selected-label">Rincian Tanggal</span>
           <div class="flex items-center gap-1.5">
-            <button onclick="openModalAturJadwal()" class="bg-cyan-600 hover:bg-cyan-500 text-stone-950 font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button id="btn-atur-jadwal" onclick="openModalAturJadwal()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
               <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i> + Atur Jadwal Kru
             </button>
-            <button onclick="openModalLibur()" class="bg-purple-600 hover:bg-purple-500 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
-              <i data-lucide="coffee" class="w-3.5 h-3.5"></i> + Input Libur/Cuti
+            <button id="btn-input-libur" onclick="openModalLibur()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+              <i data-lucide="coffee" class="w-3.5 h-3.5"></i> + Libur / Cuti
             </button>
-            <button onclick="openModalLogKejadian()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button onclick="openModalLogKejadian()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log
             </button>
           </div>
         </div>
         <div class="space-y-2">
-          <span class="text-[11px] font-bold text-stone-400 block">Jadwal Kru yang Masuk:</span>
+          <span class="text-[11px] font-bold text-zinc-400 block">Jadwal Kru yang Masuk:</span>
           <div id="cal-staff-roster-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
         </div>
-        <div class="space-y-2 pt-2 border-t border-stone-800">
-          <span class="text-[11px] font-bold text-stone-400 block">Catatan Kejadian / Waste / Log:</span>
+        <div class="space-y-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+          <span class="text-[11px] font-bold text-zinc-400 block">Catatan Kejadian / Waste / Log:</span>
           <div id="cal-kejadian-list" class="space-y-1.5 text-xs"></div>
         </div>
       </div>
@@ -382,15 +393,15 @@
 
     <!-- ================= 6. TAB MENU & HARGA (63 MENU) ================= -->
     <section id="pane-menu" class="hidden space-y-4">
-      <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-          <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow" data-jenis="SEMUA">Semua (63)</button>
-          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-jenis="Minuman">☕ Minuman (35)</button>
-          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-jenis="Makanan">🍳 Makanan (28)</button>
+          <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow" data-jenis="SEMUA">Semua (63)</button>
+          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-jenis="Minuman">☕ Minuman (35)</button>
+          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-jenis="Makanan">🍳 Makanan (28)</button>
         </div>
         <div class="flex items-center gap-2">
-          <input type="text" id="menu-search-box" oninput="renderMenuCards()" placeholder="Cari menu / HPP..." class="bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs font-medium text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full sm:w-48" />
-          <button onclick="openModalAddMenu()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-2 rounded-xl text-xs shrink-0 shadow flex items-center gap-1">
+          <input type="text" id="menu-search-box" oninput="renderMenuCards()" placeholder="Cari menu / HPP..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none w-full sm:w-48" />
+          <button id="btn-top-add-menu" onclick="openModalAddMenu()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs shrink-0 shadow flex items-center gap-1">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Menu
           </button>
         </div>
@@ -401,17 +412,17 @@
 
     <!-- ================= 7. TAB DAILY REPORT CLOSING & WA LENGKAP ================= -->
     <section id="pane-report" class="hidden space-y-4">
-      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-2xl mx-auto space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-800 pb-3 gap-2">
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-2xl mx-auto space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 gap-2">
           <div>
-            <h3 class="text-sm font-black text-amber-400">Daily Closing & WhatsApp Generator</h3>
-            <p class="text-[11px] text-stone-400">Omset harian, evaluasi malam, dan prep belanja besok per divisi.</p>
+            <h3 class="text-sm font-black">Daily Closing & WhatsApp Generator</h3>
+            <p class="text-[11px] text-zinc-500">Omset harian, evaluasi malam, dan prep belanja besok per divisi.</p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="autoPullDailyData()" class="bg-cyan-600 hover:bg-cyan-500 text-stone-950 font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow" title="Tarik data kasir, waste & stok hari ini otomatis">
+            <button onclick="autoPullDailyData()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow">
               <i data-lucide="zap" class="w-3.5 h-3.5"></i> ⚡ Tarik Data Hari Ini
             </button>
-            <button onclick="copyWaReport()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow">
+            <button onclick="copyWaReport()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow">
               <i data-lucide="copy" class="w-4 h-4"></i> Salin WA
             </button>
           </div>
@@ -420,128 +431,133 @@
         <!-- FORM ISIAN CLOSING HARIAN LENGKAP -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Tanggal Closing</label>
-            <input type="date" id="dr-tgl" onchange="recalcDailyReportPreview()" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Tanggal Closing</label>
+            <input type="date" id="dr-tgl" onchange="recalcDailyReportPreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Sales Shift 1 (Opening)</label>
-            <input type="number" id="dr-sales-op" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Sales Shift 1 (Opening)</label>
+            <input type="number" id="dr-sales-op" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Sales Shift 2 (Closing)</label>
-            <input type="number" id="dr-sales-cl" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Sales Shift 2 (Closing)</label>
+            <input type="number" id="dr-sales-cl" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Sales GoFood (Rp)</label>
-            <input type="number" id="dr-gofood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Sales GoFood (Rp)</label>
+            <input type="number" id="dr-gofood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Sales GrabFood (Rp)</label>
-            <input type="number" id="dr-grabfood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Sales GrabFood (Rp)</label>
+            <input type="number" id="dr-grabfood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Settlement EDC (Rp)</label>
-            <input type="number" id="dr-edc" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <label class="block font-bold text-zinc-400 mb-1">Settlement EDC (Rp)</label>
+            <input type="number" id="dr-edc" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
           </div>
         </div>
 
         <!-- EVALUASI & BELANJA BESOK PER DIVISI -->
-        <div class="space-y-3 pt-2 border-t border-stone-800 text-xs">
-          <span class="text-xs font-bold text-amber-300 block">Evaluasi Malam & Kebutuhan Belanja Besok:</span>
+        <div class="space-y-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 text-xs">
+          <span class="text-xs font-bold block">Evaluasi Malam & Kebutuhan Belanja Besok:</span>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
-              <label class="block font-bold text-stone-400 mb-1">☕ Belanja Besok (Barista):</label>
-              <input type="text" id="dr-belanja-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Susu fresh 12L, aren 2 botol..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">☕ Belanja Besok (Barista):</label>
+              <input type="text" id="dr-belanja-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Susu fresh 12L, aren 2 botol..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
             <div>
-              <label class="block font-bold text-stone-400 mb-1">☕ Evaluasi / Kendala Bar:</label>
-              <input type="text" id="dr-eval-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Grinder agak bunyi, espresso lancar..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">☕ Evaluasi / Kendala Bar:</label>
+              <input type="text" id="dr-eval-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Grinder aman, espresso lancar..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
             <div>
-              <label class="block font-bold text-stone-400 mb-1">🍳 Belanja Besok (Kitchen):</label>
-              <input type="text" id="dr-belanja-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Telur 2 tray, keju 1kg..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">🍳 Belanja Besok (Kitchen):</label>
+              <input type="text" id="dr-belanja-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Telur 2 tray, keju 1kg..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
             <div>
-              <label class="block font-bold text-stone-400 mb-1">🍳 Evaluasi / Kendala Kitchen:</label>
-              <input type="text" id="dr-eval-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Kompor aman, gas diganti..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">🍳 Evaluasi / Kendala Kitchen:</label>
+              <input type="text" id="dr-eval-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Kompor aman, gas diganti..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
             <div>
-              <label class="block font-bold text-stone-400 mb-1">🍽️ Belanja Besok (Server):</label>
-              <input type="text" id="dr-belanja-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Tisu 2 pack, sabun cuci..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">🍽️ Belanja Besok (Server):</label>
+              <input type="text" id="dr-belanja-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Tisu 2 pack, sabun cuci..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
             <div>
-              <label class="block font-bold text-stone-400 mb-1">🍽️ Evaluasi Server & Kasir:</label>
-              <input type="text" id="dr-eval-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Kas cocok, EDC normal, area bersih..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+              <label class="block font-bold text-zinc-400 mb-1">🍽️ Evaluasi Server & Kasir:</label>
+              <input type="text" id="dr-eval-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Kas cocok, EDC normal, area bersih..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
             </div>
           </div>
         </div>
 
-        <button onclick="saveDailyReportToSheet()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow">
+        <button onclick="saveDailyReportToSheet()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow">
           Simpan ke Tab DAILY_REPORT Sheet
         </button>
 
-        <pre id="wa-preview-text" class="bg-stone-950 text-emerald-300 p-4 rounded-2xl text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap border border-stone-800 select-all"></pre>
+        <pre id="wa-preview-text" class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-200 p-4 rounded-2xl text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap border border-zinc-200 dark:border-zinc-800 select-all"></pre>
       </div>
     </section>
 
-    <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN `boy`) ================= -->
+    <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN BOY • RAJA UTAMA) ================= -->
     <section id="pane-super" class="hidden space-y-4">
-      <div class="bg-gradient-to-r from-amber-950 to-stone-900 p-5 rounded-3xl border border-amber-600/40 shadow-xl space-y-4">
-        <div class="flex items-center justify-between border-b border-amber-800/40 pb-3">
+      <div class="bg-white dark:bg-zinc-900 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
           <div>
-            <h2 class="text-sm font-black text-amber-400 flex items-center gap-2">
-              <i data-lucide="shield-check" class="w-5 h-5 text-amber-400"></i>
-              PANEL KELOLA MASTER (SUPER ADMIN BOY • RAJA_UTAMA)
+            <h2 class="text-sm font-black flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+              PANEL KELOLA MASTER (SUPER ADMIN BOY • LEVEL 6)
             </h2>
-            <p class="text-xs text-amber-200/70">Ubah PIN kru, kelola tugas checklist, master stok gudang, dan master menu HPP.</p>
+            <p class="text-xs text-zinc-500">Kelola kru staf, PIN, role, master tugas, stok dan master menu secara langsung.</p>
           </div>
-          <span class="text-[10px] font-black bg-amber-500/20 text-amber-300 px-3 py-1 rounded-xl border border-amber-500/40">LEVEL 6</span>
+          <span class="text-[10px] font-black bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-xl">RAJA_UTAMA</span>
         </div>
 
         <!-- 4 Sub-Menu Kelola -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
-          <button onclick="showSuperSub('pin')" id="sub-btn-pin" class="super-sub-btn p-3 rounded-2xl bg-amber-500 text-stone-950 shadow">🔑 Kelola PIN Staf</button>
-          <button onclick="showSuperSub('check')" id="sub-btn-check" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">📋 Kelola Checklist</button>
-          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">📦 Master Stok (149)</button>
-          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">☕ Master Menu (63)</button>
+          <button onclick="showSuperSub('user')" id="sub-btn-user" class="super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black shadow">👥 Kelola Kru & PIN</button>
+          <button onclick="showSuperSub('check')" id="sub-btn-check" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">📋 Master Checklist</button>
+          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">📦 Master Stok (149)</button>
+          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">☕ Master Menu (63)</button>
         </div>
 
-        <!-- SUB 1: KELOLA PIN -->
-        <div id="sub-pane-pin" class="bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
-          <span class="text-xs font-bold text-amber-300 block">Daftar PIN Login Semua Kru (Tab PIN_RAJA)</span>
+        <!-- SUB 1: KELOLA KRU & PIN LENGKAP -->
+        <div id="sub-pane-user" class="space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold">Daftar Akun Kru & Akses Staf (Tab USERS & PIN_RAJA)</span>
+            <button onclick="openModalAddUser()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Tambah Staf Baru
+            </button>
+          </div>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="text-stone-500 text-[10px] uppercase font-bold border-b border-stone-800">
-                <tr><th class="py-2 px-3">Username</th><th class="py-2 px-3">Nama Lengkap</th><th class="py-2 px-3">Role</th><th class="py-2 px-3">PIN Aktif</th><th class="py-2 px-3 text-right">Aksi</th></tr>
+              <thead class="text-zinc-400 text-[10px] uppercase font-bold border-b border-zinc-200 dark:border-zinc-800">
+                <tr><th class="py-2.5 px-3">Username</th><th class="py-2.5 px-3">Nama Lengkap</th><th class="py-2.5 px-3">Role</th><th class="py-2.5 px-3">Divisi</th><th class="py-2.5 px-3">No. HP</th><th class="py-2.5 px-3">Status</th><th class="py-2.5 px-3 text-right">Aksi</th></tr>
               </thead>
-              <tbody id="super-pin-tbody" class="divide-y divide-stone-800"></tbody>
+              <tbody id="super-users-tbody" class="divide-y divide-zinc-100 dark:divide-zinc-800"></tbody>
             </table>
           </div>
         </div>
 
         <!-- SUB 2: KELOLA CHECKLIST -->
-        <div id="sub-pane-check" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
+        <div id="sub-pane-check" class="hidden space-y-3">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-amber-300">Master Tugas Checklist (39 Tugas)</span>
-            <button onclick="openModalAddChecklist()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Tugas Baru</button>
+            <span class="text-xs font-bold">Master Tugas Checklist (39 Tugas)</span>
+            <button onclick="openModalAddChecklist()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Tugas Baru</button>
           </div>
           <div id="super-check-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
 
         <!-- SUB 3: KELOLA MASTER STOK -->
-        <div id="sub-pane-stok" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
+        <div id="sub-pane-stok" class="hidden space-y-3">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-amber-300">Master Data 149 Barang Stok</span>
-            <button onclick="openModalAddStok()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Barang Baru</button>
+            <span class="text-xs font-bold">Master Data 149 Barang Stok</span>
+            <button onclick="openModalAddStok()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Barang Baru</button>
           </div>
           <div id="super-stok-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
 
         <!-- SUB 4: KELOLA MASTER MENU -->
-        <div id="sub-pane-menu" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
+        <div id="sub-pane-menu" class="hidden space-y-3">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-amber-300">Master 63 Menu, HPP & Harga Jual</span>
-            <button onclick="openModalAddMenu()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Menu Baru</button>
+            <span class="text-xs font-bold">Master 63 Menu, HPP & Harga Jual</span>
+            <button onclick="openModalAddMenu()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Menu Baru</button>
           </div>
           <div id="super-menu-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -551,153 +567,150 @@
 
   </main>
 
-  <!-- DOCK BOTTOM NAVIGATION BAR -->
-  <nav class="fixed bottom-0 inset-x-0 bg-stone-950/95 backdrop-blur-xl border-t border-stone-800 z-40">
-    <div class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold">
-      <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-400" data-tab="dashboard">
-        <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
-      </button>
-      <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="checklist">
-        <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
-      </button>
-      <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="stok">
-        <i data-lucide="boxes" class="w-4 h-4"></i><span>Stok</span>
-      </button>
-      <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="kasir">
-        <i data-lucide="banknote" class="w-4 h-4"></i><span>Kasir</span>
-      </button>
-      <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="kalender">
-        <i data-lucide="calendar" class="w-4 h-4"></i><span>Kalender</span>
-      </button>
-      <button onclick="switchTab('menu')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="menu">
-        <i data-lucide="coffee" class="w-4 h-4"></i><span>Menu</span>
-      </button>
-      <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="report">
-        <i data-lucide="file-text" class="w-4 h-4"></i><span>Daily WA</span>
-      </button>
-      <!-- TOMBOL SUPER KELOLA KHUSUS BOY -->
-      <button id="nav-btn-super" onclick="switchTab('super')" class="hidden nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-300 font-black" data-tab="super">
-        <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i><span>Kelola</span>
-      </button>
+  <!-- DOCK BOTTOM NAVIGATION BAR DENGAN PEMBATAS HAK AKSES -->
+  <nav class="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 z-40">
+    <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold">
+      <!-- Diisi otomatis berdasarkan Role Login -->
     </div>
   </nav>
 
   <!-- ================= MODAL-MODAL INTERAKTIF ================= -->
 
-  <!-- 1. MODAL EDIT & AUDIT STOK LENGKAP -->
-  <div id="modal-audit-stok" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-md w-full border border-stone-800 space-y-4 max-h-[90vh] overflow-y-auto">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <div>
-          <h3 id="astk-title" class="font-black text-sm text-amber-400">Audit & Koreksi Stok</h3>
-          <p id="astk-sub" class="text-[11px] text-stone-500">Barista • Bahan</p>
-        </div>
-        <button onclick="closeModalAuditStok()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+  <!-- 1. MODAL USER / KRU (TAMBAH / EDIT LENGKAP: NAMA, ROLE, DIVISI, HP, PIN) -->
+  <div id="modal-user-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 id="usr-modal-title" class="font-black text-sm">Form Profil Kru & PIN</h3>
+        <button onclick="closeModalUserEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <input type="hidden" id="astk-row" />
-      <div class="space-y-3 text-xs">
-        <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">Tanggal Audit</label><input type="date" id="astk-tgl" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Shift</label><select id="astk-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200"><option value="1">Shift 1 (Pagi)</option><option value="2">Shift 2 (Sore)</option></select></div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block font-bold text-stone-400 mb-1">Stok Gudang Utama (Makro)</label>
-            <input type="number" id="astk-gudang" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-100" />
-          </div>
-          <div>
-            <label class="block font-bold text-stone-400 mb-1">Tersedia Meja Pagi (Mikro)</label>
-            <input type="number" id="astk-pagi" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-100" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block font-bold text-stone-400 mb-1">Refill Pagi</label>
-            <input type="number" id="astk-refill-pagi" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-100" />
-          </div>
-          <div>
-            <label class="block font-bold text-stone-400 mb-1">Refill Sore</label>
-            <input type="number" id="astk-refill-sore" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-100" />
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block font-bold text-amber-300 mb-1">Sisa Sore (Closing)</label>
-            <input type="number" id="astk-sore" class="w-full bg-amber-950/40 border border-amber-600 rounded-xl p-2 font-black text-amber-300" />
-          </div>
-          <div>
-            <label class="block font-bold text-rose-300 mb-1">Batas Min Stok (Restock)</label>
-            <input type="number" id="astk-min" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-rose-300" />
-          </div>
-        </div>
-
+      <input type="hidden" id="usr-row" />
+      <div class="space-y-2.5 text-xs">
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Catatan / Keterangan Stok</label>
-          <input type="text" id="astk-ket" placeholder="mis. Ganti supplier, kemasan rusak..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" />
+          <label class="block font-bold text-zinc-500 mb-1">Username (ID Login)</label>
+          <input type="text" id="usr-username" placeholder="mis. el / pace / eko" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-bold text-zinc-500 mb-1">Nama Lengkap</label>
+          <input type="text" id="usr-nama" placeholder="Nama lengkap staf" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Role / Jabatan</label>
+            <select id="usr-role" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+              <option value="BARISTA">BARISTA</option>
+              <option value="KITCHEN">KITCHEN</option>
+              <option value="SERVER">SERVER</option>
+              <option value="HEAD">HEAD</option>
+              <option value="SUPERVISOR">SUPERVISOR</option>
+              <option value="PURCHASING">PURCHASING</option>
+              <option value="HRD">HRD</option>
+              <option value="MANAGER">MANAGER</option>
+              <option value="OWNER">OWNER</option>
+              <option value="RAJA_UTAMA">RAJA_UTAMA</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Divisi</label>
+            <select id="usr-div" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+              <option value="BARISTA">BARISTA</option>
+              <option value="KITCHEN">KITCHEN</option>
+              <option value="SERVER">SERVER</option>
+              <option value="KASIR">KASIR</option>
+              <option value="MANAJEMEN">MANAJEMEN</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Nomor HP / WhatsApp</label>
+            <input type="text" id="usr-hp" placeholder="08..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Status</label>
+            <select id="usr-status" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+              <option value="Aktif">Aktif</option>
+              <option value="Nonaktif">Nonaktif</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Tipe Kerja</label>
+            <select id="usr-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2">
+              <option value="Tetap">Tetap</option>
+              <option value="Casual">Casual</option>
+              <option value="Part time">Part time</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">PIN Rahasia Baru</label>
+            <input type="password" maxlength="8" id="usr-pin" placeholder="•••••• (4–8 digit)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-mono font-bold tracking-widest text-center" />
+          </div>
+        </div>
+        <div>
+          <label class="block font-bold text-zinc-500 mb-1">Catatan Staf</label>
+          <input type="text" id="usr-cat" placeholder="mis. Head Bar, Part time sabtu-minggu..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
         </div>
       </div>
 
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalAuditStok()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveModalAuditStok()" class="flex-1 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 font-black text-xs text-stone-950">Simpan Audit ke Sheet</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalUserEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveModalUser()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Staf</button>
       </div>
     </div>
   </div>
 
   <!-- 2. MODAL ATUR JADWAL KRU (KALENDER) -->
-  <div id="modal-jadwal" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 class="font-black text-sm text-cyan-400 flex items-center gap-2">
+  <div id="modal-jadwal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="calendar-plus" class="w-4 h-4"></i> Atur Jadwal Kru
         </h3>
-        <button onclick="closeModalJadwal()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeModalJadwal()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-3 text-xs">
-        <div><label class="block font-bold text-stone-400 mb-1">Tanggal</label><input type="date" id="jdw-tgl" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Tanggal</label><input type="date" id="jdw-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Pilih Kru Staf</label>
-          <select id="jdw-user" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200"></select>
+          <label class="block font-bold text-zinc-500 mb-1">Pilih Kru Staf</label>
+          <select id="jdw-user" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold"></select>
         </div>
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Kode Shift</label>
-          <select id="jdw-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200">
+          <label class="block font-bold text-zinc-500 mb-1">Kode Shift</label>
+          <select id="jdw-shift" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
             <option value="P">P (Shift Pagi • 08:30–17:00)</option>
             <option value="MID">MID (Middle • 13:00–21:30)</option>
             <option value="S">S (Shift Sore • 16:30–01:00)</option>
             <option value="OFF">OFF (Libur Mingguan)</option>
           </select>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Catatan</label><input type="text" id="jdw-cat" placeholder="mis. Masuk jam 9, tukar shift..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Catatan</label><input type="text" id="jdw-cat" placeholder="mis. Masuk jam 9, tukar shift..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
       </div>
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalJadwal()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveJadwalKru()" class="flex-1 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-black text-xs text-stone-950">Simpan Jadwal</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalJadwal()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveJadwalKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Jadwal</button>
       </div>
     </div>
   </div>
 
   <!-- 3. MODAL INPUT JADWAL LIBUR / CUTI -->
-  <div id="modal-libur" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 class="font-black text-sm text-purple-400 flex items-center gap-2">
+  <div id="modal-libur" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="coffee" class="w-4 h-4"></i> Input Libur & Cuti Kru
         </h3>
-        <button onclick="closeModalLibur()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeModalLibur()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">Mulai</label><input type="date" id="lbr-mulai" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Selesai</label><input type="date" id="lbr-selesai" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Mulai</label><input type="date" id="lbr-mulai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Selesai</label><input type="date" id="lbr-selesai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
         </div>
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Jenis Libur</label>
-          <select id="lbr-jenis" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200">
+          <label class="block font-bold text-zinc-500 mb-1">Jenis Libur</label>
+          <select id="lbr-jenis" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
             <option value="Cuti">Cuti</option>
             <option value="Izin">Izin</option>
             <option value="Sakit">Sakit</option>
@@ -707,75 +720,75 @@
           </select>
         </div>
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Kru Terkait</label>
-          <select id="lbr-user" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200"></select>
+          <label class="block font-bold text-zinc-500 mb-1">Kru Terkait</label>
+          <select id="lbr-user" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold"></select>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Alasan / Keterangan</label><input type="text" id="lbr-ket" placeholder="mis. Pulang kampung, izin dinas..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Alasan / Keterangan</label><input type="text" id="lbr-ket" placeholder="mis. Pulang kampung, sakit demam..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
       </div>
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalLibur()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveLiburKru()" class="flex-1 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 font-black text-xs text-white">Simpan Libur</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalLibur()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveLiburKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Libur</button>
       </div>
     </div>
   </div>
 
-  <!-- 4. MODAL EDIT / TAMBAH MENU DENGAN LIVE MARGIN CALCULATOR -->
-  <div id="modal-menu-editor" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 id="mne-title" class="font-black text-sm text-amber-400">Form Menu & HPP</h3>
-        <button onclick="closeModalMenuEditor()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+  <!-- 4. MODAL EDIT / TAMBAH MENU DENGAN LIVE MARGIN -->
+  <div id="modal-menu-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 id="mne-title" class="font-black text-sm">Form Menu & HPP</h3>
+        <button onclick="closeModalMenuEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
       <input type="hidden" id="mne-row" />
       <div class="space-y-3 text-xs">
-        <div><label class="block font-bold text-stone-400 mb-1">Nama Menu Produk</label><input type="text" id="mne-nama" placeholder="mis. Caffe Latte Ice" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Nama Menu Produk</label><input type="text" id="mne-nama" placeholder="mis. Caffe Latte Ice" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Jenis</label>
-            <select id="mne-jenis" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Jenis</label>
+            <select id="mne-jenis" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="Minuman">Minuman (Barista)</option>
               <option value="Makanan">Makanan (Kitchen)</option>
             </select>
           </div>
-          <div><label class="block font-bold text-stone-400 mb-1">Kategori</label><input type="text" id="mne-kat" placeholder="Black / Signature..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Kategori</label><input type="text" id="mne-kat" placeholder="Black / Signature..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">HPP Pokok (Rp)</label><input type="number" id="mne-hpp" oninput="calcLiveMargin()" placeholder="0" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Harga Jual (Rp)</label><input type="number" id="mne-jual" oninput="calcLiveMargin()" placeholder="0" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-amber-400" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">HPP Pokok (Rp)</label><input type="number" id="mne-hpp" oninput="calcLiveMargin()" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Harga Jual (Rp)</label><input type="number" id="mne-jual" oninput="calcLiveMargin()" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
         </div>
 
         <!-- KALKULATOR LIVE MARGIN -->
-        <div class="bg-stone-950 p-3 rounded-2xl border border-stone-800 space-y-1.5 text-xs">
-          <div class="flex justify-between"><span class="text-stone-400">Keuntungan / Margin (Rp):</span><span id="mne-margin-rp" class="font-bold text-emerald-400">Rp 0</span></div>
-          <div class="flex justify-between"><span class="text-stone-400">Margin Persen:</span><span id="mne-margin-pct" class="font-black text-amber-300">0%</span></div>
-          <div class="flex justify-between"><span class="text-stone-400">Food Cost %:</span><span id="mne-fc-pct" class="font-bold text-stone-300">0%</span></div>
+        <div class="bg-zinc-50 dark:bg-zinc-950 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-1.5 text-xs">
+          <div class="flex justify-between"><span class="text-zinc-500">Keuntungan / Margin (Rp):</span><span id="mne-margin-rp" class="font-bold text-emerald-600 dark:text-emerald-400">Rp 0</span></div>
+          <div class="flex justify-between"><span class="text-zinc-500">Margin Persen:</span><span id="mne-margin-pct" class="font-black">0%</span></div>
+          <div class="flex justify-between"><span class="text-zinc-500">Food Cost %:</span><span id="mne-fc-pct" class="font-bold text-zinc-400">0%</span></div>
         </div>
       </div>
 
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalMenuEditor()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveModalMenu()" class="flex-1 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 font-black text-xs text-stone-950">Simpan Menu ke Sheet</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalMenuEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveModalMenu()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Menu ke Sheet</button>
       </div>
     </div>
   </div>
 
-  <!-- 5. MODAL FORM TUGAS CHECKLIST (TAMBAH / EDIT) -->
-  <div id="modal-chk-editor" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 id="cke-title" class="font-black text-sm text-amber-400">Form Tugas Checklist</h3>
-        <button onclick="closeModalChkEditor()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+  <!-- 5. MODAL FORM TUGAS CHECKLIST -->
+  <div id="modal-chk-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 id="cke-title" class="font-black text-sm">Form Tugas Checklist</h3>
+        <button onclick="closeModalChkEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
       <input type="hidden" id="cke-row" />
       <div class="space-y-3 text-xs">
-        <div><label class="block font-bold text-stone-400 mb-1">Uraian Tugas</label><textarea id="cke-tugas" rows="2" placeholder="mis. Kalibrasi grinder & tes shot espresso..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-medium text-stone-200"></textarea></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Uraian Tugas</label><textarea id="cke-tugas" rows="2" placeholder="mis. Kalibrasi grinder & tes shot espresso..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-medium"></textarea></div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Divisi</label>
-            <select id="cke-div" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Divisi</label>
+            <select id="cke-div" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="BARISTA">BARISTA</option>
               <option value="KITCHEN">KITCHEN</option>
               <option value="SERVER">SERVER</option>
@@ -783,18 +796,18 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Shift</label>
-            <select id="cke-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Shift</label>
+            <select id="cke-shift" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="1">Shift 1 (Pagi)</option>
               <option value="2">Shift 2 (Sore)</option>
             </select>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">Jam Target</label><input type="text" id="cke-jam" placeholder="08:30" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Jam Target</label><input type="text" id="cke-jam" placeholder="08:30" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Fase</label>
-            <select id="cke-fase" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Fase</label>
+            <select id="cke-fase" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="Prep">Prep</option>
               <option value="Operasional">Operasional</option>
               <option value="Serah Terima">Serah Terima</option>
@@ -804,62 +817,102 @@
         </div>
       </div>
 
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalChkEditor()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveModalChk()" class="flex-1 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 font-black text-xs text-stone-950">Simpan Tugas</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalChkEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveModalChk()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Tugas</button>
       </div>
     </div>
   </div>
 
-  <!-- 6. MODAL UBAH PIN KRU -->
-  <div id="modal-pin-editor" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 class="font-black text-sm text-amber-400">Ubah PIN Login Kru</h3>
-        <button onclick="closeModalPinEditor()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+  <!-- 6. MODAL AUDIT STOK LENGKAP -->
+  <div id="modal-audit-stok" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-md w-full border border-zinc-200 dark:border-zinc-800 space-y-4 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <div>
+          <h3 id="astk-title" class="font-black text-sm">Audit & Koreksi Stok</h3>
+          <p id="astk-sub" class="text-[11px] text-zinc-500">Barista • Bahan</p>
+        </div>
+        <button onclick="closeModalAuditStok()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
 
-      <input type="hidden" id="pne-row" />
+      <input type="hidden" id="astk-row" />
       <div class="space-y-3 text-xs">
-        <div><label class="block font-bold text-stone-400 mb-1">Username Kru</label><input type="text" id="pne-user" readonly class="w-full bg-stone-950/60 border border-stone-800 rounded-xl p-2 font-bold text-amber-400" /></div>
+        <div class="grid grid-cols-2 gap-2">
+          <div><label class="block font-bold text-zinc-500 mb-1">Tanggal Audit</label><input type="date" id="astk-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Shift</label><select id="astk-shift" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold"><option value="1">Shift 1 (Pagi)</option><option value="2">Shift 2 (Sore)</option></select></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Stok Gudang Utama (Makro)</label>
+            <input type="number" id="astk-gudang" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Tersedia Meja Pagi (Mikro)</label>
+            <input type="number" id="astk-pagi" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Refill Pagi</label>
+            <input type="number" id="astk-refill-pagi" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Refill Sore</label>
+            <input type="number" id="astk-refill-sore" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Sisa Sore (Closing)</label>
+            <input type="number" id="astk-sore" class="w-full bg-zinc-100 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 rounded-xl p-2 font-black" />
+          </div>
+          <div>
+            <label class="block font-bold text-rose-500 mb-1">Batas Min Stok (Restock)</label>
+            <input type="number" id="astk-min" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold text-rose-500" />
+          </div>
+        </div>
+
         <div>
-          <label class="block font-bold text-stone-400 mb-1">PIN Baru (4–8 Digit Angka)</label>
-          <input type="password" maxlength="8" id="pne-pin" placeholder="••••••" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-center text-lg font-black tracking-widest text-white focus:outline-none focus:ring-2 focus:ring-amber-500" />
+          <label class="block font-bold text-zinc-500 mb-1">Catatan / Keterangan Stok</label>
+          <input type="text" id="astk-ket" placeholder="mis. Ganti supplier, kemasan rusak..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
         </div>
       </div>
 
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalPinEditor()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveModalPin()" class="flex-1 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 font-black text-xs text-stone-950">Simpan PIN Baru</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalAuditStok()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveModalAuditStok()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Audit ke Sheet</button>
       </div>
     </div>
   </div>
 
   <!-- 7. MODAL CATAT KEJADIAN / WASTE / BARANG MASUK -->
-  <div id="modal-kejadian" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
-      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
-        <h3 class="font-black text-sm text-amber-400 flex items-center gap-2">
+  <div id="modal-kejadian" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="alert-circle" class="w-4 h-4"></i> Catat Log Kejadian / Waste
         </h3>
-        <button onclick="closeModalKejadian()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        <button onclick="closeModalKejadian()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">Tanggal</label><input type="date" id="evt-tgl" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Jam</label><input type="time" id="evt-jam" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Tanggal</label><input type="date" id="evt-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Jam</label><input type="time" id="evt-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Shift</label>
-            <select id="evt-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Shift</label>
+            <select id="evt-shift" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="1">Shift 1</option>
               <option value="2">Shift 2</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Divisi</label>
-            <select id="evt-div" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+            <label class="block font-bold text-zinc-500 mb-1">Divisi</label>
+            <select id="evt-div" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="BARISTA">BARISTA</option>
               <option value="KITCHEN">KITCHEN</option>
               <option value="SERVER">SERVER</option>
@@ -868,8 +921,8 @@
           </div>
         </div>
         <div>
-          <label class="block font-bold text-stone-400 mb-1">Jenis Catatan</label>
-          <select id="evt-jenis" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200">
+          <label class="block font-bold text-zinc-500 mb-1">Jenis Catatan</label>
+          <select id="evt-jenis" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
             <option value="Waste">Waste (Bahan Basi/Terbuang)</option>
             <option value="Barang Masuk">Barang Masuk (Belanja/Supplier)</option>
             <option value="Barang Keluar">Barang Keluar</option>
@@ -880,17 +933,17 @@
             <option value="Catatan Lain">Catatan Lain</option>
           </select>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Nama Barang / Kejadian</label><input type="text" id="evt-barang" placeholder="mis. Fresh Milk 1L / Grinder macet..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Nama Barang / Kejadian</label><input type="text" id="evt-barang" placeholder="mis. Fresh Milk 1L / Grinder macet..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5" /></div>
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-stone-400 mb-1">Jumlah</label><input type="number" id="evt-qty" placeholder="1" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Satuan</label><input type="text" id="evt-satuan" placeholder="Liter/pcs/kg" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Jumlah</label><input type="number" id="evt-qty" placeholder="1" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold" /></div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Satuan</label><input type="text" id="evt-satuan" placeholder="Liter/pcs/kg" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5" /></div>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Perkiraan Nilai Rp (Opsional)</label><input type="number" id="evt-nilai" placeholder="mis. 38000" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
-        <div><label class="block font-bold text-stone-400 mb-1">Keterangan / Alasan</label><textarea id="evt-ket" rows="2" placeholder="Penyebab susu basi, nota supplier, dll..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200"></textarea></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Perkiraan Nilai Rp (Opsional)</label><input type="number" id="evt-nilai" placeholder="mis. 38000" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
+        <div><label class="block font-bold text-zinc-500 mb-1">Keterangan / Alasan</label><textarea id="evt-ket" rows="2" placeholder="Penyebab susu basi, nota supplier, dll..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5"></textarea></div>
       </div>
-      <div class="flex gap-2 pt-2 border-t border-stone-800">
-        <button onclick="closeModalKejadian()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
-        <button onclick="saveKejadian()" class="flex-1 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 font-black text-xs text-stone-950">Simpan ke Sheet</button>
+      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
+        <button onclick="closeModalKejadian()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+        <button onclick="saveKejadian()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan ke Sheet</button>
       </div>
     </div>
   </div>
@@ -898,14 +951,15 @@
   <!-- JAVASCRIPT LOGIKA HOLLO COFFEE -->
   <script>
     // ========================================================
-    // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA (SUDAH TERPASANG)
+    // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA
     // ========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
 
+    // SESSION STORAGE: Otomatis Logout Saat Tab Ditutup!
     let APP = {
-      user: JSON.parse(localStorage.getItem('hc_user') || 'null'),
-      pin: localStorage.getItem('hc_pin') || '',
+      user: JSON.parse(sessionStorage.getItem('hc_user') || 'null'),
+      pin: sessionStorage.getItem('hc_pin') || '',
       data: null,
       chkShift: '1',
       chkDiv: 'SEMUA',
@@ -914,6 +968,18 @@
       calDate: new Date(),
       selectedDateStr: new Date().toISOString().slice(0, 10)
     };
+
+    // Toggle Mode Gelap / Mode Terang
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('hc_theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+    }
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+      lucide.createIcons();
+    }
 
     function playChime() {
       try {
@@ -931,13 +997,23 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi Tema
+      const savedTheme = localStorage.getItem('hc_theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        updateThemeIcon(false);
+      } else {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+      }
+
       lucide.createIcons();
       updateLiveTimelineAndClock();
       setInterval(updateLiveTimelineAndClock, 1000);
 
-      // Default date di Daily Report adalah hari ini
       if (document.getElementById('dr-tgl')) document.getElementById('dr-tgl').value = new Date().toISOString().slice(0, 10);
 
+      // Cek Session
       if (APP.user && APP.pin) {
         document.getElementById('login-screen').classList.add('hidden');
         setupUserUI();
@@ -967,8 +1043,8 @@
     function showToast(msg, isErr = false) {
       const el = document.getElementById('toast');
       document.getElementById('toast-msg').innerText = msg;
-      el.className = el.className.replace(/border-[a-z0-9-]+/g, isErr ? 'border-rose-500' : 'border-stone-700');
-      document.getElementById('toast-icon-bg').className = isErr ? 'w-7 h-7 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400' : 'w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400';
+      el.className = el.className.replace(/border-[a-z0-9-]+/g, isErr ? 'border-rose-500' : 'border-zinc-200 dark:border-zinc-800');
+      document.getElementById('toast-icon-bg').className = isErr ? 'w-6 h-6 rounded-lg bg-rose-500/20 text-rose-500 flex items-center justify-center' : 'w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center';
       el.classList.remove('translate-y-[-150%]', 'opacity-0');
       setTimeout(() => el.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
     }
@@ -991,7 +1067,7 @@
         if (json.error) {
           if (json.error === 'invalid_login') throw new Error('Username atau PIN salah!');
           if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET tidak cocok!');
-          if (json.error === 'conflict') throw new Error('Konflik data Sheet: sedang diperbarui, silakan coba lagi.');
+          if (json.error === 'conflict') throw new Error('Konflik data Sheet: silakan refresh dan coba lagi.');
           throw new Error(json.error);
         }
         return json;
@@ -1014,8 +1090,10 @@
         APP.user = res.user;
         APP.pin = p;
         APP.data = res;
-        localStorage.setItem('hc_user', JSON.stringify(res.user));
-        localStorage.setItem('hc_pin', p);
+        
+        // Simpan ke SESSION STORAGE (Otomatis logout saat ditutup)
+        sessionStorage.setItem('hc_user', JSON.stringify(res.user));
+        sessionStorage.setItem('hc_pin', p);
 
         document.getElementById('login-screen').classList.add('hidden');
         setupUserUI();
@@ -1031,21 +1109,89 @@
 
     function handleLogout() {
       if (!confirm('Keluar dari stasiun operasional?')) return;
-      localStorage.clear();
+      sessionStorage.clear();
       location.reload();
     }
 
+    // ========================================================
+    // PEMISAHAN HAK AKSES UI (KARYAWAN VS ADMIN / MANAJEMEN)
+    // ========================================================
     function setupUserUI() {
       if (!APP.user) return;
       document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
       document.getElementById('kas-petugas').value = APP.user.nama;
 
-      const isSuper = APP.user.role === 'RAJA_UTAMA' || APP.user.username === 'boy' || APP.user.level >= 5;
+      const lvl = APP.user.level || 0;
+      const role = APP.user.role || '';
+      const div = APP.user.divisi || '';
+      const isSuper = role === 'RAJA_UTAMA' || APP.user.username === 'boy';
+      const isManajemen = isSuper || lvl >= 4; // Owner, Manager
+      const isBarista = div === 'BARISTA' || div === 'KASIR' || isManajemen;
+
+      // Filter tombol aksi
       if (isSuper) {
-        document.getElementById('nav-btn-super').classList.remove('hidden');
-      } else {
-        document.getElementById('nav-btn-super').classList.add('hidden');
+        document.getElementById('btn-add-task-top').classList.remove('hidden');
+        document.getElementById('btn-top-add-menu').classList.remove('hidden');
       }
+
+      // Bangun Bottom Navigation Bar khusus untuk Role tersebut
+      const navContainer = document.getElementById('bottom-nav-container');
+      let navHtml = '';
+
+      if (isManajemen) {
+        // MANAJEMEN & SUPER ADMIN: Full Akses
+        navHtml = `
+          <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black" data-tab="dashboard">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
+          </button>
+          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="checklist">
+            <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
+          </button>
+          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="stok">
+            <i data-lucide="boxes" class="w-4 h-4"></i><span>Stok</span>
+          </button>
+          <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="kasir">
+            <i data-lucide="banknote" class="w-4 h-4"></i><span>Kasir</span>
+          </button>
+          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="kalender">
+            <i data-lucide="calendar" class="w-4 h-4"></i><span>Kalender</span>
+          </button>
+          <button onclick="switchTab('menu')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="menu">
+            <i data-lucide="coffee" class="w-4 h-4"></i><span>Menu</span>
+          </button>
+          <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="report">
+            <i data-lucide="file-text" class="w-4 h-4"></i><span>Daily WA</span>
+          </button>
+          ${isSuper ? `
+            <button onclick="switchTab('super')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-500 font-black" data-tab="super">
+              <i data-lucide="shield-check" class="w-4 h-4"></i><span>Kelola</span>
+            </button>
+          ` : ''}
+        `;
+      } else {
+        // KARYAWAN STAF (Barista, Kitchen, Server): Bersih & Fokus Stasiun Saja
+        navHtml = `
+          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-black dark:text-white font-black" data-tab="checklist">
+            <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
+          </button>
+          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="stok">
+            <i data-lucide="boxes" class="w-4 h-4"></i><span>Stok</span>
+          </button>
+          ${isBarista ? `
+            <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="kasir">
+              <i data-lucide="banknote" class="w-4 h-4"></i><span>Kasir</span>
+            </button>
+          ` : ''}
+          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="kalender">
+            <i data-lucide="calendar" class="w-4 h-4"></i><span>Jadwal Kru</span>
+          </button>
+        `;
+        // Default langsung buka tab checklist untuk staf
+        switchTab('checklist');
+      }
+
+      navContainer.innerHTML = navHtml;
+      lucide.createIcons();
     }
 
     async function fetchSync(notify = false) {
@@ -1059,13 +1205,14 @@
 
     function switchTab(tabId) {
       document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
-      document.getElementById('pane-' + tabId).classList.remove('hidden');
+      const activeSec = document.getElementById('pane-' + tabId);
+      if (activeSec) activeSec.classList.remove('hidden');
 
       document.querySelectorAll('.nav-btn').forEach(btn => {
         const match = btn.getAttribute('data-tab') === tabId;
         btn.className = match
-          ? 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-400 font-black'
-          : 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200 font-bold';
+          ? 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black'
+          : 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 font-bold';
       });
 
       if (tabId === 'kalender') renderCalendar();
@@ -1121,7 +1268,7 @@
       APP.chkShift = s;
       document.querySelectorAll('.chk-shift-btn').forEach(b => {
         const m = b.getAttribute('data-shift') === s;
-        b.className = m ? 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-amber-500 text-stone-950 shadow' : 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-stone-800 text-stone-400';
+        b.className = m ? 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow' : 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
       });
       renderChecklist();
     }
@@ -1130,7 +1277,7 @@
       APP.chkDiv = d;
       document.querySelectorAll('.chk-div-btn').forEach(b => {
         const m = b.getAttribute('data-div') === d;
-        b.className = m ? 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950' : 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400';
+        b.className = m ? 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black' : 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800';
       });
       renderChecklist();
     }
@@ -1154,24 +1301,24 @@
       container.innerHTML = rows.map(r => {
         const isDone = r.status === 'Selesai';
         return `
-          <div class="bg-stone-900 p-4 rounded-2xl border ${isDone ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-stone-800'} shadow flex items-center justify-between gap-3">
+          <div class="bg-white dark:bg-zinc-900 p-4 rounded-2xl border ${isDone ? 'border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950/40' : 'border-zinc-200 dark:border-zinc-800'} shadow-sm flex items-center justify-between gap-3">
             <div class="flex items-start gap-3 min-w-0 flex-1">
-              <button onclick="toggleChecklistSafe(${r._row}, '${isDone ? 'Belum' : 'Selesai'}')" class="mt-0.5 w-7 h-7 rounded-xl flex items-center justify-center border-2 transition ${isDone ? 'bg-emerald-500 border-emerald-500 text-stone-950' : 'border-stone-700 hover:border-amber-400'}">
+              <button onclick="toggleChecklistSafe(${r._row}, '${isDone ? 'Belum' : 'Selesai'}')" class="mt-0.5 w-7 h-7 rounded-xl flex items-center justify-center border-2 transition ${isDone ? 'bg-black dark:bg-white border-black dark:border-white text-white dark:text-black' : 'border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}">
                 ${isDone ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>' : ''}
               </button>
               <div class="min-w-0">
-                <div class="text-xs font-bold ${isDone ? 'line-through text-stone-500' : 'text-stone-100'}">${r.tugas}</div>
-                <div class="text-[10px] text-stone-400 flex flex-wrap items-center gap-2 mt-1">
-                  <span class="bg-stone-950 px-2 py-0.5 rounded font-bold text-amber-300">${r.divisi}</span>
-                  <span class="text-stone-500">Shift ${r.shift} • Fase: ${r.fase}</span>
-                  ${r.jam_target ? `<span class="text-amber-400/80">Target: ${r.jam_target}</span>` : ''}
-                  ${isDone ? `<span class="text-emerald-400 font-bold">• ${r.petugas || 'Kru'} (${r.jam_selesai || ''})</span>` : ''}
+                <div class="text-xs font-bold ${isDone ? 'line-through text-zinc-400 dark:text-zinc-600' : ''}">${r.tugas}</div>
+                <div class="text-[10px] text-zinc-400 flex flex-wrap items-center gap-2 mt-1">
+                  <span class="bg-zinc-100 dark:bg-zinc-950 px-2 py-0.5 rounded font-bold text-zinc-800 dark:text-zinc-200">${r.divisi}</span>
+                  <span>Shift ${r.shift} • ${r.fase}</span>
+                  ${r.jam_target ? `<span>Target: ${r.jam_target}</span>` : ''}
+                  ${isDone ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold">• ${r.petugas || 'Kru'} (${r.jam_selesai || ''})</span>` : ''}
                 </div>
               </div>
             </div>
             ${isSuper ? `
               <div class="flex items-center gap-1">
-                <button onclick="openModalEditChecklist(${r._row})" class="p-1.5 bg-stone-800 hover:bg-stone-700 text-amber-300 rounded-lg text-[10px]">
+                <button onclick="openModalEditChecklist(${r._row})" class="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-[10px]">
                   <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                 </button>
               </div>
@@ -1281,7 +1428,7 @@
       APP.stkDiv = d;
       document.querySelectorAll('.stk-div-btn').forEach(b => {
         const m = b.getAttribute('data-div') === d;
-        b.className = m ? 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950' : 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400';
+        b.className = m ? 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black' : 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
       });
       renderStokCards();
     }
@@ -1299,34 +1446,34 @@
       container.innerHTML = rows.map(r => {
         const isRestock = r.status === 'RESTOCK';
         return `
-          <div class="bg-stone-900 rounded-3xl p-4 border ${isRestock ? 'border-rose-500/50 bg-rose-950/10' : 'border-stone-800'} shadow space-y-3">
+          <div class="bg-white dark:bg-zinc-900 rounded-3xl p-4 border ${isRestock ? 'border-rose-500/50 bg-rose-50/20 dark:bg-rose-950/10' : 'border-zinc-200 dark:border-zinc-800'} shadow-sm space-y-3">
             <div class="flex justify-between items-start">
               <div>
-                <h4 class="font-bold text-xs text-stone-100">${r.nama_barang}</h4>
-                <span class="text-[10px] text-stone-500">${r.divisi} • Min: ${r.min_stok || '0'} ${r.satuan || ''}</span>
+                <h4 class="font-bold text-xs">${r.nama_barang}</h4>
+                <span class="text-[10px] text-zinc-400">${r.divisi} • Min: ${r.min_stok || '0'} ${r.satuan || ''}</span>
               </div>
-              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${isRestock ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-300'}">
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${isRestock ? 'bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 border border-rose-300 dark:border-rose-800' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'}">
                 ${r.status || 'AMAN'}
               </span>
             </div>
 
             <div class="grid grid-cols-3 text-center gap-1.5 py-1 text-xs">
-              <div class="bg-stone-950 p-2 rounded-2xl border border-stone-800/80">
-                <span class="text-[9px] text-stone-500 block">Gudang</span>
-                <span class="font-black text-stone-200">${r.stok_gudang || 0}</span>
+              <div class="bg-zinc-50 dark:bg-zinc-950 p-2 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+                <span class="text-[9px] text-zinc-400 block">Gudang</span>
+                <span class="font-black">${r.stok_gudang || 0}</span>
               </div>
-              <div class="bg-stone-950 p-2 rounded-2xl border border-stone-800/80">
-                <span class="text-[9px] text-stone-500 block">Pagi</span>
-                <span class="font-black text-stone-200">${r.tersedia_pagi || 0}</span>
+              <div class="bg-zinc-50 dark:bg-zinc-950 p-2 rounded-2xl border border-zinc-200 dark:border-zinc-800">
+                <span class="text-[9px] text-zinc-400 block">Pagi</span>
+                <span class="font-black">${r.tersedia_pagi || 0}</span>
               </div>
-              <div class="bg-stone-950 p-2 rounded-2xl border border-amber-500/30">
-                <span class="text-[9px] text-amber-400 block">Sisa Sore</span>
-                <span class="font-black text-amber-300">${r.sisa_sore || 0}</span>
+              <div class="bg-zinc-50 dark:bg-zinc-950 p-2 rounded-2xl border border-zinc-300 dark:border-zinc-700">
+                <span class="text-[9px] text-zinc-500 font-bold block">Sisa Sore</span>
+                <span class="font-black">${r.sisa_sore || 0}</span>
               </div>
             </div>
 
-            <div class="flex gap-2 pt-1 border-t border-stone-800">
-              <button onclick="openModalAuditStok(${r._row})" class="flex-1 py-2 bg-stone-800 hover:bg-stone-700 rounded-xl text-[10px] font-bold text-amber-300 flex items-center justify-center gap-1">
+            <div class="flex gap-2 pt-1 border-t border-zinc-100 dark:border-zinc-800">
+              <button onclick="openModalAuditStok(${r._row})" class="flex-1 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1">
                 <i data-lucide="edit" class="w-3.5 h-3.5"></i> Audit / Koreksi
               </button>
             </div>
@@ -1336,7 +1483,6 @@
       lucide.createIcons();
     }
 
-    // Modal Audit Stok
     function openModalAuditStok(rowNumber) {
       const r = APP.data.sheets.STOK.rows.find(x => x._row === rowNumber);
       if (!r) return;
@@ -1433,13 +1579,13 @@
 
       const badge = document.getElementById('kas-status-badge');
       if (f === 0 && seharusnya !== 0) {
-        badge.innerText = 'Belum dihitung'; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-stone-800 text-stone-400';
+        badge.innerText = 'Belum dihitung'; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-zinc-200 dark:bg-zinc-800 text-zinc-500';
       } else if (selisih === 0) {
-        badge.innerText = 'COCOK (Rp 0)'; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+        badge.innerText = 'COCOK (Rp 0)'; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800';
       } else if (selisih > 0) {
-        badge.innerText = `LEBIH (+Rp ${selisih.toLocaleString('id-ID')})`; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30';
+        badge.innerText = `LEBIH (+Rp ${selisih.toLocaleString('id-ID')})`; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-800';
       } else {
-        badge.innerText = `KURANG (-Rp ${Math.abs(selisih).toLocaleString('id-ID')})`; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30';
+        badge.innerText = `KURANG (-Rp ${Math.abs(selisih).toLocaleString('id-ID')})`; badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-300 dark:border-rose-800';
       }
     }
     async function saveSerahKas() {
@@ -1459,7 +1605,7 @@
     }
 
     // ========================================================
-    // 5. KALENDER OPERASIONAL & ROSTER
+    // 5. KALENDER OPERASIONAL & ATUR JADWAL KRU
     // ========================================================
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1490,12 +1636,12 @@
 
         html += `
           <button onclick="selectDate('${dStr}')" class="h-12 rounded-2xl flex flex-col items-center justify-center relative transition ${
-            isSel ? 'bg-amber-500 text-stone-950 font-black shadow-lg shadow-amber-500/30' :
-            isToday ? 'border border-amber-400 text-amber-300' : 'bg-stone-950 text-stone-300 hover:bg-stone-800'
+            isSel ? 'bg-black dark:bg-white text-white dark:text-black font-black shadow-md' :
+            isToday ? 'border-2 border-black dark:border-white' : 'bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800'
           }">
             <span>${d}</span>
             <div class="flex items-center gap-0.5 mt-0.5">
-              ${count > 0 ? `<span class="text-[8px] font-black px-1 rounded-full ${isSel ? 'bg-stone-950 text-amber-400' : 'bg-amber-500/20 text-amber-300'}">${count}</span>` : ''}
+              ${count > 0 ? `<span class="text-[8px] font-black px-1 rounded-full ${isSel ? 'bg-white dark:bg-black text-black dark:text-white' : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'}">${count}</span>` : ''}
               ${hasEvt ? '<span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>' : ''}
             </div>
           </button>
@@ -1518,36 +1664,64 @@
       const dayList = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr);
 
       if (dayList.length === 0) {
-        container.innerHTML = '<div class="col-span-2 text-stone-500 text-xs py-2">Belum ada jadwal kru yang diinput untuk tanggal ini.</div>';
+        container.innerHTML = '<div class="col-span-2 text-zinc-400 text-xs py-2">Belum ada jadwal kru yang diinput untuk tanggal ini.</div>';
       } else {
         container.innerHTML = dayList.map(r => `
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800 flex justify-between items-center">
-            <div><span class="font-bold text-stone-200">${r.nama || r.username}</span><span class="text-[9px] text-stone-500 block">${r.divisi}</span></div>
-            <span class="px-2 py-0.5 rounded-lg text-[9px] font-black ${String(r.kode).toUpperCase() === 'OFF' ? 'bg-rose-500/20 text-rose-300' : 'bg-amber-500/20 text-amber-300'}">${r.kode || `Shift ${r.shift}`}</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+            <div><span class="font-bold">${r.nama || r.username}</span><span class="text-[9px] text-zinc-400 block">${r.divisi}</span></div>
+            <span class="px-2 py-0.5 rounded-lg text-[9px] font-black ${String(r.kode).toUpperCase() === 'OFF' ? 'bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400' : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200'}">${r.kode || `Shift ${r.shift}`}</span>
           </div>
         `).join('');
       }
 
-      // Kejadian
+      // Kejadian / Log
       const evCont = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayEvts = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
 
       if (dayEvts.length === 0) {
-        evCont.innerHTML = '<div class="text-stone-500 text-xs py-1">Tidak ada waste/kejadian tercatat pada tanggal ini.</div>';
+        evCont.innerHTML = '<div class="text-zinc-400 text-xs py-1">Tidak ada waste/kejadian tercatat pada tanggal ini.</div>';
       } else {
         evCont.innerHTML = dayEvts.map(e => `
-          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800 flex justify-between items-center">
-            <div><span class="font-bold text-stone-200">${e.nama_barang || e.jenis}</span><span class="text-[9px] text-stone-500 block">${e.keterangan || '-'} (${e.pelapor})</span></div>
-            <span class="text-xs font-black text-rose-400">${e.qty ? `${e.qty} ${e.satuan||''}` : e.jenis}</span>
+          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
+            <div><span class="font-bold">${e.nama_barang || e.jenis}</span><span class="text-[9px] text-zinc-400 block">${e.keterangan || '-'} (${e.pelapor})</span></div>
+            <span class="text-xs font-black text-rose-500">${e.qty ? `${e.qty} ${e.satuan||''}` : e.jenis}</span>
           </div>
         `).join('');
       }
     }
 
+    // TARIK NAMA KRU KE DROPDOWN DENGAN MULTI-FALLBACK LENGKAP
     function populateUserDropdowns() {
-      const users = (APP.data.sheets.USERS && APP.data.sheets.USERS.rows) || [];
-      const opts = users.map(u => `<option value="${u.username}">${u.nama_lengkap || u.username} (${u.divisi})</option>`).join('');
+      let users = [];
+      if (APP.data && APP.data.sheets && APP.data.sheets.USERS && APP.data.sheets.USERS.rows && APP.data.sheets.USERS.rows.length) {
+        users = APP.data.sheets.USERS.rows.map(u => ({ username: u.username, nama: u.nama_lengkap || u.username, divisi: u.divisi || 'STAFF' }));
+      } else {
+        // Fallback default kru resmi HOLLO
+        users = [
+          { username: 'pace', nama: 'Pace (Head Bar)', divisi: 'BARISTA' },
+          { username: 'el', nama: 'El', divisi: 'BARISTA' },
+          { username: 'christy', nama: 'Christy', divisi: 'BARISTA' },
+          { username: 'fatir', nama: 'Fatir', divisi: 'BARISTA' },
+          { username: 'eko', nama: 'Eko (Head Kitchen)', divisi: 'KITCHEN' },
+          { username: 'afdal', nama: 'Afdal', divisi: 'KITCHEN' },
+          { username: 'rizky', nama: 'Rizky', divisi: 'KITCHEN' },
+          { username: 'fala', nama: 'Fala', divisi: 'KITCHEN' },
+          { username: 'lufi', nama: 'Lufi', divisi: 'KITCHEN' },
+          { username: 'inka', nama: 'Inka', divisi: 'SERVER' },
+          { username: 'nona', nama: 'Nona', divisi: 'SERVER' },
+          { username: 'zidan', nama: 'Zidan', divisi: 'SERVER' },
+          { username: 'theresia', nama: 'Theresia', divisi: 'SERVER' },
+          { username: 'tania', nama: 'Tania', divisi: 'SERVER' },
+          { username: 'boy', nama: 'Boy (Supervisor)', divisi: 'MANAJEMEN' },
+          { username: 'deni', nama: 'Deni (Owner)', divisi: 'MANAJEMEN' },
+          { username: 'munif', nama: 'Munif (Manager)', divisi: 'MANAJEMEN' },
+          { username: 'ateng', nama: 'Ateng (HRD)', divisi: 'MANAJEMEN' },
+          { username: 'sofia', nama: 'Sofia (Purchasing)', divisi: 'MANAJEMEN' }
+        ];
+      }
+
+      const opts = users.map(u => `<option value="${u.username}">${u.nama} (${u.divisi})</option>`).join('');
       if (document.getElementById('jdw-user')) document.getElementById('jdw-user').innerHTML = opts;
       if (document.getElementById('lbr-user')) document.getElementById('lbr-user').innerHTML = opts;
     }
@@ -1597,13 +1771,13 @@
     }
 
     // ========================================================
-    // 6. MENU & HARGA (63 MENU) DENGAN LIVE MARGIN
+    // 6. MENU & HARGA DENGAN LIVE MARGIN
     // ========================================================
     function filterMenu(j) {
       APP.mnuFilter = j;
       document.querySelectorAll('.mnu-btn').forEach(b => {
         const m = b.getAttribute('data-jenis') === j;
-        b.className = m ? 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow' : 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400';
+        b.className = m ? 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow' : 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
       });
       renderMenuCards();
     }
@@ -1623,34 +1797,34 @@
       container.innerHTML = rows.map(r => {
         const marginPct = Number(r.margin_pct) ? Math.round(Number(r.margin_pct) * 100) : null;
         return `
-          <div class="bg-stone-900 rounded-3xl p-4 border border-stone-800 shadow space-y-2.5">
+          <div class="bg-white dark:bg-zinc-900 rounded-3xl p-4 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2.5">
             <div class="flex justify-between items-start">
               <div>
-                <h4 class="font-bold text-xs text-stone-100">${r.nama_produk}</h4>
-                <span class="text-[10px] text-stone-500">${r.kategori} • ${r.divisi}</span>
+                <h4 class="font-bold text-xs">${r.nama_produk}</h4>
+                <span class="text-[10px] text-zinc-400">${r.kategori} • ${r.divisi}</span>
               </div>
-              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${marginPct >= 60 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${marginPct >= 60 ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300' : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500'}">
                 ${marginPct ? `${marginPct}% Margin` : 'Custom'}
               </span>
             </div>
 
-            <div class="flex justify-between items-center text-xs pt-2 border-t border-stone-800">
+            <div class="flex justify-between items-center text-xs pt-2 border-t border-zinc-100 dark:border-zinc-800">
               <div>
-                <span class="text-[9px] text-stone-500 block">HPP Pokok</span>
-                <span class="font-bold text-stone-400">Rp ${Number(r.hpp || 0).toLocaleString('id-ID')}</span>
+                <span class="text-[9px] text-zinc-400 block">HPP Pokok</span>
+                <span class="font-bold text-zinc-500">Rp ${Number(r.hpp || 0).toLocaleString('id-ID')}</span>
               </div>
               <div class="text-right">
-                <span class="text-[9px] text-amber-400 block font-bold">Harga Jual</span>
-                <span class="font-black text-amber-300 text-sm">Rp ${Number(r.harga_jual || 0).toLocaleString('id-ID')}</span>
+                <span class="text-[9px] text-zinc-400 block font-bold">Harga Jual</span>
+                <span class="font-black text-sm">Rp ${Number(r.harga_jual || 0).toLocaleString('id-ID')}</span>
               </div>
             </div>
 
             ${isSuper ? `
               <div class="flex gap-1.5 pt-1">
-                <button onclick="openModalEditMenu(${r._row})" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-xl text-[10px] font-bold text-amber-300">
+                <button onclick="openModalEditMenu(${r._row})" class="flex-1 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold">
                   Ubah HPP & Harga
                 </button>
-                <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1.5 bg-rose-950/40 hover:bg-rose-900 text-rose-400 rounded-xl text-[10px]">
+                <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1.5 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-500 rounded-xl text-[10px]">
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                 </button>
               </div>
@@ -1661,7 +1835,6 @@
       lucide.createIcons();
     }
 
-    // Modal Edit / Tambah Menu
     function openModalAddMenu() {
       document.getElementById('mne-title').innerText = 'Tambah Menu Baru';
       document.getElementById('mne-row').value = '';
@@ -1723,7 +1896,7 @@
     // ========================================================
     function autoPullDailyData() {
       const tglPilih = document.getElementById('dr-tgl').value || new Date().toISOString().slice(0, 10);
-      showToast('Menarik data operasional ' + tglPilih + '...');
+      showToast('Menarik data harian ' + tglPilih + '...');
 
       // 1. Tarik dari SERAH_TERIMA
       const kasRows = (APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
@@ -1744,13 +1917,12 @@
         }
       }
 
-      // 2. Evaluasi otomatis jika masih kosong
       if (!document.getElementById('dr-eval-bar').value) document.getElementById('dr-eval-bar').value = 'Mesin espresso bersih, operasional bar lancar';
       if (!document.getElementById('dr-eval-kit').value) document.getElementById('dr-eval-kit').value = 'Kompor & gas dimatikan, FIFO bahan aman';
       if (!document.getElementById('dr-eval-srv').value) document.getElementById('dr-eval-srv').value = 'Area cafe bersih, toilet rapi, kas cocok';
 
       recalcDailyReportPreview();
-      showToast('Data harian berhasil ditarik otomatis!');
+      showToast('Data harian berhasil ditarik!');
     }
 
     function buildWaReport() {
@@ -1812,7 +1984,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     function copyWaReport() {
       const t = document.getElementById('wa-preview-text').innerText;
       navigator.clipboard.writeText(t).then(() => {
-        showToast('Laporan WA berhasil disalin ke clipboard!');
+        showToast('Laporan WA berhasil disalin!');
       });
     }
 
@@ -1842,117 +2014,203 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     // ========================================================
     function showSuperSub(tab) {
       document.querySelectorAll('.super-sub-btn').forEach(b => {
-        b.className = 'super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400';
+        b.className = 'super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold';
       });
-      document.getElementById('sub-btn-' + tab).className = 'super-sub-btn p-3 rounded-2xl bg-amber-500 text-stone-950 font-black shadow';
+      document.getElementById('sub-btn-' + tab).className = 'super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black font-black shadow';
 
-      ['pin', 'check', 'stok', 'menu'].forEach(t => document.getElementById('sub-pane-' + t).classList.add('hidden'));
+      ['user', 'check', 'stok', 'menu'].forEach(t => document.getElementById('sub-pane-' + t).classList.add('hidden'));
       document.getElementById('sub-pane-' + tab).classList.remove('hidden');
     }
 
     function renderSuperAdminPanel() {
       if (!APP.data || !APP.data.sheets) return;
-      renderSuperPins();
+      renderSuperUsers();
       renderSuperChecklist();
       renderSuperStok();
       renderSuperMenu();
     }
 
-    function renderSuperPins() {
-      const tbody = document.getElementById('super-pin-tbody');
-      const sheet = APP.data.sheets.PIN_RAJA;
+    // SUB 1: KELOLA KRU & PIN LENGKAP
+    function renderSuperUsers() {
+      const tbody = document.getElementById('super-users-tbody');
+      const sheet = APP.data.sheets.USERS;
       if (!sheet || !sheet.rows) return;
 
       tbody.innerHTML = sheet.rows.map(r => `
-        <tr class="hover:bg-stone-800">
-          <td class="py-2.5 px-3 font-bold text-amber-400">${r.username}</td>
+        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+          <td class="py-2.5 px-3 font-bold">${r.username}</td>
           <td class="py-2.5 px-3">${r.nama_lengkap || '-'}</td>
-          <td class="py-2.5 px-3 font-bold">${r.role || 'STAFF'}</td>
-          <td class="py-2.5 px-3 font-mono font-black text-amber-300">${r.pin || '123456'}</td>
+          <td class="py-2.5 px-3 font-bold text-[11px]">${r.role || 'STAFF'}</td>
+          <td class="py-2.5 px-3 text-zinc-400 text-[11px]">${r.divisi || '-'}</td>
+          <td class="py-2.5 px-3 font-mono text-[11px]">${r.no_hp || '-'}</td>
+          <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${r.status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-200 text-zinc-600'}">${r.status || 'Aktif'}</span></td>
           <td class="py-2.5 px-3 text-right">
-            <button onclick="openModalPinEditor('${r.username}', ${r._row})" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-stone-950 font-black rounded-lg text-[10px]">
-              Ubah PIN
+            <button onclick="openModalEditUser(${r._row})" class="px-2.5 py-1 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg text-[10px]">
+              Edit Profil & PIN
             </button>
           </td>
         </tr>
       `).join('');
     }
 
-    // Modal Ubah PIN
-    function openModalPinEditor(uname, rowNumber) {
-      document.getElementById('pne-user').value = uname;
-      document.getElementById('pne-row').value = rowNumber;
-      document.getElementById('pne-pin').value = '';
-      document.getElementById('modal-pin-editor').classList.remove('hidden');
+    function openModalAddUser() {
+      document.getElementById('usr-modal-title').innerText = 'Tambah Kru Staf Baru';
+      document.getElementById('usr-row').value = '';
+      document.getElementById('usr-username').value = '';
+      document.getElementById('usr-username').disabled = false;
+      document.getElementById('usr-nama').value = '';
+      document.getElementById('usr-role').value = 'BARISTA';
+      document.getElementById('usr-div').value = 'BARISTA';
+      document.getElementById('usr-hp').value = '';
+      document.getElementById('usr-status').value = 'Aktif';
+      document.getElementById('usr-tipe').value = 'Tetap';
+      document.getElementById('usr-pin').value = '123456';
+      document.getElementById('usr-cat').value = '';
+      document.getElementById('modal-user-editor').classList.remove('hidden');
     }
-    function closeModalPinEditor() { document.getElementById('modal-pin-editor').classList.add('hidden'); }
-    async function saveModalPin() {
-      const uname = document.getElementById('pne-user').value;
-      const rowId = Number(document.getElementById('pne-row').value);
-      const newPin = document.getElementById('pne-pin').value.trim();
-      if (!/^\d{4,8}$/.test(newPin)) return alert('PIN harus berupa 4 sampai 8 digit angka!');
 
-      const r = APP.data.sheets.PIN_RAJA.rows.find(x => x._row === rowId);
+    function openModalEditUser(rowNumber) {
+      const r = APP.data.sheets.USERS.rows.find(x => x._row === rowNumber);
+      if (!r) return;
+      document.getElementById('usr-modal-title').innerText = `Edit Kru: ${r.nama_lengkap || r.username}`;
+      document.getElementById('usr-row').value = r._row;
+      document.getElementById('usr-username').value = r.username || '';
+      document.getElementById('usr-username').disabled = true; // username tidak boleh diganti karena terikat PIN
+      document.getElementById('usr-nama').value = r.nama_lengkap || '';
+      document.getElementById('usr-role').value = r.role || 'BARISTA';
+      document.getElementById('usr-div').value = r.divisi || 'BARISTA';
+      document.getElementById('usr-hp').value = r.no_hp || '';
+      document.getElementById('usr-status').value = r.status || 'Aktif';
+      document.getElementById('usr-tipe').value = r.tipe_kerja || 'Tetap';
+      document.getElementById('usr-pin').value = ''; // kosongkan jika tidak ingin ganti PIN
+      document.getElementById('usr-cat').value = r.catatan || '';
+      document.getElementById('modal-user-editor').classList.remove('hidden');
+    }
+
+    function closeModalUserEditor() { document.getElementById('modal-user-editor').classList.add('hidden'); }
+
+    async function saveModalUser() {
+      const rowId = document.getElementById('usr-row').value;
+      const uname = document.getElementById('usr-username').value.trim().toLowerCase();
+      const nama = document.getElementById('usr-nama').value.trim();
+      const role = document.getElementById('usr-role').value;
+      const div = document.getElementById('usr-div').value;
+      const hp = document.getElementById('usr-hp').value.trim();
+      const status = document.getElementById('usr-status').value;
+      const tipe = document.getElementById('usr-tipe').value;
+      const pin = document.getElementById('usr-pin').value.trim();
+      const cat = document.getElementById('usr-cat').value.trim();
+
+      if (!uname || !nama) return alert('Username dan Nama Lengkap wajib diisi!');
+      if (pin && !/^\d{4,8}$/.test(pin)) return alert('PIN harus berupa 4–8 digit angka!');
+
+      const r = rowId ? APP.data.sheets.USERS.rows.find(x => x._row === Number(rowId)) : null;
+      const values = {
+        username: uname,
+        nama_lengkap: nama,
+        role: role,
+        divisi: div,
+        no_hp: hp,
+        status: status,
+        tipe_kerja: tipe,
+        catatan: cat
+      };
+      if (pin) values.__pin = pin;
+
       await apiCall('save', {
-        sheet: 'PIN_RAJA',
-        row: rowId,
+        sheet: 'USERS',
+        row: rowId ? Number(rowId) : undefined,
         v: r ? r._v : undefined,
-        values: { pin: newPin }
+        values: values
       });
-      closeModalPinEditor();
-      showToast(`PIN untuk ${uname} berhasil diubah!`);
+
+      // Update langsung ke PIN_RAJA juga jika PIN diisi
+      if (pin) {
+        try {
+          const pinSheet = APP.data.sheets.PIN_RAJA;
+          if (pinSheet && pinSheet.rows) {
+            const pr = pinSheet.rows.find(x => String(x.username).toLowerCase() === uname);
+            if (pr) {
+              await apiCall('save', { sheet: 'PIN_RAJA', row: pr._row, v: pr._v, values: { pin: pin } });
+            }
+          }
+        } catch (e) {}
+      }
+
+      closeModalUserEditor();
+      showToast('Data kru & profil berhasil disimpan!');
       fetchSync();
     }
 
+    // SUB 2: KELOLA MASTER CHECKLIST
     function renderSuperChecklist() {
       const cont = document.getElementById('super-check-list');
       const sheet = APP.data.sheets.CHECKLIST;
       if (!sheet || !sheet.rows) return;
       cont.innerHTML = sheet.rows.map(r => `
-        <div class="bg-stone-950 p-3 rounded-xl border border-stone-800 flex justify-between items-center">
+        <div class="bg-zinc-50 dark:bg-zinc-950 p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <div>
-            <span class="font-bold text-stone-200">${r.tugas}</span>
-            <span class="text-[9px] text-stone-500 block">${r.divisi} • Shift ${r.shift} • Target: ${r.jam_target || '-'}</span>
+            <span class="font-bold">${r.tugas}</span>
+            <span class="text-[9px] text-zinc-400 block">${r.divisi} • Shift ${r.shift} • Target: ${r.jam_target || '-'}</span>
           </div>
           <div class="flex gap-1.5">
-            <button onclick="openModalEditChecklist(${r._row})" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('CHECKLIST', ${r._row})" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+            <button onclick="openModalEditChecklist(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('CHECKLIST', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
           </div>
         </div>
       `).join('');
     }
 
+    // SUB 3: KELOLA MASTER STOK
     function renderSuperStok() {
       const cont = document.getElementById('super-stok-list');
       const sheet = APP.data.sheets.STOK;
       if (!sheet || !sheet.rows) return;
       cont.innerHTML = sheet.rows.map(r => `
-        <div class="bg-stone-950 p-2.5 rounded-xl border border-stone-800 flex justify-between items-center">
+        <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <div>
-            <span class="font-bold text-stone-200">${r.nama_barang}</span>
-            <span class="text-[9px] text-stone-500 block">${r.divisi} • Satuan: ${r.satuan||'-'} • Min: ${r.min_stok||0}</span>
+            <span class="font-bold">${r.nama_barang}</span>
+            <span class="text-[9px] text-zinc-400 block">${r.divisi} • Satuan: ${r.satuan||'-'} • Min: ${r.min_stok||0}</span>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="openModalAuditStok(${r._row})" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('STOK', ${r._row})" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+            <button onclick="openModalAuditStok(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('STOK', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
           </div>
         </div>
       `).join('');
     }
 
+    async function openModalAddStok() {
+      const n = prompt('Nama Bahan Baru:');
+      if (!n) return;
+      const d = prompt('Divisi (BARISTA / KITCHEN / SERVER):', 'BARISTA');
+      if (!d) return;
+      const s = prompt('Satuan (mis. liter, gram, pcs, botol):', 'pcs');
+      const m = prompt('Batas Minimum Restock:', '5');
+      const g = prompt('Stok Gudang Awal:', '10');
+
+      await apiCall('save', {
+        sheet: 'STOK',
+        values: { nama_barang: n, divisi: d.toUpperCase(), satuan: s, min_stok: Number(m) || 5, stok_gudang: Number(g) || 0, dicek_sore: 'Ya' }
+      });
+      showToast(`Bahan "${n}" ditambahkan ke Sheet!`);
+      fetchSync();
+    }
+
+    // SUB 4: KELOLA MASTER MENU
     function renderSuperMenu() {
       const cont = document.getElementById('super-menu-list');
       const sheet = APP.data.sheets.MENU;
       if (!sheet || !sheet.rows) return;
       cont.innerHTML = sheet.rows.map(r => `
-        <div class="bg-stone-950 p-2.5 rounded-xl border border-stone-800 flex justify-between items-center">
+        <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
           <div>
-            <span class="font-bold text-stone-200">${r.nama_produk}</span>
-            <span class="text-[9px] text-stone-500 block">${r.jenis} • HPP: Rp ${Number(r.hpp||0).toLocaleString('id-ID')} • Jual: Rp ${Number(r.harga_jual||0).toLocaleString('id-ID')}</span>
+            <span class="font-bold">${r.nama_produk}</span>
+            <span class="text-[9px] text-zinc-400 block">${r.jenis} • HPP: Rp ${Number(r.hpp||0).toLocaleString('id-ID')} • Jual: Rp ${Number(r.harga_jual||0).toLocaleString('id-ID')}</span>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="openModalEditMenu(${r._row})" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('MENU', ${r._row})" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+            <button onclick="openModalEditMenu(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('MENU', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
           </div>
         </div>
       `).join('');
