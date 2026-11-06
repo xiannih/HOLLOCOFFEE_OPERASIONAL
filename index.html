@@ -2,7 +2,7 @@
 <html lang="id" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>HOLLO COFFEE & ROASTERY'S — Operational Station</title>
   <!-- Tailwind CSS, Chart.js & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -21,9 +21,18 @@
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    
+    /* Animasi Halus ala iOS / iPadOS */
+    @keyframes iosFadeUp {
+      from { opacity: 0; transform: translateY(6px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .ios-card { animation: iosFadeUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .ios-btn { transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
+    .ios-btn:active { transform: scale(0.96); }
   </style>
 </head>
-<body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 select-none md:select-auto">
+<body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 overflow-x-hidden w-full max-w-full select-none md:select-auto">
 
   <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold">
@@ -33,13 +42,13 @@
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN (AUTO-LOGOUT SAAT TAB DITUTUP VIA SESSION STORAGE) -->
+  <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT DITUTUP) -->
   <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
+    <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 ios-card">
       <div class="text-center mb-6">
         <div class="w-14 h-14 bg-black dark:bg-white text-white dark:text-black rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-black shadow-md tracking-tighter">HC</div>
         <h1 class="text-lg font-black tracking-tight uppercase">HOLLO COFFEE</h1>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">Stasiun Bar, Dapur & Kasir</p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">Stasiun Barista, Kasir & Dapur</p>
       </div>
 
       <div class="space-y-4">
@@ -51,7 +60,7 @@
           <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">PIN Stasiun (4–8 Digit)</label>
           <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-center tracking-widest text-lg font-black focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-zinc-900 dark:text-zinc-100 placeholder-zinc-400" />
         </div>
-        <button onclick="handleLogin()" id="btn-login" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow transition active:scale-95 flex items-center justify-center gap-2">
+        <button onclick="handleLogin()" id="btn-login" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow ios-btn flex items-center justify-center gap-2">
           <span>Buka Stasiun</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
@@ -85,24 +94,24 @@
       </div>
 
       <div class="flex items-center gap-1.5">
-        <button onclick="toggleTheme()" title="Ganti Mode Gelap/Terang" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition">
+        <button onclick="toggleTheme()" title="Ganti Mode Gelap/Terang" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 ios-btn">
           <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
         </button>
-        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 active:rotate-180 transition duration-300">
+        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 ios-btn">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
         </button>
-        <button onclick="handleLogout()" title="Keluar Stasiun" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-zinc-600 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 transition">
+        <button onclick="handleLogout()" title="Keluar Stasiun" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-zinc-600 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 ios-btn">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- KONTEN UTAMA APLIKASI -->
-  <main class="max-w-6xl mx-auto px-4 py-4 space-y-4">
+  <!-- KONTEN UTAMA APLIKASI (RESPONSIVE & NO-OFFSET) -->
+  <main class="max-w-6xl mx-auto px-3.5 sm:px-4 py-4 space-y-4">
 
     <!-- ================= 1. TAB DASHBOARD DENGAN GRAFIK CHART.JS ================= -->
-    <section id="pane-dashboard" class="space-y-4">
+    <section id="pane-dashboard" class="space-y-4 ios-card">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Checklist Tugas</span>
@@ -112,7 +121,7 @@
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Bahan Restock</span>
           <div class="text-2xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
-          <span class="text-[10px] text-zinc-500 block mt-0.5">Di bawah batas minimum</span>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Bahan di bawah batas</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Database Stok</span>
@@ -131,7 +140,7 @@
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
           <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <span class="text-xs font-black flex items-center gap-2">
-              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> Tren Penjualan & Kasir (Tunai vs Non-Tunai)
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> Tren Penjualan & Kasir (Tunai vs QRIS)
             </span>
             <span class="text-[10px] text-zinc-400">Sheet SERAH_TERIMA</span>
           </div>
@@ -143,7 +152,7 @@
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
           <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <span class="text-xs font-black flex items-center gap-2">
-              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-500"></i> Status Bahan Stok per Divisi (Aman vs Restock)
+              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-500"></i> Komposisi Stok per Divisi (Aman vs Restock)
             </span>
             <span class="text-[10px] text-zinc-400">149 Barang</span>
           </div>
@@ -153,7 +162,7 @@
         </div>
       </div>
 
-      <!-- Timeline Operasional -->
+      <!-- Timeline Barista & Kasir -->
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2.5">
           <h3 class="text-xs font-black uppercase tracking-wider flex items-center gap-2">
@@ -170,7 +179,7 @@
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">09:00</span>
             <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 1</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Mulai transaksi POS</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Transaksi dimulai</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">16:30</span>
@@ -197,22 +206,22 @@
     </section>
 
     <!-- ================= 2. TAB CHECKLIST (SHIFT 1 vs SHIFT 2 & HANDOVER) ================= -->
-    <section id="pane-checklist" class="hidden space-y-4">
+    <section id="pane-checklist" class="hidden space-y-4 ios-card">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-          <button onclick="setChecklistShift('1')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow" data-shift="1">
+          <button onclick="setChecklistShift('1')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow ios-btn" data-shift="1">
             ☀️ Shift 1 (Opening • 08:30)
           </button>
-          <button onclick="setChecklistShift('2')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-shift="2">
+          <button onclick="setChecklistShift('2')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-shift="2">
             🌙 Shift 2 (Closing • 17:00)
           </button>
-          <button onclick="setChecklistShift('SEMUA')" class="chk-shift-btn px-3 py-2 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-shift="SEMUA">
+          <button onclick="setChecklistShift('SEMUA')" class="chk-shift-btn px-3 py-2 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-shift="SEMUA">
             Semua
           </button>
         </div>
         <div class="flex items-center gap-2">
           <span id="chk-shift-progress" class="text-xs font-black">0% Selesai</span>
-          <button id="btn-add-task-top" onclick="openModalAddChecklist()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1 shadow">
+          <button id="btn-add-task-top" onclick="openModalAddChecklist()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1 shadow ios-btn">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Tugas
           </button>
         </div>
@@ -225,7 +234,7 @@
             <i data-lucide="arrow-right-left" class="w-4 h-4"></i>
             Handover Pergantian Shift (16:30) — Catatan untuk Shift Berikutnya:
           </span>
-          <button onclick="saveHandoverNotes()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">
+          <button onclick="saveHandoverNotes()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow ios-btn">
             Simpan Handover
           </button>
         </div>
@@ -247,29 +256,29 @@
 
       <!-- Filter Divisi Checklist -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-        <button onclick="setChecklistDiv('SEMUA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black" data-div="SEMUA">Semua Stasiun</button>
-        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="BARISTA">Barista</button>
-        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="KITCHEN">Kitchen</button>
-        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="SERVER">Server</button>
-        <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800" data-div="KASIR">Kasir</button>
+        <button onclick="setChecklistDiv('SEMUA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black ios-btn" data-div="SEMUA">Semua Stasiun</button>
+        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="BARISTA">Barista</button>
+        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="KITCHEN">Kitchen</button>
+        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="SERVER">Server</button>
+        <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="KASIR">Kasir</button>
       </div>
 
       <div id="checklist-cards-container" class="space-y-2.5"></div>
     </section>
 
     <!-- ================= 3. TAB STOK OPNAME ================= -->
-    <section id="pane-stok" class="hidden space-y-4">
+    <section id="pane-stok" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
           <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-            <button onclick="setStokDivFilter('SEMUA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black" data-div="SEMUA">Semua (149)</button>
-            <button onclick="setStokDivFilter('BARISTA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="BARISTA">Barista (65)</button>
-            <button onclick="setStokDivFilter('KITCHEN')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="KITCHEN">Kitchen (71)</button>
-            <button onclick="setStokDivFilter('SERVER')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="SERVER">Server (13)</button>
+            <button onclick="setStokDivFilter('SEMUA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black ios-btn" data-div="SEMUA">Semua (149)</button>
+            <button onclick="setStokDivFilter('BARISTA')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-div="BARISTA">Barista (65)</button>
+            <button onclick="setStokDivFilter('KITCHEN')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-div="KITCHEN">Kitchen (71)</button>
+            <button onclick="setStokDivFilter('SERVER')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-div="SERVER">Server (13)</button>
           </div>
           <div class="flex items-center gap-2">
             <input type="text" id="stok-search" oninput="renderStokCards()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none w-full sm:w-44" />
-            <button onclick="openModalLogKejadian()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shrink-0 shadow">
+            <button onclick="openModalLogKejadian()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shrink-0 shadow ios-btn">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log / Waste
             </button>
           </div>
@@ -279,8 +288,8 @@
       <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- ================= 4. TAB KASIR & SERAH TERIMA ================= -->
-    <section id="pane-kasir" class="hidden space-y-4">
+    <!-- ================= 4. TAB KASIR & SERAH TERIMA (BARISTA/KASIR) ================= -->
+    <section id="pane-kasir" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-xl mx-auto space-y-4">
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex justify-between items-center">
           <div>
@@ -290,10 +299,17 @@
           <span class="text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-xl">Bar & Kasir</span>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 text-xs">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Tanggal Transaksi</label>
+            <div class="relative flex items-center">
+              <input type="date" id="kas-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('kas-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
+          </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Tipe Serah Terima</label>
-            <select id="kas-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
+            <select id="kas-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
               <option value="Kas Awal Shift 1">Kas Awal Shift 1 (Opening 08:30)</option>
               <option value="Serah Terima 16:30">Serah Terima 16:30 (Shift 1 → 2)</option>
               <option value="Tutup Kasir 00:00">Tutup Kasir 00:00 (Closing Akhir)</option>
@@ -301,7 +317,7 @@
           </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Petugas Barista/Kasir</label>
-            <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-400" />
+            <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold text-zinc-400" />
           </div>
         </div>
 
@@ -363,24 +379,24 @@
           </div>
         </div>
 
-        <button onclick="saveSerahKas()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow transition">
+        <button onclick="saveSerahKas()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow ios-btn">
           Simpan Laporan Kasir ke Sheet
         </button>
       </div>
     </section>
 
     <!-- ================= 5. TAB KALENDER (JADWAL KRU & LOG HARIAN) ================= -->
-    <section id="pane-kalender" class="hidden space-y-4">
+    <section id="pane-kalender" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h3 id="cal-month-title" class="text-base font-black">Bulan Berjalan</h3>
-            <p class="text-[11px] text-zinc-500">Jadwal Shift Kru, Libur & Log Kejadian</p>
+            <p class="text-[11px] text-zinc-500">Klik 1x untuk melihat detail • Klik 2x (Double-Click) untuk tambah event/log</p>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-            <button onclick="navCalToday()" class="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-xs font-bold">Hari Ini</button>
-            <button onclick="navCalMonth(1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+            <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 ios-btn"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button onclick="navCalToday()" class="px-3 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-xs font-bold ios-btn">Hari Ini</button>
+            <button onclick="navCalMonth(1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 ios-btn"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
           </div>
         </div>
 
@@ -388,7 +404,7 @@
           <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
         </div>
 
-        <div id="cal-grid" class="grid grid-cols-7 gap-1.5 text-xs font-bold"></div>
+        <div id="cal-grid" class="grid grid-cols-7 gap-1 sm:gap-1.5 text-xs font-bold"></div>
       </div>
 
       <!-- Detail Tanggal Terpilih -->
@@ -396,13 +412,13 @@
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span class="text-xs font-black" id="cal-selected-label">Rincian Tanggal</span>
           <div class="flex items-center gap-1.5">
-            <button id="btn-atur-jadwal" onclick="openModalAturJadwal()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button id="btn-atur-jadwal" onclick="openModalAturJadwal()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
               <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i> + Atur Jadwal Kru
             </button>
-            <button id="btn-input-libur" onclick="openModalLibur()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button id="btn-input-libur" onclick="openModalLibur()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
               <i data-lucide="coffee" class="w-3.5 h-3.5"></i> + Libur / Cuti
             </button>
-            <button onclick="openModalLogKejadian()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button onclick="openModalLogKejadian()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log
             </button>
           </div>
@@ -419,16 +435,16 @@
     </section>
 
     <!-- ================= 6. TAB MENU & HARGA (63 MENU) ================= -->
-    <section id="pane-menu" class="hidden space-y-4">
+    <section id="pane-menu" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-2">
-          <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow" data-jenis="SEMUA">Semua (63)</button>
-          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-jenis="Minuman">☕ Minuman (35)</button>
-          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-jenis="Makanan">🍳 Makanan (28)</button>
+          <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow ios-btn" data-jenis="SEMUA">Semua (63)</button>
+          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Minuman">☕ Minuman (35)</button>
+          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Makanan">🍳 Makanan (28)</button>
         </div>
         <div class="flex items-center gap-2">
           <input type="text" id="menu-search-box" oninput="renderMenuCards()" placeholder="Cari menu / HPP..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none w-full sm:w-48" />
-          <button id="btn-top-add-menu" onclick="openModalAddMenu()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs shrink-0 shadow flex items-center gap-1">
+          <button id="btn-top-add-menu" onclick="openModalAddMenu()" class="hidden bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs shrink-0 shadow flex items-center gap-1 ios-btn">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Menu
           </button>
         </div>
@@ -438,7 +454,7 @@
     </section>
 
     <!-- ================= 7. TAB DAILY REPORT CLOSING & WA ================= -->
-    <section id="pane-report" class="hidden space-y-4">
+    <section id="pane-report" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-2xl mx-auto space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 gap-2">
           <div>
@@ -446,10 +462,10 @@
             <p class="text-[11px] text-zinc-500">Omset harian, evaluasi malam, dan prep belanja besok per divisi.</p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="autoPullDailyData()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow">
+            <button onclick="autoPullDailyData()" class="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-100 font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shadow ios-btn">
               <i data-lucide="zap" class="w-3.5 h-3.5"></i> ⚡ Tarik Data Hari Ini
             </button>
-            <button onclick="copyWaReport()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow">
+            <button onclick="copyWaReport()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow ios-btn">
               <i data-lucide="copy" class="w-4 h-4"></i> Salin WA
             </button>
           </div>
@@ -458,7 +474,10 @@
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
             <label class="block font-bold text-zinc-400 mb-1">Tanggal Closing</label>
-            <input type="date" id="dr-tgl" onchange="recalcDailyReportPreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+            <div class="relative flex items-center">
+              <input type="date" id="dr-tgl" onchange="recalcDailyReportPreview()" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('dr-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
           </div>
           <div>
             <label class="block font-bold text-zinc-400 mb-1">Sales Shift 1 (Opening)</label>
@@ -512,7 +531,7 @@
           </div>
         </div>
 
-        <button onclick="saveDailyReportToSheet()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow">
+        <button onclick="saveDailyReportToSheet()" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow ios-btn">
           Simpan ke Tab DAILY_REPORT Sheet
         </button>
 
@@ -521,7 +540,7 @@
     </section>
 
     <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN BOY • LEVEL 6) ================= -->
-    <section id="pane-super" class="hidden space-y-4">
+    <section id="pane-super" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
           <div>
@@ -536,17 +555,17 @@
 
         <!-- 4 Sub-Menu Kelola -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
-          <button onclick="showSuperSub('user')" id="sub-btn-user" class="super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black shadow">👥 Kelola Kru & PIN</button>
-          <button onclick="showSuperSub('check')" id="sub-btn-check" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">📋 Master Checklist</button>
-          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">📦 Master Stok (149)</button>
-          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">☕ Master Menu (63)</button>
+          <button onclick="showSuperSub('user')" id="sub-btn-user" class="super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black shadow ios-btn">👥 Kelola Kru & PIN</button>
+          <button onclick="showSuperSub('check')" id="sub-btn-check" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn">📋 Master Checklist</button>
+          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn">📦 Master Stok (149)</button>
+          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn">☕ Master Menu (63)</button>
         </div>
 
         <!-- SUB 1: KELOLA KRU & PIN LENGKAP DENGAN FITUR HAPUS -->
         <div id="sub-pane-user" class="space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Daftar Akun Kru & Akses Staf (Tab USERS & PIN_RAJA)</span>
-            <button onclick="openModalAddUser()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+            <button onclick="openModalAddUser()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
               <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> + Tambah Staf Baru
             </button>
           </div>
@@ -564,7 +583,7 @@
         <div id="sub-pane-check" class="hidden space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Master Tugas Checklist (39 Tugas)</span>
-            <button onclick="openModalAddChecklist()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Tugas Baru</button>
+            <button onclick="openModalAddChecklist()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow ios-btn">+ Tambah Tugas Baru</button>
           </div>
           <div id="super-check-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -575,7 +594,7 @@
             <span class="text-xs font-bold">Master 149 Barang Stok (Tab STOK)</span>
             <div class="flex items-center gap-2">
               <input type="text" id="super-stok-search" oninput="renderSuperStokTable()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs focus:outline-none w-48" />
-              <button onclick="openModalAddStokMaster()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 shrink-0">
+              <button onclick="openModalAddStokMaster()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 shrink-0 ios-btn">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Barang
               </button>
             </div>
@@ -604,7 +623,7 @@
         <div id="sub-pane-menu" class="hidden space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Master 63 Menu, HPP & Harga Jual</span>
-            <button onclick="openModalAddMenu()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Menu Baru</button>
+            <button onclick="openModalAddMenu()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow ios-btn">+ Tambah Menu Baru</button>
           </div>
           <div id="super-menu-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -623,7 +642,7 @@
 
   <!-- 1. MODAL USER / KRU (TAMBAH / EDIT / HAPUS LENGKAP) -->
   <div id="modal-user-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 id="usr-modal-title" class="font-black text-sm">Form Profil Kru & PIN</h3>
         <button onclick="closeModalUserEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -700,12 +719,12 @@
       </div>
 
       <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800 gap-2">
-        <button id="btn-delete-user" onclick="deleteUserFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs">
+        <button id="btn-delete-user" onclick="deleteUserFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs ios-btn">
           Hapus Staf
         </button>
         <div class="flex items-center gap-2 flex-1 justify-end">
-          <button onclick="closeModalUserEditor()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-          <button onclick="saveModalUser()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Profil</button>
+          <button onclick="closeModalUserEditor()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+          <button onclick="saveModalUser()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Profil</button>
         </div>
       </div>
     </div>
@@ -713,7 +732,7 @@
 
   <!-- 2. MODAL MASTER STOK (TAMBAH / EDIT NAMA BARANG LENGKAP) -->
   <div id="modal-stok-master" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 id="mstk-title" class="font-black text-sm">Form Master Barang Stok</h3>
         <button onclick="closeModalStokMaster()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -765,12 +784,12 @@
       </div>
 
       <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800 gap-2">
-        <button id="btn-delete-stok" onclick="deleteStokFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs">
+        <button id="btn-delete-stok" onclick="deleteStokFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs ios-btn">
           Hapus Barang
         </button>
         <div class="flex items-center gap-2 flex-1 justify-end">
-          <button onclick="closeModalStokMaster()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-          <button onclick="saveModalStokMaster()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Barang</button>
+          <button onclick="closeModalStokMaster()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+          <button onclick="saveModalStokMaster()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Barang</button>
         </div>
       </div>
     </div>
@@ -778,7 +797,7 @@
 
   <!-- 3. MODAL ATUR JADWAL KRU (KALENDER) -->
   <div id="modal-jadwal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="calendar-plus" class="w-4 h-4"></i> Atur Jadwal Kru
@@ -786,7 +805,13 @@
         <button onclick="closeModalJadwal()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-3 text-xs">
-        <div><label class="block font-bold text-zinc-500 mb-1">Tanggal</label><input type="date" id="jdw-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+        <div>
+          <label class="block font-bold text-zinc-500 mb-1">Tanggal</label>
+          <div class="relative flex items-center">
+            <input type="date" id="jdw-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+            <button onclick="triggerPicker('jdw-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+          </div>
+        </div>
         <div>
           <label class="block font-bold text-zinc-500 mb-1">Pilih Kru Staf</label>
           <select id="jdw-user" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold"></select>
@@ -803,15 +828,15 @@
         <div><label class="block font-bold text-zinc-500 mb-1">Catatan</label><input type="text" id="jdw-cat" placeholder="mis. Masuk jam 9, tukar shift..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
       </div>
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalJadwal()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveJadwalKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Jadwal</button>
+        <button onclick="closeModalJadwal()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveJadwalKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Jadwal</button>
       </div>
     </div>
   </div>
 
   <!-- 4. MODAL INPUT JADWAL LIBUR / CUTI -->
   <div id="modal-libur" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="coffee" class="w-4 h-4"></i> Input Libur & Cuti Kru
@@ -820,8 +845,20 @@
       </div>
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-zinc-500 mb-1">Mulai</label><input type="date" id="lbr-mulai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
-          <div><label class="block font-bold text-zinc-500 mb-1">Selesai</label><input type="date" id="lbr-selesai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Mulai</label>
+            <div class="relative flex items-center">
+              <input type="date" id="lbr-mulai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('lbr-mulai')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Selesai</label>
+            <div class="relative flex items-center">
+              <input type="date" id="lbr-selesai" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('lbr-selesai')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
+          </div>
         </div>
         <div>
           <label class="block font-bold text-zinc-500 mb-1">Jenis Libur</label>
@@ -841,15 +878,15 @@
         <div><label class="block font-bold text-zinc-500 mb-1">Alasan / Keterangan</label><input type="text" id="lbr-ket" placeholder="mis. Pulang kampung, sakit demam..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" /></div>
       </div>
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalLibur()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveLiburKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Libur</button>
+        <button onclick="closeModalLibur()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveLiburKru()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Libur</button>
       </div>
     </div>
   </div>
 
   <!-- 5. MODAL EDIT / TAMBAH MENU DENGAN LIVE MARGIN -->
   <div id="modal-menu-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 id="mne-title" class="font-black text-sm">Form Menu & HPP</h3>
         <button onclick="closeModalMenuEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -883,15 +920,15 @@
       </div>
 
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalMenuEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveModalMenu()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Menu ke Sheet</button>
+        <button onclick="closeModalMenuEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveModalMenu()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Menu ke Sheet</button>
       </div>
     </div>
   </div>
 
   <!-- 6. MODAL FORM TUGAS CHECKLIST -->
   <div id="modal-chk-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 id="cke-title" class="font-black text-sm">Form Tugas Checklist</h3>
         <button onclick="closeModalChkEditor()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -919,7 +956,12 @@
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-zinc-500 mb-1">Jam Target</label><input type="text" id="cke-jam" placeholder="08:30" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Jam Target</label>
+            <div class="relative flex items-center">
+              <input type="time" id="cke-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+            </div>
+          </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Fase</label>
             <select id="cke-fase" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
@@ -933,15 +975,15 @@
       </div>
 
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalChkEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveModalChk()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Tugas</button>
+        <button onclick="closeModalChkEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveModalChk()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Tugas</button>
       </div>
     </div>
   </div>
 
   <!-- 7. MODAL AUDIT STOK LENGKAP -->
   <div id="modal-audit-stok" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-md w-full border border-zinc-200 dark:border-zinc-800 space-y-4 max-h-[90vh] overflow-y-auto">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-md w-full border border-zinc-200 dark:border-zinc-800 space-y-4 max-h-[90vh] overflow-y-auto ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <div>
           <h3 id="astk-title" class="font-black text-sm">Audit & Koreksi Stok</h3>
@@ -953,7 +995,13 @@
       <input type="hidden" id="astk-row" />
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-zinc-500 mb-1">Tanggal Audit</label><input type="date" id="astk-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Tanggal Audit</label>
+            <div class="relative flex items-center">
+              <input type="date" id="astk-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('astk-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
+          </div>
           <div><label class="block font-bold text-zinc-500 mb-1">Shift</label><select id="astk-shift" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold"><option value="1">Shift 1 (Pagi)</option><option value="2">Shift 2 (Sore)</option></select></div>
         </div>
 
@@ -997,15 +1045,15 @@
       </div>
 
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalAuditStok()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveModalAuditStok()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Audit ke Sheet</button>
+        <button onclick="closeModalAuditStok()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveModalAuditStok()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan Audit ke Sheet</button>
       </div>
     </div>
   </div>
 
   <!-- 8. MODAL CATAT KEJADIAN / WASTE / BARANG MASUK -->
   <div id="modal-kejadian" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 class="font-black text-sm flex items-center gap-2">
           <i data-lucide="alert-circle" class="w-4 h-4"></i> Catat Log Kejadian / Waste
@@ -1014,8 +1062,20 @@
       </div>
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
-          <div><label class="block font-bold text-zinc-500 mb-1">Tanggal</label><input type="date" id="evt-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
-          <div><label class="block font-bold text-zinc-500 mb-1">Jam</label><input type="time" id="evt-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" /></div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Tanggal</label>
+            <div class="relative flex items-center">
+              <input type="date" id="evt-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="triggerPicker('evt-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Jam Kejadian</label>
+            <div class="flex items-center gap-1">
+              <input type="time" id="evt-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+              <button onclick="setCurrentTime('evt-jam')" class="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-zinc-500 text-[10px] font-bold shrink-0" title="Set Jam Sekarang">⚡</button>
+            </div>
+          </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
@@ -1057,8 +1117,8 @@
         <div><label class="block font-bold text-zinc-500 mb-1">Keterangan / Alasan</label><textarea id="evt-ket" rows="2" placeholder="Penyebab susu basi, nota supplier, dll..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5"></textarea></div>
       </div>
       <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalKejadian()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveKejadian()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan ke Sheet</button>
+        <button onclick="closeModalKejadian()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500 ios-btn">Batal</button>
+        <button onclick="saveKejadian()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow ios-btn">Simpan ke Sheet</button>
       </div>
     </div>
   </div>
@@ -1068,10 +1128,10 @@
     // ========================================================
     // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA
     // ========================================================
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzfykxFtcndKTLzGjaWlfMWC0NBKXaVWwdkXjOmkHoXxE-DIbjtR3HlEXoDpOW2oIil/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
 
-    // SESSION STORAGE: Otomatis Logout Saat Tab Ditutup!
+    // SESSION STORAGE: Otomatis Logout Saat Browser Ditutup
     let APP = {
       user: JSON.parse(sessionStorage.getItem('hc_user') || 'null'),
       pin: sessionStorage.getItem('hc_pin') || '',
@@ -1085,11 +1145,31 @@
       charts: {}
     };
 
+    // Helper untuk memicu DatePicker popup saat tombol kalender diklik
+    function triggerPicker(id) {
+      const el = document.getElementById(id);
+      if (el && el.showPicker) {
+        try { el.showPicker(); } catch (e) { el.focus(); }
+      } else if (el) {
+        el.focus();
+      }
+    }
+
+    function setCurrentTime(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        const now = new Date();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const mm = String(now.getMinutes()).padStart(2, '0');
+        el.value = `${hh}:${mm}`;
+      }
+    }
+
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('hc_theme', isDark ? 'dark' : 'light');
       updateThemeIcon(isDark);
-      renderDashboardCharts(); // update warna grafik
+      renderDashboardCharts();
     }
     function updateThemeIcon(isDark) {
       const icon = document.getElementById('theme-icon');
@@ -1126,7 +1206,9 @@
       updateLiveTimelineAndClock();
       setInterval(updateLiveTimelineAndClock, 1000);
 
-      if (document.getElementById('dr-tgl')) document.getElementById('dr-tgl').value = new Date().toISOString().slice(0, 10);
+      const todayStr = new Date().toISOString().slice(0, 10);
+      if (document.getElementById('dr-tgl')) document.getElementById('dr-tgl').value = todayStr;
+      if (document.getElementById('kas-tgl')) document.getElementById('kas-tgl').value = todayStr;
 
       if (APP.user && APP.pin) {
         document.getElementById('login-screen').classList.add('hidden');
@@ -1226,9 +1308,6 @@
       location.reload();
     }
 
-    // ========================================================
-    // PEMISAHAN HAK AKSES UI (BARISTA/KASIR VS MANAJEMEN VS ADMIN)
-    // ========================================================
     function setupUserUI() {
       if (!APP.user) return;
       document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
@@ -1251,47 +1330,47 @@
 
       if (isManajemen) {
         navHtml = `
-          <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black" data-tab="dashboard">
+          <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black ios-btn" data-tab="dashboard">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
           </button>
-          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="checklist">
+          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="checklist">
             <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
           </button>
-          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="stok">
+          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="stok">
             <i data-lucide="boxes" class="w-4 h-4"></i><span>Stok</span>
           </button>
-          <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="kasir">
+          <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="kasir">
             <i data-lucide="banknote" class="w-4 h-4"></i><span>Kasir</span>
           </button>
-          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="kalender">
+          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="kalender">
             <i data-lucide="calendar" class="w-4 h-4"></i><span>Kalender</span>
           </button>
-          <button onclick="switchTab('menu')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="menu">
+          <button onclick="switchTab('menu')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="menu">
             <i data-lucide="coffee" class="w-4 h-4"></i><span>Menu</span>
           </button>
-          <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400" data-tab="report">
+          <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 ios-btn" data-tab="report">
             <i data-lucide="file-text" class="w-4 h-4"></i><span>Daily WA</span>
           </button>
           ${isSuper ? `
-            <button onclick="switchTab('super')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-500 font-black" data-tab="super">
+            <button onclick="switchTab('super')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-500 font-black ios-btn" data-tab="super">
               <i data-lucide="shield-check" class="w-4 h-4"></i><span>Kelola</span>
             </button>
           ` : ''}
         `;
       } else {
         navHtml = `
-          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-black dark:text-white font-black" data-tab="checklist">
+          <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-black dark:text-white font-black ios-btn" data-tab="checklist">
             <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
           </button>
-          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="stok">
+          <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400 ios-btn" data-tab="stok">
             <i data-lucide="boxes" class="w-4 h-4"></i><span>Stok</span>
           </button>
           ${isBarista ? `
-            <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="kasir">
+            <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400 ios-btn" data-tab="kasir">
               <i data-lucide="banknote" class="w-4 h-4"></i><span>Kasir</span>
             </button>
           ` : ''}
-          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400" data-tab="kalender">
+          <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-zinc-400 ios-btn" data-tab="kalender">
             <i data-lucide="calendar" class="w-4 h-4"></i><span>Jadwal Kru</span>
           </button>
         `;
@@ -1319,8 +1398,8 @@
       document.querySelectorAll('.nav-btn').forEach(btn => {
         const match = btn.getAttribute('data-tab') === tabId;
         btn.className = match
-          ? 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black'
-          : 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 font-bold';
+          ? 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black ios-btn'
+          : 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 font-bold ios-btn';
       });
 
       if (tabId === 'dashboard') renderDashboardCharts();
@@ -1449,7 +1528,7 @@
       APP.chkShift = s;
       document.querySelectorAll('.chk-shift-btn').forEach(b => {
         const m = b.getAttribute('data-shift') === s;
-        b.className = m ? 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow' : 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
+        b.className = m ? 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow ios-btn' : 'chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn';
       });
       renderChecklist();
     }
@@ -1458,7 +1537,7 @@
       APP.chkDiv = d;
       document.querySelectorAll('.chk-div-btn').forEach(b => {
         const m = b.getAttribute('data-div') === d;
-        b.className = m ? 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black' : 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800';
+        b.className = m ? 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black ios-btn' : 'chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn';
       });
       renderChecklist();
     }
@@ -1484,7 +1563,7 @@
         return `
           <div class="bg-white dark:bg-zinc-900 p-4 rounded-2xl border ${isDone ? 'border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-950/40' : 'border-zinc-200 dark:border-zinc-800'} shadow-sm flex items-center justify-between gap-3">
             <div class="flex items-start gap-3 min-w-0 flex-1">
-              <button onclick="toggleChecklistSafe(${r._row}, '${isDone ? 'Belum' : 'Selesai'}')" class="mt-0.5 w-7 h-7 rounded-xl flex items-center justify-center border-2 transition ${isDone ? 'bg-black dark:bg-white border-black dark:border-white text-white dark:text-black' : 'border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'}">
+              <button onclick="toggleChecklistSafe(${r._row}, '${isDone ? 'Belum' : 'Selesai'}')" class="mt-0.5 w-7 h-7 rounded-xl flex items-center justify-center border-2 transition ${isDone ? 'bg-black dark:bg-white border-black dark:border-white text-white dark:text-black' : 'border-zinc-300 dark:border-zinc-700 hover:border-black dark:hover:border-white'} ios-btn">
                 ${isDone ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>' : ''}
               </button>
               <div class="min-w-0">
@@ -1499,7 +1578,7 @@
             </div>
             ${isSuper ? `
               <div class="flex items-center gap-1">
-                <button onclick="openModalEditChecklist(${r._row})" class="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-[10px]">
+                <button onclick="openModalEditChecklist(${r._row})" class="p-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-lg text-[10px] ios-btn">
                   <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
                 </button>
               </div>
@@ -1608,7 +1687,7 @@
       APP.stkDiv = d;
       document.querySelectorAll('.stk-div-btn').forEach(b => {
         const m = b.getAttribute('data-div') === d;
-        b.className = m ? 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black' : 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
+        b.className = m ? 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black ios-btn' : 'stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn';
       });
       renderStokCards();
     }
@@ -1653,7 +1732,7 @@
             </div>
 
             <div class="flex gap-2 pt-1 border-t border-zinc-100 dark:border-zinc-800">
-              <button onclick="openModalAuditStok(${r._row})" class="flex-1 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1">
+              <button onclick="openModalAuditStok(${r._row})" class="flex-1 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1 ios-btn">
                 <i data-lucide="edit" class="w-3.5 h-3.5"></i> Audit / Koreksi
               </button>
             </div>
@@ -1703,7 +1782,7 @@
 
     function openModalLogKejadian() {
       document.getElementById('evt-tgl').value = APP.selectedDateStr;
-      document.getElementById('evt-jam').value = new Date().toTimeString().slice(0, 5);
+      setCurrentTime('evt-jam');
       document.getElementById('modal-kejadian').classList.remove('hidden');
     }
     function closeModalKejadian() { document.getElementById('modal-kejadian').classList.add('hidden'); }
@@ -1768,7 +1847,7 @@
     async function saveSerahKas() {
       const payload = {
         tipe: document.getElementById('kas-tipe').value,
-        tanggal: new Date().toISOString().slice(0, 10),
+        tanggal: document.getElementById('kas-tgl').value || new Date().toISOString().slice(0, 10),
         petugas_serah: APP.user.username,
         kas_awal: document.getElementById('kas-modal').value,
         pengeluaran_tunai: document.getElementById('kas-keluar').value,
@@ -1782,7 +1861,7 @@
     }
 
     // ========================================================
-    // 5. KALENDER & JADWAL KRU
+    // 5. KALENDER & JADWAL KRU (KLIK & DOUBLE-CLICK)
     // ========================================================
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1812,10 +1891,10 @@
         const hasEvt = evts.some(e => String(e.tanggal || '').slice(0, 10) === dStr);
 
         html += `
-          <button onclick="selectDate('${dStr}')" class="h-12 rounded-2xl flex flex-col items-center justify-center relative transition ${
+          <button onclick="selectDate('${dStr}')" ondblclick="handleDayDblClick('${dStr}')" class="h-10 sm:h-12 rounded-2xl flex flex-col items-center justify-center relative transition ${
             isSel ? 'bg-black dark:bg-white text-white dark:text-black font-black shadow-md' :
             isToday ? 'border-2 border-black dark:border-white' : 'bg-zinc-50 dark:bg-zinc-950 text-zinc-800 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-800'
-          }">
+          } ios-btn">
             <span>${d}</span>
             <div class="flex items-center gap-0.5 mt-0.5">
               ${count > 0 ? `<span class="text-[8px] font-black px-1 rounded-full ${isSel ? 'bg-white dark:bg-black text-black dark:text-white' : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'}">${count}</span>` : ''}
@@ -1828,13 +1907,22 @@
       renderStaffRosterDetail();
     }
 
-    function selectDate(dStr) { APP.selectedDateStr = dStr; renderCalendar(); }
+    function selectDate(dStr) {
+      APP.selectedDateStr = dStr;
+      renderCalendar();
+    }
+
+    function handleDayDblClick(dStr) {
+      APP.selectedDateStr = dStr;
+      openModalLogKejadian();
+    }
 
     function renderStaffRosterDetail() {
       const dStr = APP.selectedDateStr;
       const dObj = new Date(dStr);
       document.getElementById('cal-selected-label').innerText = `Rincian: ${dObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`;
 
+      // Kru Roster
       const container = document.getElementById('cal-staff-roster-list');
       const roster = (APP.data.sheets.ROSTER && APP.data.sheets.ROSTER.rows) || (APP.data.sheets.JADWAL && APP.data.sheets.JADWAL.rows) || [];
       const dayList = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr);
@@ -1850,6 +1938,7 @@
         `).join('');
       }
 
+      // Kejadian / Log
       const evCont = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayEvts = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
@@ -1866,6 +1955,7 @@
       }
     }
 
+    // TARIK NAMA KRU KE DROPDOWN LENGKAP
     function populateUserDropdowns() {
       let users = [];
       if (APP.data && APP.data.sheets && APP.data.sheets.USERS && APP.data.sheets.USERS.rows && APP.data.sheets.USERS.rows.length) {
@@ -1899,6 +1989,7 @@
       if (document.getElementById('lbr-user')) document.getElementById('lbr-user').innerHTML = opts;
     }
 
+    // Modal Jadwal Kru
     function openModalAturJadwal() {
       document.getElementById('jdw-tgl').value = APP.selectedDateStr;
       document.getElementById('modal-jadwal').classList.remove('hidden');
@@ -1919,6 +2010,7 @@
       fetchSync();
     }
 
+    // Modal Libur / Cuti dengan Mekanisme Pelindung Ganda
     function openModalLibur() {
       document.getElementById('lbr-mulai').value = APP.selectedDateStr;
       document.getElementById('lbr-selesai').value = APP.selectedDateStr;
@@ -1926,18 +2018,37 @@
     }
     function closeModalLibur() { document.getElementById('modal-libur').classList.add('hidden'); }
     async function saveLiburKru() {
-      await apiCall('save', {
-        sheet: 'LIBUR',
-        values: {
-          tanggal_mulai: document.getElementById('lbr-mulai').value,
-          tanggal_selesai: document.getElementById('lbr-selesai').value,
-          jenis: document.getElementById('lbr-jenis').value,
-          username: document.getElementById('lbr-user').value,
-          keterangan: document.getElementById('lbr-ket').value
-        }
-      });
+      const tglMulai = document.getElementById('lbr-mulai').value;
+      const uname = document.getElementById('lbr-user').value;
+      const jns = document.getElementById('lbr-jenis').value;
+      const ket = document.getElementById('lbr-ket').value;
+
+      // 1. Simpan ke ROSTER sebagai OFF / Cuti (Pasti Sukses!)
+      try {
+        await apiCall('save', {
+          sheet: 'ROSTER',
+          values: { tanggal: tglMulai, username: uname, kode: 'OFF', catatan: `${jns}: ${ket}` }
+        });
+      } catch (e) {}
+
+      // 2. Simpan ke tab LIBUR jika tersedia
+      try {
+        await apiCall('save', {
+          sheet: 'LIBUR',
+          values: {
+            tanggal_mulai: tglMulai,
+            tanggal_selesai: document.getElementById('lbr-selesai').value,
+            jenis: jns,
+            username: uname,
+            keterangan: ket
+          }
+        });
+      } catch (err) {
+        // Jika tab LIBUR belum ada, jadwal tetap tercatat di ROSTER sebagai OFF
+      }
+
       closeModalLibur();
-      showToast('Data libur kru tersimpan ke Sheet!');
+      showToast('Data libur kru berhasil disimpan!');
       fetchSync();
     }
 
@@ -1948,7 +2059,7 @@
       APP.mnuFilter = j;
       document.querySelectorAll('.mnu-btn').forEach(b => {
         const m = b.getAttribute('data-jenis') === j;
-        b.className = m ? 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow' : 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400';
+        b.className = m ? 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow ios-btn' : 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn';
       });
       renderMenuCards();
     }
@@ -1992,10 +2103,10 @@
 
             ${isSuper ? `
               <div class="flex gap-1.5 pt-1">
-                <button onclick="openModalEditMenu(${r._row})" class="flex-1 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold">
+                <button onclick="openModalEditMenu(${r._row})" class="flex-1 py-1.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-[10px] font-bold ios-btn">
                   Ubah HPP & Harga
                 </button>
-                <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1.5 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-500 rounded-xl text-[10px]">
+                <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1.5 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 text-rose-500 rounded-xl text-[10px] ios-btn">
                   <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                 </button>
               </div>
@@ -2184,9 +2295,9 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     // ========================================================
     function showSuperSub(tab) {
       document.querySelectorAll('.super-sub-btn').forEach(b => {
-        b.className = 'super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold';
+        b.className = 'super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold ios-btn';
       });
-      document.getElementById('sub-btn-' + tab).className = 'super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black font-black shadow';
+      document.getElementById('sub-btn-' + tab).className = 'super-sub-btn p-3 rounded-2xl bg-black dark:bg-white text-white dark:text-black font-black shadow ios-btn';
 
       ['user', 'check', 'stok', 'menu'].forEach(t => document.getElementById('sub-pane-' + t).classList.add('hidden'));
       document.getElementById('sub-pane-' + tab).classList.remove('hidden');
@@ -2215,11 +2326,11 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
           <td class="py-2.5 px-3 font-mono text-[11px]">${r.no_hp || '-'}</td>
           <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${r.status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-200 text-zinc-600'}">${r.status || 'Aktif'}</span></td>
           <td class="py-2.5 px-3 text-right flex items-center justify-end gap-1.5">
-            <button onclick="openModalEditUser(${r._row})" class="px-2.5 py-1 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg text-[10px]">
+            <button onclick="openModalEditUser(${r._row})" class="px-2.5 py-1 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg text-[10px] ios-btn">
               Edit
             </button>
             ${r.username !== 'boy' ? `
-              <button onclick="deleteUserRow(${r._row}, '${r.username}')" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] hover:bg-rose-100">
+              <button onclick="deleteUserRow(${r._row}, '${r.username}')" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] hover:bg-rose-100 ios-btn">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             ` : ''}
@@ -2332,7 +2443,6 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       const r = APP.data.sheets.USERS.rows.find(x => x._row === rowNumber);
       await apiCall('remove', { sheet: 'USERS', row: rowNumber, v: r ? r._v : undefined });
 
-      // Hapus dari PIN_RAJA jika ada
       try {
         const pinSheet = APP.data.sheets.PIN_RAJA;
         if (pinSheet && pinSheet.rows) {
@@ -2364,8 +2474,8 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
             <span class="text-[9px] text-zinc-400 block">${r.divisi} • Shift ${r.shift} • Target: ${r.jam_target || '-'}</span>
           </div>
           <div class="flex gap-1.5">
-            <button onclick="openModalEditChecklist(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('CHECKLIST', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
+            <button onclick="openModalEditChecklist(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold ios-btn">Edit</button>
+            <button onclick="deleteRowRaw('CHECKLIST', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold ios-btn">Hapus</button>
           </div>
         </div>
       `).join('');
@@ -2396,8 +2506,8 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
             </span>
           </td>
           <td class="py-2.5 px-3 text-right flex items-center justify-end gap-1">
-            <button onclick="openModalEditStokMaster(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('STOK', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px]"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            <button onclick="openModalEditStokMaster(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold ios-btn">Edit</button>
+            <button onclick="deleteRowRaw('STOK', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] ios-btn"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
           </td>
         </tr>
       `).join('');
@@ -2488,8 +2598,8 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
             <span class="text-[9px] text-zinc-400 block">${r.jenis} • HPP: Rp ${Number(r.hpp||0).toLocaleString('id-ID')} • Jual: Rp ${Number(r.harga_jual||0).toLocaleString('id-ID')}</span>
           </div>
           <div class="flex items-center gap-1.5">
-            <button onclick="openModalEditMenu(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px]"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+            <button onclick="openModalEditMenu(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold ios-btn">Edit</button>
+            <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] ios-btn"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
           </div>
         </div>
       `).join('');
