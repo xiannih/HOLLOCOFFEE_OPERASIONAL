@@ -22,15 +22,13 @@
   </style>
 </head>
 <body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 overflow-x-hidden w-full max-w-full select-none md:select-auto">
-
-  <!-- OVERLAY LOADING -->
+<!-- OVERLAY LOADING -->
   <div id="loading-overlay" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 shadow-2xl border border-zinc-200 dark:border-zinc-800 flex items-center gap-3.5 text-xs font-bold ios-card">
       <span class="w-5 h-5 border-2 border-zinc-900 dark:border-white border-t-transparent rounded-full animate-spin"></span>
       <span id="loading-overlay-text">Menyimpan perubahan ke Sheet...</span>
     </div>
   </div>
-
   <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold">
     <div id="toast-icon-bg" class="w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
@@ -38,7 +36,6 @@
     </div>
     <span id="toast-msg">-</span>
   </div>
-
   <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT TAB DITUTUP) -->
   <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 ios-card">
@@ -66,8 +63,7 @@
       </p>
     </div>
   </div>
-
-  <!-- TOP APP BAR -->
+<!-- TOP APP BAR -->
   <header class="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -101,10 +97,8 @@
       </div>
     </div>
   </header>
-
   <!-- KONTEN UTAMA APLIKASI -->
   <main class="max-w-6xl mx-auto px-3.5 sm:px-4 py-4 space-y-4">
-
     <!-- 1. DASHBOARD -->
     <section id="pane-dashboard" class="space-y-4 ios-card">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -146,7 +140,6 @@
         </div>
       </div>
     </section>
-
     <!-- 2. CHECKLIST (EDIT/HAPUS LANGSUNG & HANDOVER) -->
     <section id="pane-checklist" class="hidden space-y-4 ios-card">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
@@ -191,7 +184,6 @@
       </div>
       <div id="checklist-cards-container" class="space-y-2.5"></div>
     </section>
-
     <!-- 3. STOK OPNAME -->
     <section id="pane-stok" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
@@ -212,7 +204,6 @@
       </div>
       <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
-
     <!-- 4. KASIR & SERAH TERIMA -->
     <section id="pane-kasir" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-xl mx-auto space-y-4">
@@ -294,7 +285,6 @@
         </button>
       </div>
     </section>
-
     <!-- 5. KALENDER (DOUBLE-CLICK FORM & HAPUS JADWAL/LIBUR) -->
     <section id="pane-kalender" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
@@ -343,7 +333,6 @@
         </div>
       </div>
     </section>
-
     <!-- 6. MENU & HARGA DENGAN LIVE MARGIN -->
     <section id="pane-menu" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -361,7 +350,6 @@
       </div>
       <div id="menu-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
     </section>
-
     <!-- 7. DAILY REPORT & WA GENERATOR -->
     <section id="pane-report" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-2xl mx-auto space-y-4">
@@ -432,7 +420,6 @@
         <pre id="wa-preview-text" class="bg-zinc-100 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-200 p-4 rounded-2xl text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap border border-zinc-200 dark:border-zinc-800 select-all"></pre>
       </div>
     </section>
-
     <!-- 8. SUPER KELOLA MASTER (BISA MENGELOLA SEMUA SHEET DARI YANG TERKECIL) -->
     <section id="pane-super" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
@@ -450,7 +437,6 @@
           <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn">☕ Menu (63)</button>
           <button onclick="showSuperSub('explorer')" id="sub-btn-explorer" class="super-sub-btn p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 ios-btn">🗄️ Semua Sheet</button>
         </div>
-
         <!-- Sub 1: Kru & PIN -->
         <div id="sub-pane-user" class="space-y-3">
           <div class="flex justify-between items-center">
@@ -468,7 +454,6 @@
             </table>
           </div>
         </div>
-
         <!-- Sub 2: Checklist -->
         <div id="sub-pane-check" class="hidden space-y-3">
           <div class="flex justify-between items-center">
@@ -477,7 +462,6 @@
           </div>
           <div id="super-check-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
-
         <!-- Sub 3: Stok (Tabel Penuh) -->
         <div id="sub-pane-stok" class="hidden space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -498,7 +482,6 @@
             </table>
           </div>
         </div>
-
         <!-- Sub 4: Menu -->
         <div id="sub-pane-menu" class="hidden space-y-3">
           <div class="flex justify-between items-center">
@@ -507,7 +490,6 @@
           </div>
           <div id="super-menu-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
-
         <!-- Sub 5: Explorer Semua Sheet (Kelola Apapun dari Terkecil sampai Terbesar) -->
         <div id="sub-pane-explorer" class="hidden space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 dark:border-zinc-800 pb-2">
@@ -526,17 +508,13 @@
             </table>
           </div>
         </div>
-
       </div>
     </section>
-
   </main>
-
   <!-- DOCK BOTTOM NAVIGATION BAR -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 z-40">
     <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold overflow-x-auto no-scrollbar"></div>
   </nav>
-
   <!-- UNIVERSAL MODAL SYSTEM -->
   <div id="universal-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4 max-h-[90vh] overflow-y-auto ios-card">
@@ -548,12 +526,10 @@
       <div id="u-modal-footer" class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800"></div>
     </div>
   </div>
-
   <!-- JAVASCRIPT LOGIKA HOLLO COFFEE -->
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzitAt7Yz_i8o-VpZ5_AhicQLGN9wmT_byZiXpzcMrWyqtBIU9ir3lUMDpdN9pS_gA3/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyS2xxZ7fIEjpLtwA9Zm4bYntvqmpWlT3ezx3bxM5ewRhh960UVJzEdS0a_GK3sML0B/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
-
     let APP = {
       user: JSON.parse(sessionStorage.getItem('hc_user') || 'null'),
       pin: sessionStorage.getItem('hc_pin') || '',
@@ -562,7 +538,6 @@
       calDate: new Date(), selectedDateStr: new Date().toISOString().slice(0, 10),
       charts: {}
     };
-
     function showOverlay(txt = 'Menyimpan perubahan ke Sheet...') {
       const el = document.getElementById('loading-overlay');
       const t = document.getElementById('loading-overlay-text');
@@ -573,7 +548,6 @@
       const el = document.getElementById('loading-overlay');
       if (el) el.classList.add('hidden');
     }
-
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('hc_theme', isDark ? 'dark' : 'light');
@@ -585,7 +559,6 @@
       if (icon) icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
       lucide.createIcons();
     }
-
     function playChime() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -600,7 +573,6 @@
         osc.start(); osc.stop(ctx.currentTime + 0.3);
       } catch (e) {}
     }
-
     window.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('hc_theme') || 'dark';
       if (savedTheme === 'light') { document.documentElement.classList.remove('dark'); updateThemeIcon(false); }
@@ -617,7 +589,6 @@
         setInterval(() => fetchSync(false), 25000);
       }
     });
-
     function updateLiveTimelineAndClock() {
       const now = new Date();
       document.getElementById('live-clock').innerText = now.toLocaleTimeString('id-ID', { hour12: false });
@@ -631,7 +602,6 @@
       document.getElementById('live-fase-badge').innerText = fase;
       document.getElementById('live-timeline-status').innerText = tag;
     }
-
     function showToast(msg, isErr = false) {
       const el = document.getElementById('toast');
       document.getElementById('toast-msg').innerText = msg;
@@ -640,7 +610,6 @@
       el.classList.remove('translate-y-[-150%]', 'opacity-0');
       setTimeout(() => el.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
     }
-
     async function apiCall(action, payload = {}) {
       try {
         const bodyData = { secret: SHEETS_SECRET, action, username: APP.user ? APP.user.username : (payload.username || ''), pin: APP.pin || (payload.pin || ''), payload };
@@ -659,7 +628,6 @@
         hideOverlay();
       }
     }
-
     async function handleLogin() {
       const u = document.getElementById('login-user').value.trim().toLowerCase();
       const p = document.getElementById('login-pin').value.trim();
@@ -681,13 +649,11 @@
         lucide.createIcons();
       }
     }
-
     function handleLogout() {
       if (!confirm('Keluar dari stasiun operasional?')) return;
       sessionStorage.clear();
       location.reload();
     }
-
     function setupUserUI() {
       if (!APP.user) return;
       document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
@@ -697,7 +663,6 @@
       const isManajemen = isSuper || lvl >= 4;
       const isBarista = (APP.user.divisi || '') === 'BARISTA' || isManajemen;
       const navContainer = document.getElementById('bottom-nav-container');
-
       if (isManajemen) {
         navContainer.innerHTML = `
           <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black ios-btn" data-tab="dashboard"><i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span></button>
@@ -720,7 +685,6 @@
       }
       lucide.createIcons();
     }
-
     async function fetchSync(notify = false) {
       try {
         const res = await apiCall('getAll');
@@ -729,7 +693,6 @@
         if (notify) showToast('Data Sheet tersinkronisasi!');
       } catch (e) {}
     }
-
     function switchTab(tabId) {
       document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
       const activeSec = document.getElementById('pane-' + tabId);
@@ -745,14 +708,12 @@
       if (tabId === 'super') renderSuperAdminPanel();
       lucide.createIcons();
     }
-
     function renderAllModules() {
       if (!APP.data || !APP.data.sheets) return;
       renderDashboardData(); renderDashboardCharts(); renderChecklist();
       renderStokCards(); renderCalendar(); renderMenuCards(); buildWaReport();
       renderSuperAdminPanel(); populateExplorerTabOptions(); lucide.createIcons();
     }
-
     // DASHBOARD
     function renderDashboardData() {
       const ck = (APP.data.sheets.CHECKLIST && APP.data.sheets.CHECKLIST.rows) || [];
@@ -765,7 +726,6 @@
       const mn = (APP.data.sheets.MENU && APP.data.sheets.MENU.rows) || [];
       document.getElementById('dash-total-menu').innerText = mn.length || '63';
     }
-
     function renderDashboardCharts() {
       if (!APP.data || !APP.data.sheets) return;
       const isDark = document.documentElement.classList.contains('dark');
@@ -804,7 +764,6 @@
         });
       }
     }
-
     // CHECKLIST
     function setChecklistShift(s) {
       APP.chkShift = s;
@@ -858,7 +817,6 @@
       }).join('');
       lucide.createIcons();
     }
-
     async function toggleChecklistSafe(rowNum, newStatus) {
       if (newStatus === 'Selesai') playChime();
       const r = APP.data.sheets.CHECKLIST.rows.find(x => x._row === rowNum);
@@ -872,7 +830,6 @@
         await apiCall('save', { sheet: 'CHECKLIST', row: rowNum, values: { status: newStatus, petugas: r.petugas, jam_selesai: r.jam_selesai, tanggal: new Date().toISOString().slice(0, 10) } });
       } catch (e) { r.status = oldS; renderChecklist(); }
     }
-
     async function saveHandoverNotes() {
       showOverlay('Menyimpan handover...');
       await apiCall('save', {
@@ -882,7 +839,6 @@
       showToast('Handover tersimpan!');
       fetchSync();
     }
-
     // STOK
     function setStokDivFilter(d) {
       APP.stkDiv = d;
@@ -920,7 +876,6 @@
       }).join('');
       lucide.createIcons();
     }
-
     // KASIR
     function togglePecahanCalc() {
       const g = document.getElementById('pecahan-grid');
@@ -967,7 +922,6 @@
       showToast('Laporan kasir tersimpan ke Sheet!');
       fetchSync();
     }
-
     // KALENDER
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1016,7 +970,6 @@
           <button onclick="deleteRowRaw('ROSTER', ${r._row})" class="p-1.5 text-rose-500 hover:bg-rose-100 dark:hover:bg-rose-950/40 rounded-lg text-xs ios-btn"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
         </div>
       `).join('') : '<div class="col-span-2 text-zinc-400 text-xs py-2">Belum ada kru dijadwalkan masuk.</div>';
-
       const lc = document.getElementById('cal-staff-libur-list');
       const liburs = (APP.data.sheets.LIBUR && APP.data.sheets.LIBUR.rows) || [];
       const dayL = liburs.filter(r => dStr >= String(r.tanggal_mulai || '').slice(0, 10) && dStr <= String(r.tanggal_selesai || r.tanggal_mulai).slice(0, 10));
@@ -1026,7 +979,6 @@
           <button onclick="deleteRowRaw('LIBUR', ${r._row})" class="p-1.5 text-rose-500 hover:bg-rose-100 rounded-lg text-xs ios-btn"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
         </div>
       `).join('') : '<div class="col-span-2 text-zinc-400 text-xs py-1">Tidak ada staf yang libur/cuti.</div>';
-
       const ec = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayE = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
@@ -1041,7 +993,6 @@
       `).join('') : '<div class="text-zinc-400 text-xs py-1">Tidak ada log/kejadian pada tanggal ini.</div>';
       lucide.createIcons();
     }
-
     // MENU
     function filterMenu(j) {
       APP.mnuFilter = j;
@@ -1082,7 +1033,6 @@
       }).join('');
       lucide.createIcons();
     }
-
     // DAILY REPORT
     function autoPullDailyData() {
       const tglPilih = document.getElementById('dr-tgl').value || new Date().toISOString().slice(0, 10);
@@ -1103,7 +1053,6 @@
       recalcDailyReportPreview();
       showToast('Data berhasil ditarik!');
     }
-
     function buildWaReport() {
       const tgl = new Date(document.getElementById('dr-tgl') ? document.getElementById('dr-tgl').value : new Date()).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
       const op = Number(document.getElementById('dr-sales-op') ? document.getElementById('dr-sales-op').value : 0) || 0;
@@ -1134,7 +1083,6 @@
       showToast('Daily Report tersimpan ke Sheet!');
       fetchSync();
     }
-
     // SUPER KELOLA
     function showSuperSub(tab) {
       document.querySelectorAll('.super-sub-btn').forEach(b => b.className = 'super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-bold ios-btn');
@@ -1189,7 +1137,6 @@
       renderSheetExplorerTable();
       lucide.createIcons();
     }
-
     function renderSuperStokTable() {
       const tb = document.getElementById('super-stok-tbody');
       const sheet = APP.data.sheets.STOK;
@@ -1214,7 +1161,6 @@
       `).join('');
       lucide.createIcons();
     }
-
     // EXPLORER SEMUA TAB SHEET (MENGELOLA APAPUN DARI YANG TERKECIL)
     function populateExplorerTabOptions() {
       const sel = document.getElementById('explorer-tab-sel');
@@ -1228,7 +1174,6 @@
       const tabName = sel.value || Object.keys(APP.data.sheets)[0];
       const sheet = APP.data.sheets[tabName];
       if (!sheet) return;
-
       const thead = document.getElementById('explorer-thead');
       const tbody = document.getElementById('explorer-tbody');
       thead.innerHTML = `<tr><th class="py-2.5 px-3 w-16 text-center">Aksi</th>${sheet.headers.map(h => `<th class="py-2.5 px-3">${h}</th>`).join('')}</tr>`;
@@ -1243,7 +1188,6 @@
       `).join('');
       lucide.createIcons();
     }
-
     function openExplorerAddModal() {
       const tabName = document.getElementById('explorer-tab-sel').value;
       const sheet = APP.data.sheets[tabName];
@@ -1261,7 +1205,6 @@
         closeUniversalModal(); showToast('Baris tersimpan!'); fetchSync();
       });
     }
-
     function openExplorerEditModal(tabName, rowId) {
       const sheet = APP.data.sheets[tabName];
       const r = sheet.rows.find(x => x._row === rowId);
@@ -1279,7 +1222,6 @@
         closeUniversalModal(); showToast('Baris terupdate!'); fetchSync();
       }, () => deleteRowRaw(tabName, rowId));
     }
-
     // ========================================================
     // UNIVERSAL MODAL SYSTEM
     // ========================================================
@@ -1300,7 +1242,6 @@
       lucide.createIcons();
     }
     function closeUniversalModal() { document.getElementById('universal-modal').classList.add('hidden'); }
-
     // MODAL-MODAL KHUSUS
     function openUserModal(rowId = null) {
       const r = rowId ? APP.data.sheets.USERS.rows.find(x => x._row === rowId) : null;
@@ -1333,7 +1274,6 @@
         closeUniversalModal(); showToast('Kru tersimpan!'); fetchSync();
       }, r && r.username !== 'boy' ? () => deleteRowRaw('USERS', r._row) : null);
     }
-
     function openMasterStokModal(rowId = null) {
       const r = rowId ? APP.data.sheets.STOK.rows.find(x => x._row === rowId) : null;
       const html = `
@@ -1359,7 +1299,6 @@
         closeUniversalModal(); showToast('Barang tersimpan!'); fetchSync();
       }, r ? () => deleteRowRaw('STOK', r._row) : null);
     }
-
     function openAuditStokModal(rowId) {
       const r = APP.data.sheets.STOK.rows.find(x => x._row === rowId);
       const html = `
@@ -1385,7 +1324,6 @@
         closeUniversalModal(); showToast('Stok terupdate!'); fetchSync();
       });
     }
-
     function openChecklistModal(rowId = null) {
       const r = rowId ? APP.data.sheets.CHECKLIST.rows.find(x => x._row === rowId) : null;
       const html = `
@@ -1410,7 +1348,6 @@
         closeUniversalModal(); showToast('Tugas checklist tersimpan!'); fetchSync();
       }, r ? () => deleteRowRaw('CHECKLIST', r._row) : null);
     }
-
     function openMenuModal(rowId = null) {
       const r = rowId ? APP.data.sheets.MENU.rows.find(x => x._row === rowId) : null;
       const html = `
@@ -1449,7 +1386,6 @@
       document.getElementById('mm-mg-pct').innerText = (j ? Math.round((m/j)*100) : 0) + '%';
       document.getElementById('mm-fc-pct').innerText = (j ? Math.round((h/j)*100) : 0) + '%';
     }
-
     function getCrewOptions() {
       const users = (APP.data.sheets.USERS && APP.data.sheets.USERS.rows) || [];
       return users.map(u => `<option value="${u.username}">${u.nama_lengkap || u.username} (${u.divisi || u.kelompok || 'STAFF'})</option>`).join('');
@@ -1469,7 +1405,6 @@
         closeUniversalModal(); showToast('Jadwal tersimpan!'); fetchSync();
       });
     }
-
     function openLiburModal() {
       const html = `
         <div class="grid grid-cols-2 gap-2">
@@ -1490,7 +1425,6 @@
         closeUniversalModal(); showToast('Libur tercatat!'); fetchSync();
       });
     }
-
     function openKejadianModal(tglStr = null) {
       const now = new Date();
       const html = `
@@ -1521,7 +1455,6 @@
         closeUniversalModal(); showToast('Log tersimpan!'); fetchSync();
       });
     }
-
     async function deleteRowRaw(sheetName, rowNumber) {
       if (!confirm(`Yakin ingin menghapus baris ini dari tab [${sheetName}] di Sheet?`)) return;
       showOverlay('Menghapus data...');
