@@ -34,6 +34,12 @@
 </head>
 <body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 overflow-x-hidden w-full max-w-full select-none md:select-auto">
 
+  <!-- INDIKATOR LOADING AKTIF -->
+  <div id="loading-pill" class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 bg-black/90 dark:bg-white/90 text-white dark:text-black px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none -translate-y-10">
+    <span class="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+    <span id="loading-text">Menyimpan ke Sheet...</span>
+  </div>
+
   <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold">
     <div id="toast-icon-bg" class="w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
@@ -163,7 +169,7 @@
       </div>
     </section>
 
-    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 & 2 + HANDOVER) ================= -->
+    <!-- ================= 2. TAB CHECKLIST (PENYATUAN BARISTA & KASIR) ================= -->
     <section id="pane-checklist" class="hidden space-y-4 ios-card">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
@@ -198,8 +204,8 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">☕ Prep Kurang Barista:</label>
-            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2L..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
+            <label class="block font-bold text-zinc-500 mb-1">☕ Prep Kurang Barista & Kasir:</label>
+            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2L, uang kembalian 2rb tipis..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
           </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">🍳 Prep Kurang Kitchen:</label>
@@ -212,13 +218,12 @@
         </div>
       </div>
 
-      <!-- Filter Divisi Checklist -->
+      <!-- Filter Divisi Checklist (Kasir disatukan ke Barista) -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
         <button onclick="setChecklistDiv('SEMUA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black ios-btn" data-div="SEMUA">Semua Stasiun</button>
-        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="BARISTA">Barista</button>
-        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="KITCHEN">Kitchen</button>
-        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="SERVER">Server</button>
-        <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="KASIR">Kasir</button>
+        <button onclick="setChecklistDiv('BARISTA')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="BARISTA">☕ Barista & Kasir</button>
+        <button onclick="setChecklistDiv('KITCHEN')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="KITCHEN">🍳 Kitchen</button>
+        <button onclick="setChecklistDiv('SERVER')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-800 ios-btn" data-div="SERVER">🍽️ Server</button>
       </div>
 
       <div id="checklist-cards-container" class="space-y-2.5"></div>
@@ -252,7 +257,7 @@
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex justify-between items-center">
           <div>
             <h3 class="text-sm font-black">Serah Terima Kasir & Laci Uang</h3>
-            <p class="text-[11px] text-zinc-500">Dikelola oleh Barista: 08:30 Modal Awal $\rightarrow$ 09:00 Buka Kasir $\rightarrow$ 16:30 Serah Terima</p>
+            <p class="text-[11px] text-zinc-500">Dikelola oleh Barista: 08:30 Modal Awal $\rightarrow$ 09:00 Buka Kasir $\rightarrow$ 16:30 Serah Kas</p>
           </div>
           <span class="text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-xl">Bar & Kasir</span>
         </div>
@@ -274,7 +279,7 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">Petugas Kasir</label>
+            <label class="block font-bold text-zinc-500 mb-1">Petugas Barista/Kasir</label>
             <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-400" />
           </div>
         </div>
@@ -343,13 +348,13 @@
       </div>
     </section>
 
-    <!-- ================= 5. TAB KALENDER (JADWAL KRU & LOG HARIAN) ================= -->
+    <!-- ================= 5. TAB KALENDER (ANTI-OFFSET & DOUBLE-CLICK FORM) ================= -->
     <section id="pane-kalender" class="hidden space-y-4 ios-card">
-      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between">
           <div>
             <h3 id="cal-month-title" class="text-base font-black">Bulan Berjalan</h3>
-            <p class="text-[11px] text-zinc-500">Klik 1x untuk melihat detail • Klik 2x (Double-Click) untuk catat log/kejadian</p>
+            <p class="text-[10px] sm:text-[11px] text-zinc-500">Klik 1x untuk detail • Klik 2x (Double-Click) untuk catat log/kejadian</p>
           </div>
           <div class="flex items-center gap-1.5">
             <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 ios-btn"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
@@ -365,19 +370,19 @@
         <div id="cal-grid" class="grid grid-cols-7 gap-1 sm:gap-1.5 text-xs font-bold"></div>
       </div>
 
-      <!-- Detail Tanggal Terpilih -->
-      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
-        <div class="border-b border-zinc-100 dark:border-zinc-800 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <span class="text-xs font-black" id="cal-selected-label">Rincian Tanggal</span>
-          <div class="flex items-center gap-1.5">
-            <button id="btn-atur-jadwal" onclick="openModalAturJadwal()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
-              <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i> + Atur Jadwal Kru
+      <!-- Detail Tanggal Terpilih & 3 Tombol Responsif (Grid 3 Kolom Bebas Terpotong) -->
+      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-4 sm:p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
+        <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 space-y-2">
+          <span class="text-xs font-black block" id="cal-selected-label">Rincian Tanggal</span>
+          <div class="grid grid-cols-3 gap-2">
+            <button id="btn-atur-jadwal" onclick="openModalAturJadwal()" class="bg-black dark:bg-white text-white dark:text-black font-black py-2.5 px-2 rounded-2xl text-[11px] shadow flex items-center justify-center gap-1 ios-btn">
+              <i data-lucide="calendar-plus" class="w-3.5 h-3.5 shrink-0"></i> <span>+ Jadwal</span>
             </button>
-            <button id="btn-input-libur" onclick="openModalLibur()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
-              <i data-lucide="coffee" class="w-3.5 h-3.5"></i> + Libur / Cuti
+            <button id="btn-input-libur" onclick="openModalLibur()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold py-2.5 px-2 rounded-2xl text-[11px] shadow flex items-center justify-center gap-1 ios-btn">
+              <i data-lucide="coffee" class="w-3.5 h-3.5 shrink-0"></i> <span>+ Libur</span>
             </button>
-            <button onclick="openModalLogKejadian()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 ios-btn">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log
+            <button onclick="openModalLogKejadian()" class="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 font-bold py-2.5 px-2 rounded-2xl text-[11px] shadow flex items-center justify-center gap-1 ios-btn">
+              <i data-lucide="plus" class="w-3.5 h-3.5 shrink-0"></i> <span>+ Catat Log</span>
             </button>
           </div>
         </div>
@@ -397,8 +402,8 @@
       <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-2">
           <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-black dark:bg-white text-white dark:text-black shadow ios-btn" data-jenis="SEMUA">Semua (63)</button>
-          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Minuman">☕ Minuman (35)</button>
-          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Makanan">🍳 Makanan (28)</button>
+          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Minuman">☕ Minuman</button>
+          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-jenis="Makanan">🍳 Makanan</button>
         </div>
         <div class="flex items-center gap-2">
           <input type="text" id="menu-search-box" oninput="renderMenuCards()" placeholder="Cari menu / HPP..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3.5 py-2 text-xs font-medium focus:outline-none w-full sm:w-48" />
@@ -593,7 +598,7 @@
 
   <!-- DOCK BOTTOM NAVIGATION BAR -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 z-40">
-    <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold"></div>
+    <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold overflow-x-auto no-scrollbar"></div>
   </nav>
 
   <!-- ================= MODAL-MODAL INTERAKTIF ================= -->
@@ -914,10 +919,7 @@
           </div>
         </div>
         <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block font-bold text-zinc-500 mb-1">Jam Target</label>
-            <input type="time" id="cke-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
-          </div>
+          <div><label class="block font-bold text-zinc-500 mb-1">Jam Target</label><input type="time" id="cke-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" /></div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Fase</label>
             <select id="cke-fase" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
@@ -1082,7 +1084,7 @@
   <!-- JAVASCRIPT LOGIKA HOLLO COFFEE -->
   <script>
     // ========================================================
-    // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA
+    // KUNCI ASLI EXEC BARU DARI GOOGLE APPS SCRIPT ANDA
     // ========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcdU2mZ_V5Zni56mGITh0_Ivi78pA-5ZTwiTjWmqnYcaPDttZbuBRFiknalhv7eYjh/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
@@ -1100,6 +1102,24 @@
       selectedDateStr: new Date().toISOString().slice(0, 10),
       charts: {}
     };
+
+    function showLoading(msg = 'Menyimpan ke Sheet...') {
+      const p = document.getElementById('loading-pill');
+      const t = document.getElementById('loading-text');
+      if (t) t.innerText = msg;
+      if (p) {
+        p.classList.remove('opacity-0', '-translate-y-10', 'pointer-events-none');
+        p.classList.add('opacity-100', 'translate-y-0');
+      }
+    }
+
+    function hideLoading() {
+      const p = document.getElementById('loading-pill');
+      if (p) {
+        p.classList.remove('opacity-100', 'translate-y-0');
+        p.classList.add('opacity-0', '-translate-y-10', 'pointer-events-none');
+      }
+    }
 
     function triggerPicker(id) {
       const el = document.getElementById(id);
@@ -1216,12 +1236,15 @@
         if (json.error) {
           if (json.error === 'invalid_login') throw new Error('Username atau PIN salah!');
           if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET tidak cocok!');
+          if (json.error === 'conflict') throw new Error('Konflik data Sheet: silakan refresh dan coba lagi.');
           throw new Error(json.error);
         }
         return json;
       } catch (err) {
         showToast(err.message, true);
         throw err;
+      } finally {
+        hideLoading();
       }
     }
 
@@ -1260,6 +1283,9 @@
       location.reload();
     }
 
+    // ========================================================
+    // PEMISAHAN HAK AKSES UI (BARISTA/KASIR VS MANAJEMEN VS ADMIN)
+    // ========================================================
     function setupUserUI() {
       if (!APP.user) return;
       document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
@@ -1383,7 +1409,7 @@
       const done = ck.filter(r => r.status === 'Selesai').length;
       const pct = ck.length ? Math.round((done / ck.length) * 100) : 0;
       document.getElementById('dash-check-pct').innerText = pct + '%';
-      document.getElementById('dash-check-ratio').innerText = `${done}/${ck.length} Selesai`;
+      document.getElementById('dash-check-ratio').innerText = `${done}/${ck.length} Tugas`;
 
       const st = (APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
       const restock = st.filter(r => r.status === 'RESTOCK');
@@ -1408,7 +1434,6 @@
       const textColor = isDark ? '#a1a1aa' : '#52525b';
       const gridColor = isDark ? '#27272a' : '#e4e4e7';
 
-      // 1. Grafik Penjualan (SERAH_TERIMA)
       const ctxPenjualan = document.getElementById('chart-penjualan');
       if (ctxPenjualan) {
         if (APP.charts.penjualan) APP.charts.penjualan.destroy();
@@ -1439,7 +1464,6 @@
         });
       }
 
-      // 2. Grafik Komposisi Stok (Aman vs Restock)
       const ctxStok = document.getElementById('chart-stok');
       if (ctxStok) {
         if (APP.charts.stok) APP.charts.stok.destroy();
@@ -1547,7 +1571,6 @@
       const r = APP.data.sheets.CHECKLIST.rows.find(x => x._row === rowNumber);
       if (!r) return;
 
-      // Optimistic Update: Layar berganti instan detik itu juga!
       const oldStatus = r.status;
       r.status = newStatus;
       r.petugas = newStatus === 'Selesai' ? APP.user.username : '';
@@ -1569,6 +1592,7 @@
       const b = document.getElementById('ho-bar').value;
       const k = document.getElementById('ho-kit').value;
       const s = document.getElementById('ho-srv').value;
+      showLoading('Menyimpan catatan handover...');
       await apiCall('save', {
         sheet: 'SERAH_TERIMA',
         values: {
@@ -1612,6 +1636,7 @@
         fase: document.getElementById('cke-fase').value,
         status: 'Belum'
       };
+      showLoading('Menyimpan tugas...');
       await apiCall('save', {
         sheet: 'CHECKLIST',
         row: rowId ? Number(rowId) : undefined,
@@ -1713,6 +1738,7 @@
         keterangan: document.getElementById('astk-ket').value
       };
 
+      showLoading('Menyimpan audit stok...');
       await apiCall('save', { sheet: 'STOK', row: rowId, values: values });
       closeModalAuditStok();
       showToast('Data stok berhasil disimpan ke Sheet!');
@@ -1741,9 +1767,8 @@
         pelapor: APP.user.username
       };
 
-      // Optimistic update
       closeModalKejadian();
-      showToast('Mencatat log ke Sheet...');
+      showLoading('Mencatat kejadian / waste...');
       await apiCall('save', { sheet: 'KEJADIAN', values: payload });
       showToast('Kejadian/Waste berhasil tersimpan!');
       fetchSync();
@@ -1798,6 +1823,7 @@
         penjualan_nontunai: document.getElementById('kas-nontunai').value,
         uang_fisik: document.getElementById('kas-fisik-total').value
       };
+      showLoading('Menyimpan laporan kasir...');
       await apiCall('save', { sheet: 'SERAH_TERIMA', values: payload });
       showToast('Laporan kasir tersimpan ke Google Sheet!');
       fetchSync();
@@ -1850,8 +1876,15 @@
       renderStaffRosterDetail();
     }
 
-    function selectDate(dStr) { APP.selectedDateStr = dStr; renderCalendar(); }
-    function handleDayDblClick(dStr) { APP.selectedDateStr = dStr; openModalLogKejadian(); }
+    function selectDate(dStr) {
+      APP.selectedDateStr = dStr;
+      renderCalendar();
+    }
+
+    function handleDayDblClick(dStr) {
+      APP.selectedDateStr = dStr;
+      openModalLogKejadian();
+    }
 
     function renderStaffRosterDetail() {
       const dStr = APP.selectedDateStr;
@@ -1936,7 +1969,7 @@
       const cat = document.getElementById('jdw-cat').value;
 
       closeModalJadwal();
-      showToast('Menyimpan jadwal kru...');
+      showLoading('Menyimpan jadwal kru...');
       await apiCall('save', {
         sheet: 'ROSTER',
         values: { tanggal: tgl, username: uname, kode: kode, catatan: cat, diubah_oleh: APP.user.username }
@@ -1945,7 +1978,6 @@
       fetchSync();
     }
 
-    // Modal Libur (Pasti Berhasil Tersimpan)
     function openModalLibur() {
       document.getElementById('lbr-mulai').value = APP.selectedDateStr;
       document.getElementById('lbr-selesai').value = APP.selectedDateStr;
@@ -1959,8 +1991,7 @@
       const ket = document.getElementById('lbr-ket').value;
 
       closeModalLibur();
-      showToast('Menyimpan jadwal libur...');
-      // 1. Simpan ke ROSTER agar kru tidak masuk shift
+      showLoading('Menyimpan jadwal libur...');
       try {
         await apiCall('save', {
           sheet: 'ROSTER',
@@ -1968,7 +1999,6 @@
         });
       } catch (e) {}
 
-      // 2. Simpan ke tab LIBUR (Self-healing di backend)
       await apiCall('save', {
         sheet: 'LIBUR',
         values: {
@@ -2090,6 +2120,7 @@
         hpp: Number(document.getElementById('mne-hpp').value) || 0,
         harga_jual: Number(document.getElementById('mne-jual').value) || 0
       };
+      showLoading('Menyimpan menu...');
       await apiCall('save', {
         sheet: 'MENU',
         row: rowId ? Number(rowId) : undefined,
@@ -2212,6 +2243,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
         evaluasi_server: document.getElementById('dr-eval-srv').value,
         pelapor: APP.user.username
       };
+      showLoading('Menyimpan Daily Report...');
       await apiCall('save', { sheet: 'DAILY_REPORT', values: payload });
       showToast('Daily Report tersimpan ke Sheet!');
       fetchSync();
@@ -2331,6 +2363,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
         no_hp: hp, status: status, tipe_kerja: tipe, catatan: cat
       };
 
+      showLoading('Menyimpan profil staf...');
       await apiCall('save', {
         sheet: 'USERS',
         row: rowId ? Number(rowId) : undefined,
@@ -2360,6 +2393,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (uname === 'boy') return alert('Akun Super Admin boy tidak boleh dihapus!');
       if (!confirm(`Yakin ingin menghapus kru [${uname}] dari sistem?`)) return;
 
+      showLoading('Menghapus kru...');
       await apiCall('remove', { sheet: 'USERS', row: rowNumber });
       try {
         const pinSheet = APP.data.sheets.PIN_RAJA;
@@ -2400,7 +2434,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       lucide.createIcons();
     }
 
-    // SUB 3: MASTER STOK (TABEL DATA PENUH)
+    // SUB 3: MASTER STOK (TABEL PENUH MODERN)
     function renderSuperStokTable() {
       const tbody = document.getElementById('super-stok-tbody');
       const sheet = APP.data.sheets.STOK;
@@ -2473,14 +2507,16 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       const sat = document.getElementById('mstk-satuan').value.trim();
       const min = Number(document.getElementById('mstk-min').value) || 0;
       const gudang = Number(document.getElementById('mstk-gudang').value) || 0;
+      const sore = document.getElementById('mstk-cek-sore').value;
 
       if (!nama) return alert('Nama barang wajib diisi!');
 
       const values = {
         nama_barang: nama, divisi: div, kategori: kat, satuan: sat,
-        min_stok: min, stok_gudang: gudang
+        min_stok: min, stok_gudang: gudang, dicek_sore: sore
       };
 
+      showLoading('Menyimpan master stok...');
       await apiCall('save', {
         sheet: 'STOK',
         row: rowId ? Number(rowId) : undefined,
@@ -2519,6 +2555,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
 
     async function deleteRowRaw(sheetName, rowNumber) {
       if (!confirm(`Yakin ingin menghapus baris #${rowNumber} dari tab [${sheetName}] di Sheet?`)) return;
+      showLoading('Menghapus data...');
       await apiCall('remove', { sheet: sheetName, row: rowNumber });
       showToast(`Baris dihapus dari ${sheetName}!`);
       fetchSync();
