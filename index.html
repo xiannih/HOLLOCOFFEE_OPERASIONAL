@@ -3,151 +3,429 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>HOLLO COFFEE — Universal Database Station</title>
+  <title>HOLLO COFFEE & ROASTERY'S — Operational Station</title>
+  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
   </style>
 </head>
-<body class="bg-stone-100 text-stone-900 min-h-screen pb-20 select-none md:select-auto">
+<body class="bg-stone-950 text-stone-100 min-h-screen pb-24 select-none md:select-auto">
 
-  <!-- TOAST NOTIFIKASI -->
-  <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-stone-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 text-xs font-semibold">
-    <i id="toast-icon" data-lucide="info" class="w-4 h-4 text-amber-400"></i>
+  <!-- NOTIFIKASI TOAST -->
+  <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-stone-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 text-xs font-semibold">
+    <div id="toast-icon-bg" class="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
+      <i id="toast-icon" data-lucide="info" class="w-4 h-4"></i>
+    </div>
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN -->
-  <div id="login-screen" class="fixed inset-0 z-40 bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-stone-200">
+  <!-- POP-UP LOGIN KRU HOLLO -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-xl flex items-center justify-center p-4">
+    <div class="bg-stone-900 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-stone-800 text-stone-100">
       <div class="text-center mb-6">
-        <div class="w-14 h-14 bg-amber-800 text-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-black shadow-lg">HC</div>
-        <h1 class="text-xl font-extrabold tracking-tight text-stone-900">HOLLO COFFEE</h1>
-        <p class="text-xs text-stone-500 font-medium">Stasiun Operasional & Database Universal</p>
+        <div class="w-16 h-16 bg-gradient-to-tr from-amber-600 to-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl font-black shadow-lg shadow-amber-600/30 text-stone-950">HC</div>
+        <h1 class="text-xl font-black tracking-wider uppercase text-amber-400">HOLLO COFFEE</h1>
+        <p class="text-xs text-stone-400 font-medium">Stasiun Operasional & Kasir Terintegrasi</p>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-[11px] font-bold text-stone-600 uppercase tracking-wider mb-1">Username</label>
-          <input id="login-user" type="text" placeholder="mis. boy / nama staf" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-700" />
+          <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">Username Kru</label>
+          <input id="login-user" type="text" placeholder="mis. boy / pace / el / eko" class="w-full bg-stone-800/80 border border-stone-700 rounded-2xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-500 text-stone-100 placeholder-stone-500" />
         </div>
         <div>
-          <label class="block text-[11px] font-bold text-stone-600 uppercase tracking-wider mb-1">PIN Rahasia</label>
-          <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-center tracking-widest text-base font-bold focus:outline-none focus:ring-2 focus:ring-amber-700" />
+          <label class="block text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1.5">PIN Rahasia (4–8 Digit)</label>
+          <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-stone-800/80 border border-stone-700 rounded-2xl px-4 py-3 text-center tracking-widest text-lg font-black focus:outline-none focus:ring-2 focus:ring-amber-500 text-stone-100 placeholder-stone-600" />
         </div>
-        <button onclick="handleLogin()" id="btn-login" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
-          <span>Masuk Database</span>
+        <button onclick="handleLogin()" id="btn-login" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow-lg shadow-amber-600/30 transition active:scale-95 flex items-center justify-center gap-2">
+          <span>Buka Stasiun</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
-      <p class="text-[11px] text-center text-stone-400 mt-5 font-medium leading-relaxed">
-        Super Admin: Username <code class="text-amber-800 font-bold">boy</code> (PIN default: 123456).
+      <p class="text-[11px] text-center text-stone-500 mt-5 font-medium leading-relaxed">
+        Super Admin: Username <code class="text-amber-400 font-bold">boy</code>.<br>PIN dilihat di tab <code class="text-stone-300 font-bold">PIN_RAJA</code> Sheet Anda.
       </p>
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header class="bg-stone-900 text-stone-100 sticky top-0 z-30 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+  <!-- TOP STATUS BAR DENGAN FASE OPERASIONAL REAL-TIME -->
+  <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800 sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 bg-amber-700 rounded-xl flex items-center justify-center font-bold text-xs text-white">HC</div>
+        <div class="w-9 h-9 bg-gradient-to-tr from-amber-600 to-amber-500 rounded-xl flex items-center justify-center font-black text-sm text-stone-950 shadow-md">HC</div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-black tracking-wider text-amber-400 uppercase">HOLLO COFFEE</span>
-            <span id="badge-role" class="text-[9px] font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">STAFF</span>
+            <span class="text-xs font-black tracking-wider text-amber-400">HOLLO COFFEE & ROASTERY'S</span>
+            <span id="live-fase-badge" class="inline-flex items-center gap-1 text-[9px] font-black bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 pulse-dot"></span> OPERASIONAL
+            </span>
           </div>
-          <div class="text-[10px] text-stone-400 flex items-center gap-1.5 mt-0.5">
-            <span id="live-clock">00:00:00</span>
+          <div class="text-[10px] text-stone-400 flex items-center gap-1.5 font-medium mt-0.5">
+            <span id="live-clock" class="font-mono text-stone-200">00:00:00</span>
             <span>•</span>
-            <span id="hdr-user-info" class="text-stone-300 font-medium">-</span>
+            <span id="live-timeline-status" class="text-stone-400 font-semibold">-</span>
+            <span>•</span>
+            <span id="hdr-user-info" class="text-amber-300 font-bold">-</span>
           </div>
         </div>
       </div>
 
       <div class="flex items-center gap-2">
-        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 active:rotate-180 transition duration-300">
+        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 active:rotate-180 transition duration-300">
           <i data-lucide="refresh-cw" class="w-4 h-4"></i>
         </button>
-        <button onclick="handleLogout()" title="Keluar" class="p-2 rounded-xl bg-stone-800 hover:bg-rose-900/50 text-stone-400 hover:text-rose-300 transition">
+        <button onclick="handleLogout()" title="Keluar Stasiun" class="p-2.5 rounded-xl bg-stone-800 hover:bg-rose-900/40 text-stone-400 hover:text-rose-300 transition">
           <i data-lucide="log-out" class="w-4 h-4"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- KONTEN UNIVERSAL DATABASE -->
-  <main class="max-w-7xl mx-auto px-4 py-5 space-y-4">
+  <!-- KONTEN UTAMA STASIUN -->
+  <main class="max-w-5xl mx-auto px-4 py-4 space-y-4">
 
-    <!-- BAR CONTROL TAB SHEET -->
-    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
-      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto" id="sheet-tabs-container">
-        <!-- Tab-tab yang ada di Sheet dimasukkan dinamis di sini -->
+    <!-- ================= 1. TAB DASHBOARD OPERASIONAL ================= -->
+    <section id="pane-dashboard" class="space-y-4">
+      <!-- 4 Kartu Metrik Utama -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
+          <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Checklist Selesai</span>
+          <div class="text-xl font-black text-amber-400 mt-1" id="dash-check-pct">0%</div>
+          <span class="text-[10px] text-stone-500 block mt-0.5" id="dash-check-ratio">0/39 Tugas</span>
+        </div>
+        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
+          <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block">Perlu Restock</span>
+          <div class="text-xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
+          <span class="text-[10px] text-stone-500 block mt-0.5">Stok di bawah limit</span>
+        </div>
+        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
+          <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider block">Total Bahan Aktif</span>
+          <div class="text-xl font-black text-stone-200 mt-1" id="dash-total-stok">149</div>
+          <span class="text-[10px] text-stone-500 block mt-0.5">Barista • Kitchen • Server</span>
+        </div>
+        <div class="bg-stone-900 p-3.5 rounded-2xl border border-stone-800 shadow">
+          <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">Menu Aktif</span>
+          <div class="text-xl font-black text-emerald-400 mt-1" id="dash-total-menu">63</div>
+          <span class="text-[10px] text-stone-500 block mt-0.5">Minuman & Makanan</span>
+        </div>
       </div>
-      
-      <div class="flex items-center gap-2 shrink-0">
-        <button id="btn-add-col" onclick="promptNewColumn()" class="hidden bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
-          <i data-lucide="columns" class="w-4 h-4 text-stone-500"></i> + Kolom
+
+      <!-- Timeline Harian HOLLO Sesuai Parameter Sheet -->
+      <div class="bg-stone-900/90 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
+          <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="clock" class="w-4 h-4"></i> Alur Timeline Operasional Cafe Hari Ini
+          </h3>
+          <span class="text-[10px] text-stone-400">Parameter Sheet B6:B11</span>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs">
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-prep1">
+            <span class="text-[9px] text-amber-400 font-bold block">08:30</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Prep Shift 1</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Semua divisi prep</span>
+          </div>
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-buka1">
+            <span class="text-[9px] text-amber-400 font-bold block">09:00</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Buka Kasir 1</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Pelayanan mulai</span>
+          </div>
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-serah">
+            <span class="text-[9px] text-amber-400 font-bold block">16:30</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Serah Terima</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Hitung uang & kas</span>
+          </div>
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-buka2">
+            <span class="text-[9px] text-amber-400 font-bold block">17:00</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Buka Kasir 2</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Shift malam</span>
+          </div>
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-closebertahap">
+            <span class="text-[9px] text-amber-400 font-bold block">23:00</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Closing Awal</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Cuci alat & kompor</span>
+          </div>
+          <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800" id="tl-tutupkasir">
+            <span class="text-[9px] text-amber-400 font-bold block">00:00</span>
+            <span class="font-bold text-stone-200 block text-[11px] mt-0.5">Close Order</span>
+            <span class="text-[9px] text-stone-500 mt-1 block">Tutup buku kasir</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ringkasan Stok Menipis Cepat -->
+      <div class="bg-stone-900/90 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
+          <h3 class="text-xs font-black text-rose-400 uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="alert-triangle" class="w-4 h-4"></i> Peringatan Bahan Menipis (Restock Segera)
+          </h3>
+          <button onclick="switchTab('stok')" class="text-[10px] font-bold text-amber-400 hover:underline">Buka Stasiun Stok →</button>
+        </div>
+        <div id="dash-restock-items-list" class="divide-y divide-stone-800 text-xs">
+          <div class="py-4 text-center text-stone-500 text-xs">Semua 149 barang tercatat aman atau belum dihitung opname.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 2. TAB CHECKLIST INTERAKTIF (39 TUGAS) ================= -->
+    <section id="pane-checklist" class="hidden space-y-4">
+      <!-- Progress Bar Dinamis -->
+      <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-bold text-stone-300 flex items-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+            Progres Checklist 39 Tugas Stasiun
+          </span>
+          <span id="chk-progress-num" class="font-black text-amber-400">0%</span>
+        </div>
+        <div class="w-full bg-stone-950 rounded-full h-3 p-0.5 border border-stone-800 overflow-hidden">
+          <div id="chk-progress-fill" class="bg-gradient-to-r from-amber-500 to-emerald-400 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Filter Divisi & Shift -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+        <button onclick="filterChecklist('SEMUA')" class="chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-amber-500 text-stone-950 shadow" data-div="SEMUA">Semua Stasiun</button>
+        <button onclick="filterChecklist('BARISTA')" class="chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-stone-900 text-stone-400" data-div="BARISTA">☕ Barista (10)</button>
+        <button onclick="filterChecklist('KITCHEN')" class="chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-stone-900 text-stone-400" data-div="KITCHEN">🍳 Kitchen (10)</button>
+        <button onclick="filterChecklist('SERVER')" class="chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-stone-900 text-stone-400" data-div="SERVER">🍽️ Server (10)</button>
+        <button onclick="filterChecklist('KASIR')" class="chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-stone-900 text-stone-400" data-div="KASIR">💵 Kasir (9)</button>
+      </div>
+
+      <!-- Daftar Kartu Checklist -->
+      <div id="checklist-cards-container" class="space-y-2.5">
+        <!-- Render 39 tugas via JS -->
+      </div>
+    </section>
+
+    <!-- ================= 3. TAB STOK OPNAME INTERAKTIF (149 BARANG) ================= -->
+    <section id="pane-stok" class="hidden space-y-4">
+      <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+            <button onclick="filterStokDiv('SEMUA')" class="stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow" data-div="SEMUA">Semua (149)</button>
+            <button onclick="filterStokDiv('BARISTA')" class="stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="BARISTA">Barista (65)</button>
+            <button onclick="filterStokDiv('KITCHEN')" class="stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="KITCHEN">Kitchen (71)</button>
+            <button onclick="filterStokDiv('SERVER')" class="stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-div="SERVER">Server (13)</button>
+          </div>
+          <input type="text" id="stok-search-box" oninput="renderStokCards()" placeholder="Cari nama barang / susu / sirup..." class="bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs font-medium text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full sm:w-64" />
+        </div>
+      </div>
+
+      <!-- Grid Kartu Stok -->
+      <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Render kartu barang via JS -->
+      </div>
+    </section>
+
+    <!-- ================= 4. TAB KASIR & SERAH TERIMA LACI ================= -->
+    <section id="pane-kasir" class="hidden space-y-4">
+      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-xl mx-auto space-y-4">
+        <div class="border-b border-stone-800 pb-3 flex justify-between items-center">
+          <div>
+            <h3 class="text-sm font-black text-amber-400">Serah Terima Kasir & Laci Uang</h3>
+            <p class="text-[11px] text-stone-400">Formula Sheet: Modal Awal + Tunai − Pengeluaran = Seharusnya di laci.</p>
+          </div>
+          <span class="text-[10px] font-bold bg-amber-500/10 text-amber-400 px-2.5 py-1 rounded-xl border border-amber-500/20">Stasiun Bar & Kasir</span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Tipe Serah Terima</label>
+            <select id="kas-tipe" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-200">
+              <option value="Serah Terima 16:30">Serah Terima 16:30 (Shift 1 → 2)</option>
+              <option value="Tutup Kasir 00:00">Tutup Kasir 00:00 (Closing Akhir)</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Petugas Kasir (Login)</label>
+            <input type="text" id="kas-petugas" readonly class="w-full bg-stone-950/60 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-400" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Modal Kas Awal (Rp)</label>
+            <input type="number" id="kas-modal" oninput="calcCashBalance()" placeholder="mis. 300000" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-100" />
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Pengeluaran Kas/Petty (Rp)</label>
+            <input type="number" id="kas-keluar" oninput="calcCashBalance()" placeholder="mis. 50000" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-rose-400" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Penjualan Tunai POS Majoo (Rp)</label>
+            <input type="number" id="kas-tunai" oninput="calcCashBalance()" placeholder="mis. 1250000" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-emerald-400" />
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Penjualan QRIS / EDC (Rp)</label>
+            <input type="number" id="kas-nontunai" placeholder="mis. 850000" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-300" />
+          </div>
+        </div>
+
+        <!-- KALKULATOR LEMBAR PECAHAN LACI -->
+        <div class="bg-stone-950 p-4 rounded-2xl border border-stone-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-300 flex items-center gap-1.5">
+              <i data-lucide="calculator" class="w-4 h-4"></i>
+              Kalkulator Lembaran Uang di Laci:
+            </span>
+            <button onclick="togglePecahanCalc()" id="btn-toggle-pecahan" class="text-[10px] text-stone-400 hover:text-white underline">Buka Hitung Lembar</button>
+          </div>
+
+          <div id="pecahan-grid" class="hidden grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-2 border-t border-stone-800">
+            <div><span class="text-stone-500">100.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="100000" /></div>
+            <div><span class="text-stone-500">50.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="50000" /></div>
+            <div><span class="text-stone-500">20.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="20000" /></div>
+            <div><span class="text-stone-500">10.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="10000" /></div>
+            <div><span class="text-stone-500">5.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="5000" /></div>
+            <div><span class="text-stone-500">2.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="2000" /></div>
+            <div><span class="text-stone-500">1.000:</span><input type="number" min="0" placeholder="0" oninput="calcPecahan()" class="pecahan-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" data-val="1000" /></div>
+            <div><span class="text-stone-500">Koin/Lain:</span><input type="number" min="0" placeholder="Rp" oninput="calcPecahan()" class="koin-inp w-full bg-stone-900 border border-stone-700 rounded-lg p-1.5 text-center font-bold" /></div>
+          </div>
+
+          <div class="flex justify-between items-center text-xs pt-1">
+            <span class="text-stone-400">Uang Seharusnya (Sistem):</span>
+            <span id="kas-seharusnya-label" class="font-bold text-stone-200">Rp 0</span>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-amber-300 mb-1">Total Uang Fisik Riil di Laci (Rp)</label>
+            <input type="number" id="kas-fisik-total" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-900 border-2 border-amber-500 rounded-xl p-3 font-black text-amber-400 text-base" />
+          </div>
+
+          <div class="flex justify-between items-center pt-2 border-t border-stone-800">
+            <span class="text-xs font-bold text-stone-300">Hasil Selisih Kas:</span>
+            <span id="kas-status-badge" class="px-3 py-1 rounded-full text-xs font-black bg-stone-800 text-stone-400">Belum dihitung</span>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-xs">
+          <label class="block font-bold text-stone-400">Prep Menipis untuk Shift Berikutnya (Sesuai Kolom Sheet)</label>
+          <input type="text" id="kas-prep-bar" placeholder="Barista: mis. Es batu & susu fresh menipis..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 text-stone-200" />
+          <input type="text" id="kas-prep-kit" placeholder="Kitchen: mis. Saus & potong sayur kurang..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 text-stone-200" />
+          <input type="text" id="kas-prep-srv" placeholder="Server: mis. Tisu toilet habis..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 text-stone-200" />
+        </div>
+
+        <button onclick="saveSerahKas()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow-lg transition">
+          Simpan Serah Terima ke Sheet
         </button>
-        <button id="btn-add-row" onclick="openAddRowModal()" class="hidden bg-amber-800 hover:bg-amber-900 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition">
-          <i data-lucide="plus" class="w-4 h-4"></i> + Tambah Baris
-        </button>
       </div>
-    </div>
+    </section>
 
-    <!-- PENCARIAN & INFO TAB -->
-    <div class="flex items-center justify-between gap-3 px-1">
-      <div class="text-xs text-stone-500 font-medium">
-        Menampilkan data dari tab: <span id="current-tab-name" class="font-bold text-stone-900 uppercase">...</span>
-        (<span id="total-rows-info">0</span> baris)
-      </div>
-      <input type="text" id="search-box" oninput="renderCurrentSheetTable()" placeholder="Cari di tabel ini..." class="bg-white border border-stone-200 rounded-xl px-3 py-1.5 text-xs font-medium w-48 sm:w-64 focus:ring-2 focus:ring-amber-700 outline-none" />
-    </div>
+    <!-- ================= 5. TAB KALENDER OPERASIONAL & JADWAL ================= -->
+    <section id="pane-kalender" class="hidden space-y-4">
+      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 id="cal-month-title" class="text-base font-black text-amber-400">November 2026</h3>
+            <p class="text-[11px] text-stone-400">Jadwal Shift & Roster Kru (Sheet KALENDER & JADWAL)</p>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button onclick="navCalToday()" class="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-bold text-amber-300">Hari Ini</button>
+            <button onclick="navCalMonth(1)" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
 
-    <!-- TABEL DINAMIS SEMUA KOLOM SHEET -->
-    <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm">
-      <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
-        <table class="w-full text-left text-xs whitespace-nowrap">
-          <thead id="dyn-thead" class="bg-stone-50 border-b border-stone-200 text-stone-500 uppercase font-bold text-[10px] sticky top-0 bg-stone-100 z-10">
-            <!-- Kolom header dinamis -->
-          </thead>
-          <tbody id="dyn-tbody" class="divide-y divide-stone-100">
-            <!-- Data baris dinamis -->
-          </tbody>
-        </table>
+        <div class="grid grid-cols-7 text-center text-[10px] font-black uppercase text-stone-500">
+          <span>Min</span><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span>
+        </div>
+
+        <div id="cal-grid" class="grid grid-cols-7 gap-1.5 text-xs font-bold">
+          <!-- Diisi via renderCalendar() -->
+        </div>
       </div>
-    </div>
+
+      <!-- Detail Jadwal & Roster Kru Hari Terpilih -->
+      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
+        <div class="border-b border-stone-800 pb-2 flex justify-between items-center">
+          <span class="text-xs font-black text-amber-400" id="cal-selected-label">Jadwal Kru Hari Ini</span>
+          <span class="text-[10px] text-stone-500">Roster Kru HOLLO</span>
+        </div>
+        <div id="cal-staff-roster-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+          <!-- Render daftar kru yang masuk -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 6. TAB MENU, HPP & HARGA JUAL (63 MENU) ================= -->
+    <section id="pane-menu" class="hidden space-y-4">
+      <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <button onclick="filterMenu('SEMUA')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow" data-jenis="SEMUA">Semua Menu (63)</button>
+          <button onclick="filterMenu('Minuman')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-jenis="Minuman">☕ Minuman Barista (35)</button>
+          <button onclick="filterMenu('Makanan')" class="mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400" data-jenis="Makanan">🍳 Makanan Kitchen (28)</button>
+        </div>
+        <input type="text" id="menu-search-box" oninput="renderMenuCards()" placeholder="Cari nama menu / HPP..." class="bg-stone-950 border border-stone-800 rounded-xl px-3.5 py-2 text-xs font-medium text-stone-100 placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-amber-500 w-full sm:w-56" />
+      </div>
+
+      <div id="menu-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <!-- Render 63 kartu menu via JS -->
+      </div>
+    </section>
+
+    <!-- ================= 7. TAB DAILY WA REPORT ================= -->
+    <section id="pane-report" class="hidden space-y-4">
+      <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-xl mx-auto space-y-4">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+          <div>
+            <h3 class="text-sm font-black text-amber-400">Daily WhatsApp Closing Report</h3>
+            <p class="text-[11px] text-stone-400">Format laporan resmi untuk WhatsApp Owner & GM.</p>
+          </div>
+          <button onclick="copyWaReport()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow">
+            <i data-lucide="copy" class="w-4 h-4"></i> Salin Teks WA
+          </button>
+        </div>
+
+        <pre id="wa-preview-text" class="bg-stone-950 text-emerald-300 p-4 rounded-2xl text-xs font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap border border-stone-800 select-all">Menyusun ringkasan laporan...</pre>
+      </div>
+    </section>
 
   </main>
 
-  <!-- MODAL EDIT / TAMBAH BARIS DINAMIS -->
-  <div id="modal-row-editor" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-stone-200 space-y-4 max-h-[85vh] flex flex-col">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h4 id="mdl-title" class="font-extrabold text-sm text-stone-900">Form Data</h4>
-          <p id="mdl-sub" class="text-xs text-stone-400">Tersinkron langsung ke Google Sheet</p>
-        </div>
-        <button onclick="closeRowModal()" class="text-stone-400 hover:text-stone-700">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <input type="hidden" id="mdl-row-id" />
-      <div id="mdl-form-fields" class="space-y-3 overflow-y-auto pr-1 text-xs"></div>
-
-      <div class="flex gap-2 pt-3 border-t">
-        <button onclick="closeRowModal()" class="flex-1 py-3 rounded-xl border border-stone-200 font-bold text-xs text-stone-600 hover:bg-stone-50">Batal</button>
-        <button onclick="saveRowData()" class="flex-1 py-3 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs shadow">Simpan ke Google Sheet</button>
-      </div>
+  <!-- BOTTOM NAVIGATION BAR (TABLET / MOBILE STATION DOCK) -->
+  <nav class="fixed bottom-0 inset-x-0 bg-stone-950/95 backdrop-blur-xl border-t border-stone-800 z-40">
+    <div class="max-w-md mx-auto px-2 py-2 flex justify-around text-[10px] font-bold">
+      <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-amber-400" data-tab="dashboard">
+        <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+        <span>Dashboard</span>
+      </button>
+      <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200" data-tab="checklist">
+        <i data-lucide="check-square" class="w-5 h-5"></i>
+        <span>Checklist</span>
+      </button>
+      <button onclick="switchTab('stok')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200" data-tab="stok">
+        <i data-lucide="boxes" class="w-5 h-5"></i>
+        <span>Stok (149)</span>
+      </button>
+      <button onclick="switchTab('kasir')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200" data-tab="kasir">
+        <i data-lucide="banknote" class="w-5 h-5"></i>
+        <span>Kasir</span>
+      </button>
+      <button onclick="switchTab('kalender')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200" data-tab="kalender">
+        <i data-lucide="calendar" class="w-5 h-5"></i>
+        <span>Kalender</span>
+      </button>
+      <button onclick="switchTab('menu')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200" data-tab="menu">
+        <i data-lucide="coffee" class="w-5 h-5"></i>
+        <span>Menu (63)</span>
+      </button>
     </div>
-  </div>
+  </nav>
 
-  <!-- JAVASCRIPT ENGINE -->
+  <!-- JAVASCRIPT LOGIKA LENGKAP HOLLO COFFEE -->
   <script>
     // ========================================================
-    // MASUKKAN 2 KUNCI DARI TAHAP 1 DI SINI:
+    // KONFIGURASI DUA KUNCI DARI GOOGLE APPS SCRIPT ANDA
     // ========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
@@ -156,28 +434,79 @@
       user: JSON.parse(localStorage.getItem('hc_user') || 'null'),
       pin: localStorage.getItem('hc_pin') || '',
       data: null,
-      activeTab: ''
+      chkFilter: 'SEMUA',
+      stkFilter: 'SEMUA',
+      mnuFilter: 'SEMUA',
+      calDate: new Date(),
+      selectedDateStr: new Date().toISOString().slice(0, 10)
     };
+
+    // Suara Ting! saat checklist dicentang
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.3);
+      } catch (e) {}
+    }
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
-      setInterval(() => {
-        document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('id-ID', { hour12: false });
-      }, 1000);
+      updateLiveTimelineAndClock();
+      setInterval(updateLiveTimelineAndClock, 1000);
 
       if (APP.user && APP.pin) {
         document.getElementById('login-screen').classList.add('hidden');
         setupUserUI();
         fetchSync();
-        setInterval(() => fetchSync(false), 25000); // Polling 25 detik
+        setInterval(() => fetchSync(false), 20000); // Sinkronisasi otomatis tiap 20 detik
       }
     });
+
+    // Deteksi Fase Operasional Berdasarkan Jam Sekarang (Sesuai Tab PARAMETER)
+    function updateLiveTimelineAndClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID', { hour12: false });
+      document.getElementById('live-clock').innerText = timeStr;
+
+      const curH = now.getHours();
+      const curM = now.getMinutes();
+      const totalMin = curH * 60 + curM;
+
+      let fase = 'TUTUP';
+      let tag = 'Cafe Tutup';
+
+      // 08:30 (510 min) s/d 09:00 (540 min)
+      if (totalMin >= 510 && totalMin < 540) {
+        fase = 'PREP SHIFT 1'; tag = 'Prep Shift 1 (08:30–09:00)';
+      } else if (totalMin >= 540 && totalMin < 990) { // 09:00 s/d 16:30
+        fase = 'OPERASIONAL SHIFT 1'; tag = 'Operasional Shift 1';
+      } else if (totalMin >= 990 && totalMin < 1020) { // 16:30 s/d 17:00
+        fase = 'SERAH TERIMA 16:30'; tag = 'Serah Terima & Hitung Uang';
+      } else if (totalMin >= 1020 && totalMin < 1380) { // 17:00 s/d 23:00
+        fase = 'OPERASIONAL SHIFT 2'; tag = 'Operasional Shift 2';
+      } else if (totalMin >= 1380 || totalMin < 30) { // 23:00 s/d 00:30
+        fase = 'CLOSING SHIFT 2'; tag = 'Closing Bertahap & Tutup Kasir';
+      }
+
+      document.getElementById('live-fase-badge').innerText = fase;
+      document.getElementById('live-timeline-status').innerText = tag;
+    }
 
     function showToast(msg, isErr = false) {
       const el = document.getElementById('toast');
       document.getElementById('toast-msg').innerText = msg;
       el.className = el.className.replace(/border-[a-z0-9-]+/g, isErr ? 'border-rose-500' : 'border-stone-700');
-      document.getElementById('toast-icon').className = isErr ? 'w-4 h-4 text-rose-400' : 'w-4 h-4 text-amber-400';
+      document.getElementById('toast-icon-bg').className = isErr ? 'w-7 h-7 rounded-xl bg-rose-500/20 flex items-center justify-center text-rose-400' : 'w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400';
       el.classList.remove('translate-y-[-150%]', 'opacity-0');
       setTimeout(() => el.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
     }
@@ -201,7 +530,7 @@
         const json = await res.json();
         if (json.error) {
           if (json.error === 'invalid_login') throw new Error('Username atau PIN salah!');
-          if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET salah atau tidak cocok!');
+          if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET tidak cocok!');
           throw new Error(json.error);
         }
         return json;
@@ -229,213 +558,517 @@
 
         document.getElementById('login-screen').classList.add('hidden');
         setupUserUI();
-        renderAllTabs();
-        showToast('Login berhasil sebagai ' + res.user.nama);
+        renderAllModules();
+        showToast('Stasiun terbuka: ' + res.user.nama);
       } catch (e) {
       } finally {
         btn.disabled = false;
-        btn.innerHTML = '<span>Masuk Database</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>';
+        btn.innerHTML = '<span>Buka Stasiun</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>';
         lucide.createIcons();
       }
     }
 
     function handleLogout() {
-      if (!confirm('Keluar dari stasiun?')) return;
+      if (!confirm('Keluar dari stasiun operasional?')) return;
       localStorage.clear();
       location.reload();
     }
 
     function setupUserUI() {
       if (!APP.user) return;
-      document.getElementById('hdr-user-info').innerText = `${APP.user.nama}`;
-      document.getElementById('badge-role').innerText = APP.user.role;
-
-      const isSuper = APP.user.role === 'RAJA_UTAMA';
-      if (isSuper) {
-        document.getElementById('btn-add-col').classList.remove('hidden');
-        document.getElementById('btn-add-row').classList.remove('hidden');
-      }
+      document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
+      document.getElementById('kas-petugas').value = APP.user.nama;
     }
 
     async function fetchSync(notify = false) {
       try {
         const res = await apiCall('getAll');
         APP.data = res;
-        renderAllTabs();
+        renderAllModules();
         if (notify) showToast('Data Sheet tersinkronisasi!');
       } catch (e) {}
     }
 
-    function renderAllTabs() {
+    function switchTab(tabId) {
+      document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+      document.getElementById('pane-' + tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        const match = btn.getAttribute('data-tab') === tabId;
+        btn.className = match
+          ? 'nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-amber-400 font-black'
+          : 'nav-btn flex flex-col items-center gap-1 py-1 px-2.5 rounded-xl text-stone-400 hover:text-stone-200 font-bold';
+      });
+
+      if (tabId === 'kalender') renderCalendar();
+      if (tabId === 'report') buildWaReport();
+      lucide.createIcons();
+    }
+
+    function renderAllModules() {
       if (!APP.data || !APP.data.sheets) return;
-      const container = document.getElementById('sheet-tabs-container');
-      const sheetKeys = Object.keys(APP.data.sheets);
+      renderDashboardData();
+      renderChecklist();
+      renderStokCards();
+      renderCalendar();
+      renderMenuCards();
+      buildWaReport();
+      lucide.createIcons();
+    }
 
-      if (!APP.activeTab || !sheetKeys.includes(APP.activeTab)) {
-        APP.activeTab = sheetKeys[0] || '';
+    // ========================================================
+    // 1. DASHBOARD
+    // ========================================================
+    function renderDashboardData() {
+      const ck = (APP.data.sheets.CHECKLIST && APP.data.sheets.CHECKLIST.rows) || [];
+      const done = ck.filter(r => r.status === 'Selesai').length;
+      const pct = ck.length ? Math.round((done / ck.length) * 100) : 0;
+      document.getElementById('dash-check-pct').innerText = pct + '%';
+      document.getElementById('dash-check-ratio').innerText = `${done}/${ck.length} Tugas Selesai`;
+
+      const st = (APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
+      const restock = st.filter(r => r.status === 'RESTOCK');
+      document.getElementById('dash-restock-count').innerText = restock.length;
+      document.getElementById('dash-total-stok').innerText = st.length || '149';
+
+      const mn = (APP.data.sheets.MENU && APP.data.sheets.MENU.rows) || [];
+      document.getElementById('dash-total-menu').innerText = mn.length || '63';
+
+      const restockList = document.getElementById('dash-restock-items-list');
+      if (restock.length === 0) {
+        restockList.innerHTML = '<div class="py-4 text-center text-stone-500 text-xs">Semua barang dalam status AMAN.</div>';
+      } else {
+        restockList.innerHTML = restock.map(r => `
+          <div class="py-2.5 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-stone-200">${r.nama_barang}</span>
+              <span class="text-[10px] text-stone-500 block">${r.divisi} • Min: ${r.min_stok || 0} ${r.satuan || ''}</span>
+            </div>
+            <div class="text-right">
+              <span class="font-black text-rose-400">${r.total_makro || 0} ${r.satuan || ''}</span>
+              <span class="text-[9px] text-rose-500/80 block uppercase font-bold">Butuh Restock</span>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ========================================================
+    // 2. CHECKLIST (39 TUGAS)
+    // ========================================================
+    function filterChecklist(div) {
+      APP.chkFilter = div;
+      document.querySelectorAll('.chk-btn').forEach(b => {
+        const m = b.getAttribute('data-div') === div;
+        b.className = m ? 'chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-amber-500 text-stone-950 shadow' : 'chk-btn px-4 py-2 rounded-2xl text-xs font-bold bg-stone-900 text-stone-400';
+      });
+      renderChecklist();
+    }
+
+    function renderChecklist() {
+      const container = document.getElementById('checklist-cards-container');
+      const sheet = APP.data.sheets.CHECKLIST;
+      if (!sheet || !sheet.rows) return;
+
+      let rows = sheet.rows;
+      if (APP.chkFilter !== 'SEMUA') {
+        rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.chkFilter);
       }
 
-      container.innerHTML = sheetKeys.map(key => {
-        const isActive = key === APP.activeTab;
+      const totalAll = sheet.rows.length;
+      const doneAll = sheet.rows.filter(r => r.status === 'Selesai').length;
+      const pct = totalAll ? Math.round((doneAll / totalAll) * 100) : 0;
+      document.getElementById('chk-progress-num').innerText = pct + '%';
+      document.getElementById('chk-progress-fill').style.width = pct + '%';
+
+      container.innerHTML = rows.map(r => {
+        const isDone = r.status === 'Selesai';
         return `
-          <button onclick="setActiveTab('${key}')" class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${
-            isActive ? 'bg-amber-800 text-white shadow' : 'bg-stone-100 hover:bg-stone-200 text-stone-600'
-          }">
-            ${key}
-          </button>
-        `;
-      }).join('');
-
-      renderCurrentSheetTable();
-    }
-
-    function setActiveTab(tabKey) {
-      APP.activeTab = tabKey;
-      renderAllTabs();
-    }
-
-    function renderCurrentSheetTable() {
-      if (!APP.activeTab || !APP.data.sheets[APP.activeTab]) return;
-
-      const sheet = APP.data.sheets[APP.activeTab];
-      const headers = sheet.headers || [];
-      const formulaCols = sheet.formulaCols || [];
-      const search = document.getElementById('search-box').value.toLowerCase();
-      const isSuper = APP.user && APP.user.role === 'RAJA_UTAMA';
-
-      document.getElementById('current-tab-name').innerText = sheet.name;
-
-      // Filter Baris sesuai pencarian
-      let rows = sheet.rows || [];
-      if (search) {
-        rows = rows.filter(r => headers.some(h => String(r[h] || '').toLowerCase().includes(search)));
-      }
-      document.getElementById('total-rows-info').innerText = rows.length;
-
-      // Render Headings
-      const thead = document.getElementById('dyn-thead');
-      thead.innerHTML = `<tr>
-        <th class="py-3 px-3 w-16 text-center">Aksi</th>
-        ${headers.map(h => `
-          <th class="py-3 px-3">
-            ${h}
-            ${formulaCols.includes(h) ? '<span class="text-[8px] bg-stone-200 text-stone-600 px-1 py-0.2 rounded font-normal ml-1">RUMUS</span>' : ''}
-          </th>
-        `).join('')}
-      </tr>`;
-
-      // Render Body
-      const tbody = document.getElementById('dyn-tbody');
-      if (rows.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${headers.length + 1}" class="py-8 text-center text-stone-400">Tidak ada baris data.</td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = rows.map(r => `
-        <tr class="hover:bg-stone-50 border-b border-stone-100 transition">
-          <td class="py-2 px-3 text-center flex items-center justify-center gap-1">
-            <button onclick="openEditRowModal(${r._row})" class="p-1.5 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100" title="Edit Baris">
-              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-            </button>
-            ${isSuper ? `
-              <button onclick="deleteRow(${r._row})" class="p-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100" title="Hapus Baris">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          <div class="bg-stone-900 p-4 rounded-2xl border ${isDone ? 'border-emerald-500/30 bg-emerald-950/10' : 'border-stone-800'} shadow flex items-center justify-between gap-3">
+            <div class="flex items-start gap-3 min-w-0">
+              <button onclick="toggleChecklist(${r._row}, '${r._v}', '${isDone ? 'Belum' : 'Selesai'}')" class="mt-0.5 w-7 h-7 rounded-xl flex items-center justify-center border-2 transition ${isDone ? 'bg-emerald-500 border-emerald-500 text-stone-950' : 'border-stone-700 hover:border-amber-400'}">
+                ${isDone ? '<i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>' : ''}
               </button>
-            ` : ''}
-          </td>
-          ${headers.map(h => `
-            <td class="py-2.5 px-3 ${formulaCols.includes(h) ? 'bg-stone-50/70 font-semibold text-stone-500' : 'text-stone-800'}">
-              ${r[h] !== undefined && r[h] !== null ? r[h] : ''}
-            </td>
-          `).join('')}
-        </tr>
-      `).join('');
-      lucide.createIcons();
-    }
-
-    function openAddRowModal() {
-      const sheet = APP.data.sheets[APP.activeTab];
-      if (!sheet) return;
-      document.getElementById('mdl-title').innerText = `Tambah Baris di [${sheet.name}]`;
-      document.getElementById('mdl-row-id').value = '';
-      buildModalFields(sheet, {});
-      document.getElementById('modal-row-editor').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function openEditRowModal(rowNumber) {
-      const sheet = APP.data.sheets[APP.activeTab];
-      const r = sheet.rows.find(row => row._row === rowNumber);
-      if (!r) return;
-      document.getElementById('mdl-title').innerText = `Edit Baris #${rowNumber} [${sheet.name}]`;
-      document.getElementById('mdl-row-id').value = r._row;
-      buildModalFields(sheet, r);
-      document.getElementById('modal-row-editor').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function buildModalFields(sheet, rowValues) {
-      const container = document.getElementById('mdl-form-fields');
-      const headers = sheet.headers || [];
-      const formulaCols = sheet.formulaCols || [];
-
-      container.innerHTML = headers.map(h => {
-        const isFormula = formulaCols.includes(h);
-        const val = rowValues[h] !== undefined && rowValues[h] !== null ? rowValues[h] : '';
-
-        return `
-          <div>
-            <label class="block font-bold text-stone-700 mb-1">
-              ${h}
-              ${isFormula ? '<span class="text-[9px] text-stone-400 font-normal ml-1">(Rumus Terkunci)</span>' : ''}
-            </label>
-            <input type="text" data-col="${h}" value="${val}" ${isFormula ? 'disabled class="w-full bg-stone-100 border border-stone-200 rounded-xl p-2.5 text-stone-400 font-semibold cursor-not-allowed"' : 'class="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-amber-700"'} />
+              <div class="min-w-0">
+                <div class="text-xs font-bold ${isDone ? 'line-through text-stone-500' : 'text-stone-100'}">${r.tugas}</div>
+                <div class="text-[10px] text-stone-400 flex flex-wrap items-center gap-2 mt-1">
+                  <span class="bg-stone-950 px-2 py-0.5 rounded font-bold text-amber-300">${r.divisi}</span>
+                  <span class="text-stone-500">Shift ${r.shift} • Fase: ${r.fase}</span>
+                  ${r.jam_target ? `<span class="text-amber-400/80">Target: ${r.jam_target}</span>` : ''}
+                  ${isDone ? `<span class="text-emerald-400 font-bold">• ${r.petugas || 'Kru'} (${r.jam_selesai || ''})</span>` : ''}
+                </div>
+              </div>
+            </div>
           </div>
         `;
       }).join('');
+      lucide.createIcons();
     }
 
-    function closeRowModal() {
-      document.getElementById('modal-row-editor').classList.add('hidden');
-    }
+    async function toggleChecklist(row, v, newStatus) {
+      if (newStatus === 'Selesai') playChime();
+      const jam = new Date().toLocaleTimeString('id-ID', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
-    async function saveRowData() {
-      const rowId = document.getElementById('mdl-row-id').value;
-      const values = {};
-      document.querySelectorAll('#mdl-form-fields [data-col]').forEach(el => {
-        if (!el.disabled) values[el.getAttribute('data-col')] = el.value;
+      // Optimistic visual update
+      const r = APP.data.sheets.CHECKLIST.rows.find(x => x._row === row);
+      if (r) {
+        r.status = newStatus;
+        r.petugas = newStatus === 'Selesai' ? APP.user.username : '';
+        r.jam_selesai = newStatus === 'Selesai' ? jam : '';
+      }
+      renderChecklist();
+
+      await apiCall('save', {
+        sheet: 'CHECKLIST',
+        row: row,
+        v: v,
+        values: {
+          status: newStatus,
+          petugas: newStatus === 'Selesai' ? APP.user.username : '',
+          jam_selesai: newStatus === 'Selesai' ? jam : ''
+        }
       });
-
-      try {
-        await apiCall('save', {
-          sheet: APP.activeTab,
-          row: rowId || undefined,
-          values: values
-        });
-        closeRowModal();
-        showToast('Data berhasil disimpan ke Google Sheet!');
-        fetchSync();
-      } catch (e) {}
+      fetchSync();
     }
 
-    async function deleteRow(rowNumber) {
-      if (!confirm('Yakin ingin menghapus baris ini dari Google Sheet?')) return;
-      try {
-        await apiCall('remove', { sheet: APP.activeTab, row: rowNumber });
-        showToast('Baris berhasil dihapus dari Google Sheet!');
-        fetchSync();
-      } catch (e) {}
+    // ========================================================
+    // 3. STOK OPNAME (149 BARANG)
+    // ========================================================
+    function filterStokDiv(d) {
+      APP.stkFilter = d;
+      document.querySelectorAll('.stk-btn').forEach(b => {
+        const m = b.getAttribute('data-div') === d;
+        b.className = m ? 'stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow' : 'stk-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400';
+      });
+      renderStokCards();
     }
 
-    async function promptNewColumn() {
-      const colName = prompt(`Ketik nama kolom baru untuk tab [${APP.activeTab}]:`);
-      if (!colName || !colName.trim()) return;
+    function renderStokCards() {
+      const container = document.getElementById('stok-cards-grid');
+      const sheet = APP.data.sheets.STOK;
+      if (!sheet || !sheet.rows) return;
 
-      try {
-        await apiCall('addNewColumn', { sheet: APP.activeTab, columnName: colName.trim() });
-        showToast(`Kolom "${colName}" berhasil ditambahkan ke Sheet!`);
-        fetchSync();
-      } catch (e) {}
+      let rows = sheet.rows;
+      const search = document.getElementById('stok-search-box').value.toLowerCase();
+
+      if (APP.stkFilter !== 'SEMUA') {
+        rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.stkFilter);
+      }
+      if (search) {
+        rows = rows.filter(r => String(r.nama_barang || '').toLowerCase().includes(search));
+      }
+
+      container.innerHTML = rows.map(r => {
+        const isRestock = r.status === 'RESTOCK';
+        return `
+          <div class="bg-stone-900 rounded-3xl p-4 border ${isRestock ? 'border-rose-500/50 bg-rose-950/10' : 'border-stone-800'} shadow space-y-3">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="font-bold text-xs text-stone-100">${r.nama_barang}</h4>
+                <span class="text-[10px] text-stone-500">${r.divisi} • ${r.kategori || 'Bahan'} • Min: ${r.min_stok || '0'} ${r.satuan || ''}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${isRestock ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30' : 'bg-emerald-500/20 text-emerald-300'}">
+                ${r.status || 'AMAN'}
+              </span>
+            </div>
+
+            <div class="grid grid-cols-3 text-center gap-1.5 py-1 text-xs">
+              <div class="bg-stone-950 p-2 rounded-2xl border border-stone-800/80">
+                <span class="text-[9px] text-stone-500 block">Gudang</span>
+                <span class="font-black text-stone-200">${r.stok_gudang || 0}</span>
+              </div>
+              <div class="bg-stone-950 p-2 rounded-2xl border border-stone-800/80">
+                <span class="text-[9px] text-stone-500 block">Pagi</span>
+                <span class="font-black text-stone-200">${r.tersedia_pagi || 0}</span>
+              </div>
+              <div class="bg-stone-950 p-2 rounded-2xl border border-amber-500/30">
+                <span class="text-[9px] text-amber-400 block">Sisa Closing</span>
+                <span class="font-black text-amber-300">${r.sisa_sore || 0}</span>
+              </div>
+            </div>
+
+            <div class="flex gap-2 pt-1 border-t border-stone-800">
+              <button onclick="promptRefill(${r._row}, '${r._v}', '${r.nama_barang}', ${r.refill_pagi || 0})" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-xl text-[10px] font-bold text-amber-300">
+                + Refill Bar
+              </button>
+              <button onclick="promptClosingStok(${r._row}, '${r._v}', '${r.nama_barang}')" class="flex-1 py-1.5 bg-amber-600 hover:bg-amber-500 rounded-xl text-[10px] font-black text-stone-950 shadow">
+                Opname Sore
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    async function promptRefill(row, v, nama, oldVal) {
+      const j = prompt(`Tambah Refill Gudang ke Bar untuk:\n[${nama}]\n\nMasukkan jumlah yang diambil:`);
+      if (!j || isNaN(Number(j))) return;
+      await apiCall('save', { sheet: 'STOK', row: row, v: v, values: { refill_pagi: Number(oldVal) + Number(j) } });
+      showToast(`Refill ${nama} dicatat: +${j}`);
+      fetchSync();
+    }
+
+    async function promptClosingStok(row, v, nama) {
+      const s = prompt(`Input Sisa Stok Saat Closing untuk:\n[${nama}]:`);
+      if (s === null || isNaN(Number(s))) return;
+      await apiCall('save', { sheet: 'STOK', row: row, v: v, values: { sisa_sore: Number(s) } });
+      showToast(`Sisa stok closing ${nama} tersimpan: ${s}`);
+      fetchSync();
+    }
+
+    // ========================================================
+    // 4. KASIR & SERAH TERIMA LACI
+    // ========================================================
+    function togglePecahanCalc() {
+      const g = document.getElementById('pecahan-grid');
+      const b = document.getElementById('btn-toggle-pecahan');
+      if (g.classList.contains('hidden')) {
+        g.classList.remove('hidden');
+        b.innerText = 'Tutup Hitung Lembar';
+      } else {
+        g.classList.add('hidden');
+        b.innerText = 'Buka Hitung Lembar';
+      }
+    }
+
+    function calcPecahan() {
+      let sum = 0;
+      document.querySelectorAll('.pecahan-inp').forEach(inp => {
+        sum += (Number(inp.getAttribute('data-val')) || 0) * (Number(inp.value) || 0);
+      });
+      sum += Number(document.querySelector('.koin-inp').value) || 0;
+      document.getElementById('kas-fisik-total').value = sum;
+      calcCashBalance();
+    }
+
+    function calcCashBalance() {
+      const m = Number(document.getElementById('kas-modal').value) || 0;
+      const k = Number(document.getElementById('kas-keluar').value) || 0;
+      const t = Number(document.getElementById('kas-tunai').value) || 0;
+      const f = Number(document.getElementById('kas-fisik-total').value) || 0;
+
+      const seharusnya = m + t - k;
+      const selisih = f - seharusnya;
+
+      document.getElementById('kas-seharusnya-label').innerText = 'Rp ' + seharusnya.toLocaleString('id-ID');
+
+      const badge = document.getElementById('kas-status-badge');
+      if (f === 0 && seharusnya !== 0) {
+        badge.innerText = 'Belum dihitung';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-stone-800 text-stone-400';
+      } else if (selisih === 0) {
+        badge.innerText = 'COCOK (Rp 0)';
+        badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      } else if (selisih > 0) {
+        badge.innerText = `LEBIH (+Rp ${selisih.toLocaleString('id-ID')})`;
+        badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-amber-500/20 text-amber-300 border border-amber-500/30';
+      } else {
+        badge.innerText = `KURANG (-Rp ${Math.abs(selisih).toLocaleString('id-ID')})`;
+        badge.className = 'px-3 py-1 rounded-full text-xs font-black bg-rose-500/20 text-rose-300 border border-rose-500/30';
+      }
+    }
+
+    async function saveSerahKas() {
+      const payload = {
+        tipe: document.getElementById('kas-tipe').value,
+        tanggal: new Date().toISOString().slice(0, 10),
+        petugas_serah: APP.user.username,
+        kas_awal: document.getElementById('kas-modal').value,
+        pengeluaran_tunai: document.getElementById('kas-keluar').value,
+        penjualan_tunai: document.getElementById('kas-tunai').value,
+        penjualan_nontunai: document.getElementById('kas-nontunai').value,
+        uang_fisik: document.getElementById('kas-fisik-total').value,
+        prep_kurang_bar: document.getElementById('kas-prep-bar').value,
+        prep_kurang_kitchen: document.getElementById('kas-prep-kit').value,
+        prep_kurang_server: document.getElementById('kas-prep-srv').value
+      };
+
+      await apiCall('save', { sheet: 'SERAH_TERIMA', values: payload });
+      showToast('Serah terima kasir tersimpan ke Google Sheet!');
+      fetchSync();
+    }
+
+    // ========================================================
+    // 5. KALENDER JADWAL & ROSTER KRU
+    // ========================================================
+    function navCalMonth(d) {
+      APP.calDate.setMonth(APP.calDate.getMonth() + d);
+      renderCalendar();
+    }
+    function navCalToday() {
+      APP.calDate = new Date();
+      APP.selectedDateStr = new Date().toISOString().slice(0, 10);
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const year = APP.calDate.getFullYear();
+      const month = APP.calDate.getMonth();
+      const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      document.getElementById('cal-month-title').innerText = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      const roster = (APP.data.sheets.ROSTER && APP.data.sheets.ROSTER.rows) || (APP.data.sheets.JADWAL && APP.data.sheets.JADWAL.rows) || [];
+      const grid = document.getElementById('cal-grid');
+      let html = '';
+
+      for (let i = 0; i < firstDay; i++) html += '<div class="h-10"></div>';
+
+      for (let d = 1; d <= totalDays; d++) {
+        const dStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const isToday = dStr === todayStr;
+        const isSel = dStr === APP.selectedDateStr;
+        const count = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr).length;
+
+        html += `
+          <button onclick="selectDate('${dStr}')" class="h-12 rounded-2xl flex flex-col items-center justify-center relative transition ${
+            isSel ? 'bg-amber-500 text-stone-950 font-black shadow-lg shadow-amber-500/30' :
+            isToday ? 'border border-amber-400 text-amber-300' : 'bg-stone-950 text-stone-300 hover:bg-stone-800'
+          }">
+            <span>${d}</span>
+            ${count > 0 ? `<span class="text-[8px] font-black px-1.5 py-0.1 rounded-full ${isSel ? 'bg-stone-950 text-amber-400' : 'bg-amber-500/20 text-amber-300'}">${count} Kru</span>` : ''}
+          </button>
+        `;
+      }
+
+      grid.innerHTML = html;
+      renderStaffRosterDetail();
+    }
+
+    function selectDate(dStr) {
+      APP.selectedDateStr = dStr;
+      renderCalendar();
+    }
+
+    function renderStaffRosterDetail() {
+      const dStr = APP.selectedDateStr;
+      const dObj = new Date(dStr);
+      document.getElementById('cal-selected-label').innerText = `Roster Staf: ${dObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`;
+
+      const container = document.getElementById('cal-staff-roster-list');
+      const roster = (APP.data.sheets.ROSTER && APP.data.sheets.ROSTER.rows) || (APP.data.sheets.JADWAL && APP.data.sheets.JADWAL.rows) || [];
+      const dayList = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr);
+
+      if (dayList.length === 0) {
+        container.innerHTML = '<div class="col-span-2 text-stone-500 text-xs py-3">Belum ada jadwal kru yang diinput untuk tanggal ini.</div>';
+      } else {
+        container.innerHTML = dayList.map(r => `
+          <div class="bg-stone-950 p-3 rounded-2xl border border-stone-800 flex justify-between items-center">
+            <div>
+              <span class="font-bold text-stone-200">${r.nama || r.username}</span>
+              <span class="text-[10px] text-stone-500 block">${r.divisi || '-'} • ${r.jam_mulai || '08:30'}–${r.jam_selesai || '16:30'}</span>
+            </div>
+            <span class="px-2.5 py-1 rounded-xl text-[10px] font-black ${String(r.kode || '').toUpperCase() === 'OFF' ? 'bg-rose-500/20 text-rose-300' : 'bg-amber-500/20 text-amber-300'}">
+              ${r.kode || `Shift ${r.shift || '1'}`}
+            </span>
+          </div>
+        `).join('');
+      }
+    }
+
+    // ========================================================
+    // 6. MENU & HARGA (63 MENU)
+    // ========================================================
+    function filterMenu(j) {
+      APP.mnuFilter = j;
+      document.querySelectorAll('.mnu-btn').forEach(b => {
+        const m = b.getAttribute('data-jenis') === j;
+        b.className = m ? 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-stone-950 shadow' : 'mnu-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-800 text-stone-400';
+      });
+      renderMenuCards();
+    }
+
+    function renderMenuCards() {
+      const container = document.getElementById('menu-cards-grid');
+      const sheet = APP.data.sheets.MENU;
+      if (!sheet || !sheet.rows) return;
+
+      let rows = sheet.rows;
+      const search = document.getElementById('menu-search-box').value.toLowerCase();
+
+      if (APP.mnuFilter !== 'SEMUA') {
+        rows = rows.filter(r => r.jenis === APP.mnuFilter);
+      }
+      if (search) {
+        rows = rows.filter(r => String(r.nama_produk || '').toLowerCase().includes(search));
+      }
+
+      container.innerHTML = rows.map(r => {
+        const marginPct = Number(r.margin_pct) ? Math.round(Number(r.margin_pct) * 100) : null;
+        return `
+          <div class="bg-stone-900 rounded-3xl p-4 border border-stone-800 shadow space-y-2.5">
+            <div class="flex justify-between items-start">
+              <div>
+                <h4 class="font-bold text-xs text-stone-100">${r.nama_produk}</h4>
+                <span class="text-[10px] text-stone-500">${r.kategori} • ${r.divisi}</span>
+              </div>
+              <span class="px-2 py-0.5 rounded-full text-[9px] font-black ${marginPct >= 60 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-amber-500/20 text-amber-300'}">
+                ${marginPct ? `${marginPct}% Margin` : 'Custom'}
+              </span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs pt-2 border-t border-stone-800">
+              <div>
+                <span class="text-[9px] text-stone-500 block">HPP Pokok</span>
+                <span class="font-bold text-stone-400">Rp ${Number(r.hpp || 0).toLocaleString('id-ID')}</span>
+              </div>
+              <div class="text-right">
+                <span class="text-[9px] text-amber-400 block font-bold">Harga Jual</span>
+                <span class="font-black text-amber-300 text-sm">Rp ${Number(r.harga_jual || 0).toLocaleString('id-ID')}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      lucide.createIcons();
+    }
+
+    // ========================================================
+    // 7. DAILY REPORT WHATSAPP
+    // ========================================================
+    function buildWaReport() {
+      const now = new Date();
+      const tgl = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+      const stRows = (APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
+      const restockList = stRows.filter(r => r.status === 'RESTOCK').map(r => `• ${r.nama_barang}: sisa ${r.total_makro || 0} ${r.satuan || ''}`).join('\n') || '• Semua bahan aman';
+
+      const kasRows = (APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
+      const lastKas = kasRows[kasRows.length - 1] || {};
+
+      const wa = `*DAILY OPERATIONAL REPORT — HOLLO COFFEE & ROASTERY'S*
+📅 Tanggal: ${tgl}
+👤 PIC Closing: ${APP.user ? APP.user.nama : '-'}
+
+*1. PENJUALAN & REKAP KASIR*
+• Penjualan Tunai POS: Rp ${Number(lastKas.penjualan_tunai || 0).toLocaleString('id-ID')}
+• Penjualan Non-Tunai / EDC: Rp ${Number(lastKas.penjualan_nontunai || 0).toLocaleString('id-ID')}
+• Pengeluaran Kas (Petty): Rp ${Number(lastKas.pengeluaran_tunai || 0).toLocaleString('id-ID')}
+• Uang Fisik Laci: Rp ${Number(lastKas.uang_fisik || 0).toLocaleString('id-ID')}
+• Status Selisih: ${lastKas.status || 'COCOK'}
+
+*2. PREP MENIPIS / PERLU BELANJA BESOK*
+• Barista: ${lastKas.prep_kurang_bar || '-'}
+• Kitchen: ${lastKas.prep_kurang_kitchen || '-'}
+• Server: ${lastKas.prep_kurang_server || '-'}
+
+*3. BAHAN MENIPIS (LOG STOK)*
+${restockList}
+
+_Laporan otomatis Stasiun Operasional HOLLO COFFEE_`;
+
+      document.getElementById('wa-preview-text').innerText = wa;
+    }
+
+    function copyWaReport() {
+      const t = document.getElementById('wa-preview-text').innerText;
+      navigator.clipboard.writeText(t).then(() => {
+        showToast('Laporan WA berhasil disalin ke clipboard!');
+      });
     }
   </script>
 </body>
