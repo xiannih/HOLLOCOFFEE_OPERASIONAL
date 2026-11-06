@@ -22,14 +22,14 @@
     .pulse-dot { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     
-    /* Animasi Halus ala iOS / iPadOS */
+    /* Animasi Halus Apple iOS Spring Transition */
     @keyframes iosFadeUp {
       from { opacity: 0; transform: translateY(6px) scale(0.99); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
-    .ios-card { animation: iosFadeUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .ios-card { animation: iosFadeUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .ios-btn { transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1); }
-    .ios-btn:active { transform: scale(0.96); }
+    .ios-btn:active { transform: scale(0.95); }
   </style>
 </head>
 <body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 overflow-x-hidden w-full max-w-full select-none md:select-auto">
@@ -42,7 +42,7 @@
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT DITUTUP) -->
+  <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT TAB DITUTUP) -->
   <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 ios-card">
       <div class="text-center mb-6">
@@ -107,21 +107,21 @@
     </div>
   </header>
 
-  <!-- KONTEN UTAMA APLIKASI (RESPONSIVE & NO-OFFSET) -->
+  <!-- KONTEN UTAMA APLIKASI (RESPONSIF, ANTI-OFFSET) -->
   <main class="max-w-6xl mx-auto px-3.5 sm:px-4 py-4 space-y-4">
 
-    <!-- ================= 1. TAB DASHBOARD DENGAN GRAFIK CHART.JS ================= -->
+    <!-- ================= 1. TAB DASHBOARD ================= -->
     <section id="pane-dashboard" class="space-y-4 ios-card">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Checklist Tugas</span>
           <div class="text-2xl font-black mt-1" id="dash-check-pct">0%</div>
-          <span class="text-[10px] text-zinc-500 block mt-0.5" id="dash-check-ratio">0/39 Tugas</span>
+          <span class="text-[10px] text-zinc-500 block mt-0.5" id="dash-check-ratio">0/39 Selesai</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Bahan Restock</span>
           <div class="text-2xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
-          <span class="text-[10px] text-zinc-500 block mt-0.5">Bahan di bawah batas</span>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Di bawah batas aman</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Database Stok</span>
@@ -140,7 +140,7 @@
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
           <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <span class="text-xs font-black flex items-center gap-2">
-              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> Tren Penjualan & Kasir (Tunai vs QRIS)
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> Tren Penjualan Kasir (Tunai vs QRIS)
             </span>
             <span class="text-[10px] text-zinc-400">Sheet SERAH_TERIMA</span>
           </div>
@@ -152,7 +152,7 @@
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
           <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
             <span class="text-xs font-black flex items-center gap-2">
-              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-500"></i> Komposisi Stok per Divisi (Aman vs Restock)
+              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-500"></i> Status Stok per Divisi (Aman vs Restock)
             </span>
             <span class="text-[10px] text-zinc-400">149 Barang</span>
           </div>
@@ -161,59 +161,17 @@
           </div>
         </div>
       </div>
-
-      <!-- Timeline Barista & Kasir -->
-      <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
-        <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2.5">
-          <h3 class="text-xs font-black uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4"></i> Timeline Operasional Barista & Kasir
-          </h3>
-          <span class="text-[10px] text-zinc-400">Parameter Cafe</span>
-        </div>
-        <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs">
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">08:30</span>
-            <span class="font-bold block text-[11px] mt-0.5">Prep Shift 1</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Modal kas & mesin</span>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">09:00</span>
-            <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 1</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Transaksi dimulai</span>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">16:30</span>
-            <span class="font-bold block text-[11px] mt-0.5">Serah Terima</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Tutup kasir 1 & prep</span>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">17:00</span>
-            <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 2</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Shift malam aktif</span>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">23:00</span>
-            <span class="font-bold block text-[11px] mt-0.5">Closing Awal</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Cuci alat & kompor</span>
-          </div>
-          <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-            <span class="text-[9px] font-bold text-zinc-500 block">00:00</span>
-            <span class="font-bold block text-[11px] mt-0.5">Close Order</span>
-            <span class="text-[9px] text-zinc-400 block mt-0.5">Tutup buku kasir</span>
-          </div>
-        </div>
-      </div>
     </section>
 
-    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 vs SHIFT 2 & HANDOVER) ================= -->
+    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 & 2 + HANDOVER) ================= -->
     <section id="pane-checklist" class="hidden space-y-4 ios-card">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
           <button onclick="setChecklistShift('1')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-black dark:bg-white text-white dark:text-black shadow ios-btn" data-shift="1">
-            ☀️ Shift 1 (Opening • 08:30)
+            ☀️ Shift 1 (Opening)
           </button>
           <button onclick="setChecklistShift('2')" class="chk-shift-btn px-4 py-2 rounded-xl text-xs font-black bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-shift="2">
-            🌙 Shift 2 (Closing • 17:00)
+            🌙 Shift 2 (Closing)
           </button>
           <button onclick="setChecklistShift('SEMUA')" class="chk-shift-btn px-3 py-2 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn" data-shift="SEMUA">
             Semua
@@ -241,7 +199,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
             <label class="block font-bold text-zinc-500 mb-1">☕ Prep Kurang Barista:</label>
-            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2 liter..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
+            <textarea id="ho-bar" rows="2" placeholder="mis. Es batu tipis, susu sisa 2L..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 placeholder-zinc-400 focus:outline-none"></textarea>
           </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">🍳 Prep Kurang Kitchen:</label>
@@ -288,7 +246,7 @@
       <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- ================= 4. TAB KASIR & SERAH TERIMA (BARISTA/KASIR) ================= -->
+    <!-- ================= 4. TAB KASIR & SERAH TERIMA ================= -->
     <section id="pane-kasir" class="hidden space-y-4 ios-card">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-xl mx-auto space-y-4">
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex justify-between items-center">
@@ -301,7 +259,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">Tanggal Transaksi</label>
+            <label class="block font-bold text-zinc-500 mb-1">Tanggal</label>
             <div class="relative flex items-center">
               <input type="date" id="kas-tgl" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
               <button onclick="triggerPicker('kas-tgl')" class="absolute right-2 text-zinc-400"><i data-lucide="calendar" class="w-4 h-4"></i></button>
@@ -309,15 +267,15 @@
           </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Tipe Serah Terima</label>
-            <select id="kas-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+            <select id="kas-tipe" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold">
               <option value="Kas Awal Shift 1">Kas Awal Shift 1 (Opening 08:30)</option>
               <option value="Serah Terima 16:30">Serah Terima 16:30 (Shift 1 → 2)</option>
               <option value="Tutup Kasir 00:00">Tutup Kasir 00:00 (Closing Akhir)</option>
             </select>
           </div>
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">Petugas Barista/Kasir</label>
-            <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold text-zinc-400" />
+            <label class="block font-bold text-zinc-500 mb-1">Petugas Kasir</label>
+            <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-400" />
           </div>
         </div>
 
@@ -391,7 +349,7 @@
         <div class="flex items-center justify-between">
           <div>
             <h3 id="cal-month-title" class="text-base font-black">Bulan Berjalan</h3>
-            <p class="text-[11px] text-zinc-500">Klik 1x untuk melihat detail • Klik 2x (Double-Click) untuk tambah event/log</p>
+            <p class="text-[11px] text-zinc-500">Klik 1x untuk melihat detail • Klik 2x (Double-Click) untuk catat log/kejadian</p>
           </div>
           <div class="flex items-center gap-1.5">
             <button onclick="navCalMonth(-1)" class="p-2 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 ios-btn"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
@@ -561,7 +519,7 @@
           <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 ios-btn">☕ Master Menu (63)</button>
         </div>
 
-        <!-- SUB 1: KELOLA KRU & PIN LENGKAP DENGAN FITUR HAPUS -->
+        <!-- SUB 1: KELOLA KRU & PIN -->
         <div id="sub-pane-user" class="space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Daftar Akun Kru & Akses Staf (Tab USERS & PIN_RAJA)</span>
@@ -640,7 +598,7 @@
 
   <!-- ================= MODAL-MODAL INTERAKTIF ================= -->
 
-  <!-- 1. MODAL USER / KRU (TAMBAH / EDIT / HAPUS LENGKAP) -->
+  <!-- 1. MODAL USER / KRU -->
   <div id="modal-user-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto ios-card">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -958,9 +916,7 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Jam Target</label>
-            <div class="relative flex items-center">
-              <input type="time" id="cke-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
-            </div>
+            <input type="time" id="cke-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
           </div>
           <div>
             <label class="block font-bold text-zinc-500 mb-1">Fase</label>
@@ -1073,7 +1029,7 @@
             <label class="block font-bold text-zinc-500 mb-1">Jam Kejadian</label>
             <div class="flex items-center gap-1">
               <input type="time" id="evt-jam" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
-              <button onclick="setCurrentTime('evt-jam')" class="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-zinc-500 text-[10px] font-bold shrink-0" title="Set Jam Sekarang">⚡</button>
+              <button onclick="setCurrentTime('evt-jam')" class="p-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl text-zinc-500 text-[10px] font-bold shrink-0 ios-btn" title="Set Jam Sekarang">⚡</button>
             </div>
           </div>
         </div>
@@ -1128,7 +1084,7 @@
     // ========================================================
     // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA
     // ========================================================
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxcdU2mZ_V5Zni56mGITh0_Ivi78pA-5ZTwiTjWmqnYcaPDttZbuBRFiknalhv7eYjh/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
 
     // SESSION STORAGE: Otomatis Logout Saat Browser Ditutup
@@ -1145,14 +1101,11 @@
       charts: {}
     };
 
-    // Helper untuk memicu DatePicker popup saat tombol kalender diklik
     function triggerPicker(id) {
       const el = document.getElementById(id);
       if (el && el.showPicker) {
         try { el.showPicker(); } catch (e) { el.focus(); }
-      } else if (el) {
-        el.focus();
-      }
+      } else if (el) { el.focus(); }
     }
 
     function setCurrentTime(id) {
@@ -1263,7 +1216,6 @@
         if (json.error) {
           if (json.error === 'invalid_login') throw new Error('Username atau PIN salah!');
           if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET tidak cocok!');
-          if (json.error === 'conflict') throw new Error('Konflik data Sheet: silakan refresh dan coba lagi.');
           throw new Error(json.error);
         }
         return json;
@@ -1431,7 +1383,7 @@
       const done = ck.filter(r => r.status === 'Selesai').length;
       const pct = ck.length ? Math.round((done / ck.length) * 100) : 0;
       document.getElementById('dash-check-pct').innerText = pct + '%';
-      document.getElementById('dash-check-ratio').innerText = `${done}/${ck.length} Tugas`;
+      document.getElementById('dash-check-ratio').innerText = `${done}/${ck.length} Selesai`;
 
       const st = (APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
       const restock = st.filter(r => r.status === 'RESTOCK');
@@ -1522,7 +1474,7 @@
     }
 
     // ========================================================
-    // 2. CHECKLIST (SHIFT 1 & 2 + HANDOVER)
+    // 2. CHECKLIST (OPTIMISTIC UI INSTAN)
     // ========================================================
     function setChecklistShift(s) {
       APP.chkShift = s;
@@ -1595,6 +1547,7 @@
       const r = APP.data.sheets.CHECKLIST.rows.find(x => x._row === rowNumber);
       if (!r) return;
 
+      // Optimistic Update: Layar berganti instan detik itu juga!
       const oldStatus = r.status;
       r.status = newStatus;
       r.petugas = newStatus === 'Selesai' ? APP.user.username : '';
@@ -1603,16 +1556,9 @@
 
       try {
         await apiCall('save', {
-          sheet: 'CHECKLIST',
-          row: rowNumber,
-          v: r._v,
-          values: {
-            status: newStatus,
-            petugas: newStatus === 'Selesai' ? APP.user.username : '',
-            jam_selesai: newStatus === 'Selesai' ? jam : ''
-          }
+          sheet: 'CHECKLIST', row: rowNumber,
+          values: { status: newStatus, petugas: r.petugas, jam_selesai: r.jam_selesai, tanggal: new Date().toISOString().slice(0, 10) }
         });
-        fetchSync();
       } catch (err) {
         r.status = oldStatus;
         renderChecklist();
@@ -1629,9 +1575,7 @@
           tanggal: new Date().toISOString().slice(0, 10),
           tipe: 'Serah Terima 16:30',
           petugas_serah: APP.user.username,
-          prep_kurang_bar: b,
-          prep_kurang_kitchen: k,
-          prep_kurang_server: s
+          prep_kurang_bar: b, prep_kurang_kitchen: k, prep_kurang_server: s
         }
       });
       showToast('Catatan handover tersimpan ke Sheet!');
@@ -1660,7 +1604,6 @@
     function closeModalChkEditor() { document.getElementById('modal-chk-editor').classList.add('hidden'); }
     async function saveModalChk() {
       const rowId = document.getElementById('cke-row').value;
-      const r = rowId ? APP.data.sheets.CHECKLIST.rows.find(x => x._row === Number(rowId)) : null;
       const values = {
         tugas: document.getElementById('cke-tugas').value,
         divisi: document.getElementById('cke-div').value,
@@ -1672,7 +1615,6 @@
       await apiCall('save', {
         sheet: 'CHECKLIST',
         row: rowId ? Number(rowId) : undefined,
-        v: r ? r._v : undefined,
         values: values
       });
       closeModalChkEditor();
@@ -1681,7 +1623,7 @@
     }
 
     // ========================================================
-    // 3. STOK OPNAME & KARTU STASIUN
+    // 3. STOK OPNAME (149 BARANG)
     // ========================================================
     function setStokDivFilter(d) {
       APP.stkDiv = d;
@@ -1761,9 +1703,6 @@
     function closeModalAuditStok() { document.getElementById('modal-audit-stok').classList.add('hidden'); }
     async function saveModalAuditStok() {
       const rowId = Number(document.getElementById('astk-row').value);
-      const r = APP.data.sheets.STOK.rows.find(x => x._row === rowId);
-      if (!r) return;
-
       const values = {
         stok_gudang: Number(document.getElementById('astk-gudang').value) || 0,
         tersedia_pagi: Number(document.getElementById('astk-pagi').value) || 0,
@@ -1774,12 +1713,13 @@
         keterangan: document.getElementById('astk-ket').value
       };
 
-      await apiCall('save', { sheet: 'STOK', row: rowId, v: r._v, values: values });
+      await apiCall('save', { sheet: 'STOK', row: rowId, values: values });
       closeModalAuditStok();
       showToast('Data stok berhasil disimpan ke Sheet!');
       fetchSync();
     }
 
+    // Modal Catat Kejadian / Waste
     function openModalLogKejadian() {
       document.getElementById('evt-tgl').value = APP.selectedDateStr;
       setCurrentTime('evt-jam');
@@ -1794,15 +1734,18 @@
         divisi: document.getElementById('evt-div').value,
         jenis: document.getElementById('evt-jenis').value,
         nama_barang: document.getElementById('evt-barang').value,
-        qty: document.getElementById('evt-qty').value,
+        qty: Number(document.getElementById('evt-qty').value) || 1,
         satuan: document.getElementById('evt-satuan').value,
-        nilai_rp: document.getElementById('evt-nilai').value,
+        nilai_rp: Number(document.getElementById('evt-nilai').value) || 0,
         keterangan: document.getElementById('evt-ket').value,
         pelapor: APP.user.username
       };
-      await apiCall('save', { sheet: 'KEJADIAN', values: payload });
+
+      // Optimistic update
       closeModalKejadian();
-      showToast('Kejadian/Waste tercatat ke Sheet!');
+      showToast('Mencatat log ke Sheet...');
+      await apiCall('save', { sheet: 'KEJADIAN', values: payload });
+      showToast('Kejadian/Waste berhasil tersimpan!');
       fetchSync();
     }
 
@@ -1861,7 +1804,7 @@
     }
 
     // ========================================================
-    // 5. KALENDER & JADWAL KRU (KLIK & DOUBLE-CLICK)
+    // 5. KALENDER (DOUBLE-CLICK BISA CATAT EVENT APAPUN)
     // ========================================================
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1907,15 +1850,8 @@
       renderStaffRosterDetail();
     }
 
-    function selectDate(dStr) {
-      APP.selectedDateStr = dStr;
-      renderCalendar();
-    }
-
-    function handleDayDblClick(dStr) {
-      APP.selectedDateStr = dStr;
-      openModalLogKejadian();
-    }
+    function selectDate(dStr) { APP.selectedDateStr = dStr; renderCalendar(); }
+    function handleDayDblClick(dStr) { APP.selectedDateStr = dStr; openModalLogKejadian(); }
 
     function renderStaffRosterDetail() {
       const dStr = APP.selectedDateStr;
@@ -1938,7 +1874,7 @@
         `).join('');
       }
 
-      // Kejadian / Log
+      // Log Kejadian
       const evCont = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayEvts = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
@@ -1955,7 +1891,6 @@
       }
     }
 
-    // TARIK NAMA KRU KE DROPDOWN LENGKAP
     function populateUserDropdowns() {
       let users = [];
       if (APP.data && APP.data.sheets && APP.data.sheets.USERS && APP.data.sheets.USERS.rows && APP.data.sheets.USERS.rows.length) {
@@ -1989,7 +1924,6 @@
       if (document.getElementById('lbr-user')) document.getElementById('lbr-user').innerHTML = opts;
     }
 
-    // Modal Jadwal Kru
     function openModalAturJadwal() {
       document.getElementById('jdw-tgl').value = APP.selectedDateStr;
       document.getElementById('modal-jadwal').classList.remove('hidden');
@@ -2001,16 +1935,17 @@
       const kode = document.getElementById('jdw-shift').value;
       const cat = document.getElementById('jdw-cat').value;
 
+      closeModalJadwal();
+      showToast('Menyimpan jadwal kru...');
       await apiCall('save', {
         sheet: 'ROSTER',
-        values: { tanggal: tgl, username: uname, kode: kode, catatan: cat }
+        values: { tanggal: tgl, username: uname, kode: kode, catatan: cat, diubah_oleh: APP.user.username }
       });
-      closeModalJadwal();
       showToast('Jadwal kru berhasil diupdate!');
       fetchSync();
     }
 
-    // Modal Libur / Cuti dengan Mekanisme Pelindung Ganda
+    // Modal Libur (Pasti Berhasil Tersimpan)
     function openModalLibur() {
       document.getElementById('lbr-mulai').value = APP.selectedDateStr;
       document.getElementById('lbr-selesai').value = APP.selectedDateStr;
@@ -2023,32 +1958,26 @@
       const jns = document.getElementById('lbr-jenis').value;
       const ket = document.getElementById('lbr-ket').value;
 
-      // 1. Simpan ke ROSTER sebagai OFF / Cuti (Pasti Sukses!)
+      closeModalLibur();
+      showToast('Menyimpan jadwal libur...');
+      // 1. Simpan ke ROSTER agar kru tidak masuk shift
       try {
         await apiCall('save', {
           sheet: 'ROSTER',
-          values: { tanggal: tglMulai, username: uname, kode: 'OFF', catatan: `${jns}: ${ket}` }
+          values: { tanggal: tglMulai, username: uname, kode: 'OFF', catatan: `${jns}: ${ket}`, diubah_oleh: APP.user.username }
         });
       } catch (e) {}
 
-      // 2. Simpan ke tab LIBUR jika tersedia
-      try {
-        await apiCall('save', {
-          sheet: 'LIBUR',
-          values: {
-            tanggal_mulai: tglMulai,
-            tanggal_selesai: document.getElementById('lbr-selesai').value,
-            jenis: jns,
-            username: uname,
-            keterangan: ket
-          }
-        });
-      } catch (err) {
-        // Jika tab LIBUR belum ada, jadwal tetap tercatat di ROSTER sebagai OFF
-      }
-
-      closeModalLibur();
-      showToast('Data libur kru berhasil disimpan!');
+      // 2. Simpan ke tab LIBUR (Self-healing di backend)
+      await apiCall('save', {
+        sheet: 'LIBUR',
+        values: {
+          tanggal_mulai: tglMulai,
+          tanggal_selesai: document.getElementById('lbr-selesai').value,
+          jenis: jns, username: uname, keterangan: ket, dibuat_oleh: APP.user.username
+        }
+      });
+      showToast('Libur kru berhasil tercatat!');
       fetchSync();
     }
 
@@ -2154,7 +2083,6 @@
     }
     async function saveModalMenu() {
       const rowId = document.getElementById('mne-row').value;
-      const r = rowId ? APP.data.sheets.MENU.rows.find(x => x._row === Number(rowId)) : null;
       const values = {
         nama_produk: document.getElementById('mne-nama').value,
         jenis: document.getElementById('mne-jenis').value,
@@ -2165,7 +2093,6 @@
       await apiCall('save', {
         sheet: 'MENU',
         row: rowId ? Number(rowId) : undefined,
-        v: r ? r._v : undefined,
         values: values
       });
       closeModalMenuEditor();
@@ -2399,23 +2326,14 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (!uname || !nama) return alert('Username dan Nama Lengkap wajib diisi!');
       if (pin && !/^\d{4,8}$/.test(pin)) return alert('PIN harus berupa 4–8 digit angka!');
 
-      const r = rowId ? APP.data.sheets.USERS.rows.find(x => x._row === Number(rowId)) : null;
       const values = {
-        username: uname,
-        nama_lengkap: nama,
-        role: role,
-        divisi: div,
-        no_hp: hp,
-        status: status,
-        tipe_kerja: tipe,
-        catatan: cat
+        username: uname, nama_lengkap: nama, role: role, divisi: div,
+        no_hp: hp, status: status, tipe_kerja: tipe, catatan: cat
       };
-      if (pin) values.__pin = pin;
 
       await apiCall('save', {
         sheet: 'USERS',
         row: rowId ? Number(rowId) : undefined,
-        v: r ? r._v : undefined,
         values: values
       });
 
@@ -2424,9 +2342,11 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
           const pinSheet = APP.data.sheets.PIN_RAJA;
           if (pinSheet && pinSheet.rows) {
             const pr = pinSheet.rows.find(x => String(x.username).toLowerCase() === uname);
-            if (pr) {
-              await apiCall('save', { sheet: 'PIN_RAJA', row: pr._row, v: pr._v, values: { pin: pin } });
-            }
+            await apiCall('save', {
+              sheet: 'PIN_RAJA',
+              row: pr ? pr._row : undefined,
+              values: { username: uname, nama_lengkap: nama, role: role, pin: pin }
+            });
           }
         } catch (e) {}
       }
@@ -2440,14 +2360,12 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (uname === 'boy') return alert('Akun Super Admin boy tidak boleh dihapus!');
       if (!confirm(`Yakin ingin menghapus kru [${uname}] dari sistem?`)) return;
 
-      const r = APP.data.sheets.USERS.rows.find(x => x._row === rowNumber);
-      await apiCall('remove', { sheet: 'USERS', row: rowNumber, v: r ? r._v : undefined });
-
+      await apiCall('remove', { sheet: 'USERS', row: rowNumber });
       try {
         const pinSheet = APP.data.sheets.PIN_RAJA;
         if (pinSheet && pinSheet.rows) {
           const pr = pinSheet.rows.find(x => String(x.username).toLowerCase() === uname.toLowerCase());
-          if (pr) await apiCall('remove', { sheet: 'PIN_RAJA', row: pr._row, v: pr._v });
+          if (pr) await apiCall('remove', { sheet: 'PIN_RAJA', row: pr._row });
         }
       } catch (e) {}
 
@@ -2479,9 +2397,10 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
           </div>
         </div>
       `).join('');
+      lucide.createIcons();
     }
 
-    // SUB 3: MASTER STOK (TABEL PENUH MODERN)
+    // SUB 3: MASTER STOK (TABEL DATA PENUH)
     function renderSuperStokTable() {
       const tbody = document.getElementById('super-stok-tbody');
       const sheet = APP.data.sheets.STOK;
@@ -2554,25 +2473,17 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       const sat = document.getElementById('mstk-satuan').value.trim();
       const min = Number(document.getElementById('mstk-min').value) || 0;
       const gudang = Number(document.getElementById('mstk-gudang').value) || 0;
-      const sore = document.getElementById('mstk-cek-sore').value;
 
       if (!nama) return alert('Nama barang wajib diisi!');
 
-      const r = rowId ? APP.data.sheets.STOK.rows.find(x => x._row === Number(rowId)) : null;
       const values = {
-        nama_barang: nama,
-        divisi: div,
-        kategori: kat,
-        satuan: sat,
-        min_stok: min,
-        stok_gudang: gudang,
-        dicek_sore: sore
+        nama_barang: nama, divisi: div, kategori: kat, satuan: sat,
+        min_stok: min, stok_gudang: gudang
       };
 
       await apiCall('save', {
         sheet: 'STOK',
         row: rowId ? Number(rowId) : undefined,
-        v: r ? r._v : undefined,
         values: values
       });
       closeModalStokMaster();
@@ -2608,9 +2519,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
 
     async function deleteRowRaw(sheetName, rowNumber) {
       if (!confirm(`Yakin ingin menghapus baris #${rowNumber} dari tab [${sheetName}] di Sheet?`)) return;
-      const sheet = APP.data.sheets[sheetName];
-      const r = sheet ? sheet.rows.find(x => x._row === rowNumber) : null;
-      await apiCall('remove', { sheet: sheetName, row: rowNumber, v: r ? r._v : undefined });
+      await apiCall('remove', { sheet: sheetName, row: rowNumber });
       showToast(`Baris dihapus dari ${sheetName}!`);
       fetchSync();
     }
