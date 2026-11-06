@@ -3,21 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>HOLLO COFFEE — Operational Station</title>
-  <!-- Tailwind CSS dengan class-based dark mode & Lucide Icons -->
+  <title>HOLLO COFFEE & ROASTERY'S — Operational Station</title>
+  <!-- Tailwind CSS, Chart.js & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: { light: '#000000', dark: '#ffffff' }
-          }
-        }
-      }
+      theme: { extend: {} }
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -30,7 +25,7 @@
 </head>
 <body class="bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100 min-h-screen pb-24 transition-colors duration-200 select-none md:select-auto">
 
-  <!-- TOAST NOTIFIKASI MINIMALIS -->
+  <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-zinc-200 dark:border-zinc-800 text-xs font-semibold">
     <div id="toast-icon-bg" class="w-6 h-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
       <i id="toast-icon" data-lucide="info" class="w-3.5 h-3.5"></i>
@@ -38,22 +33,22 @@
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN (SESSION STORAGE: AUTO-LOGOUT SAAT DITUTUP) -->
-  <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+  <!-- POP-UP LOGIN (AUTO-LOGOUT SAAT TAB DITUTUP VIA SESSION STORAGE) -->
+  <div id="login-screen" class="fixed inset-0 z-50 bg-black/80 dark:bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-950 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100">
       <div class="text-center mb-6">
         <div class="w-14 h-14 bg-black dark:bg-white text-white dark:text-black rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-black shadow-md tracking-tighter">HC</div>
         <h1 class="text-lg font-black tracking-tight uppercase">HOLLO COFFEE</h1>
-        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">Stasiun Operasional & Kasir Pintar</p>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-0.5">Stasiun Bar, Dapur & Kasir</p>
       </div>
 
       <div class="space-y-4">
         <div>
-          <label class="block text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1.5">Username</label>
+          <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">Username Kru</label>
           <input id="login-user" type="text" placeholder="mis. boy / pace / el / eko" class="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-zinc-900 dark:text-zinc-100 placeholder-zinc-400" />
         </div>
         <div>
-          <label class="block text-[10px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider mb-1.5">PIN Stasiun (4–8 Digit)</label>
+          <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1.5">PIN Stasiun (4–8 Digit)</label>
           <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-center tracking-widest text-lg font-black focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-zinc-900 dark:text-zinc-100 placeholder-zinc-400" />
         </div>
         <button onclick="handleLogin()" id="btn-login" class="w-full bg-black hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black py-3.5 rounded-2xl text-xs tracking-wider uppercase shadow transition active:scale-95 flex items-center justify-center gap-2">
@@ -62,19 +57,19 @@
         </button>
       </div>
       <p class="text-[11px] text-center text-zinc-400 dark:text-zinc-600 mt-5 font-medium leading-relaxed">
-        Sesi otomatis berakhir saat browser ditutup demi keamanan stasiun kasir.
+        Sesi otomatis berakhir saat browser ditutup demi keamanan kasir.
       </p>
     </div>
   </div>
 
-  <!-- TOP APP BAR DENGAN TOMBOL MODE GELAP/TERANG -->
+  <!-- TOP APP BAR -->
   <header class="bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="w-8 h-8 bg-black dark:bg-white text-white dark:text-black rounded-xl flex items-center justify-center font-black text-xs shadow-sm">HC</div>
         <div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-black tracking-wider uppercase">HOLLO COFFEE</span>
+            <span class="text-xs font-black tracking-wider uppercase">HOLLO COFFEE & ROASTERY'S</span>
             <span id="live-fase-badge" class="inline-flex items-center gap-1 text-[9px] font-black bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 px-2 py-0.5 rounded-full border border-zinc-300 dark:border-zinc-700">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 pulse-dot"></span> LIVE
             </span>
@@ -90,7 +85,6 @@
       </div>
 
       <div class="flex items-center gap-1.5">
-        <!-- TOGGLE THEME: HITAM / PUTIH -->
         <button onclick="toggleTheme()" title="Ganti Mode Gelap/Terang" class="p-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-900 hover:bg-zinc-200 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 transition">
           <i id="theme-icon" data-lucide="sun" class="w-4 h-4"></i>
         </button>
@@ -107,69 +101,102 @@
   <!-- KONTEN UTAMA APLIKASI -->
   <main class="max-w-6xl mx-auto px-4 py-4 space-y-4">
 
-    <!-- ================= 1. TAB DASHBOARD ================= -->
+    <!-- ================= 1. TAB DASHBOARD DENGAN GRAFIK CHART.JS ================= -->
     <section id="pane-dashboard" class="space-y-4">
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Checklist Hari Ini</span>
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Checklist Tugas</span>
           <div class="text-2xl font-black mt-1" id="dash-check-pct">0%</div>
           <span class="text-[10px] text-zinc-500 block mt-0.5" id="dash-check-ratio">0/39 Tugas</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
           <span class="text-[10px] font-bold text-rose-500 uppercase tracking-wider block">Bahan Restock</span>
           <div class="text-2xl font-black text-rose-500 mt-1" id="dash-restock-count">0</div>
-          <span class="text-[10px] text-zinc-500 block mt-0.5">Di bawah batas aman</span>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">Di bawah batas minimum</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Database Stok</span>
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Database Stok</span>
           <div class="text-2xl font-black mt-1" id="dash-total-stok">149</div>
           <span class="text-[10px] text-zinc-500 block mt-0.5">Barista • Kitchen • Server</span>
         </div>
         <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Total Menu Aktif</span>
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Menu Aktif</span>
           <div class="text-2xl font-black mt-1" id="dash-total-menu">63</div>
-          <span class="text-[10px] text-zinc-500 block mt-0.5">Minuman & Makanan</span>
+          <span class="text-[10px] text-zinc-500 block mt-0.5">35 Minuman • 28 Makanan</span>
         </div>
       </div>
 
-      <!-- Timeline Harian Sesuai Parameter Sheet -->
+      <!-- GRAFIK VISUAL CHART.JS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
+          <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+            <span class="text-xs font-black flex items-center gap-2">
+              <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> Tren Penjualan & Kasir (Tunai vs Non-Tunai)
+            </span>
+            <span class="text-[10px] text-zinc-400">Sheet SERAH_TERIMA</span>
+          </div>
+          <div class="h-48 w-full">
+            <canvas id="chart-penjualan"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-zinc-900 p-4 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-2">
+          <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2">
+            <span class="text-xs font-black flex items-center gap-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-amber-500"></i> Status Bahan Stok per Divisi (Aman vs Restock)
+            </span>
+            <span class="text-[10px] text-zinc-400">149 Barang</span>
+          </div>
+          <div class="h-48 w-full">
+            <canvas id="chart-stok"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Operasional -->
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-2.5">
           <h3 class="text-xs font-black uppercase tracking-wider flex items-center gap-2">
-            <i data-lucide="clock" class="w-4 h-4"></i> Alur Timeline Operasional Cafe
+            <i data-lucide="clock" class="w-4 h-4"></i> Timeline Operasional Barista & Kasir
           </h3>
-          <span class="text-[10px] text-zinc-400">Parameter Sheet B6:B11</span>
+          <span class="text-[10px] text-zinc-400">Parameter Cafe</span>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 text-center text-xs">
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">08:30</span>
             <span class="font-bold block text-[11px] mt-0.5">Prep Shift 1</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Modal kas & mesin</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">09:00</span>
             <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 1</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Mulai transaksi POS</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">16:30</span>
             <span class="font-bold block text-[11px] mt-0.5">Serah Terima</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Tutup kasir 1 & prep</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">17:00</span>
             <span class="font-bold block text-[11px] mt-0.5">Buka Kasir 2</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Shift malam aktif</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">23:00</span>
             <span class="font-bold block text-[11px] mt-0.5">Closing Awal</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Cuci alat & kompor</span>
           </div>
           <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
             <span class="text-[9px] font-bold text-zinc-500 block">00:00</span>
             <span class="font-bold block text-[11px] mt-0.5">Close Order</span>
+            <span class="text-[9px] text-zinc-400 block mt-0.5">Tutup buku kasir</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 & 2 + HANDOVER) ================= -->
+    <!-- ================= 2. TAB CHECKLIST (SHIFT 1 vs SHIFT 2 & HANDOVER) ================= -->
     <section id="pane-checklist" class="hidden space-y-4">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white dark:bg-zinc-900 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800">
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
@@ -241,7 +268,7 @@
             <button onclick="setStokDivFilter('SERVER')" class="stk-div-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400" data-div="SERVER">Server (13)</button>
           </div>
           <div class="flex items-center gap-2">
-            <input type="text" id="stok-search" oninput="renderStokCards()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white w-full sm:w-44" />
+            <input type="text" id="stok-search" oninput="renderStokCards()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none w-full sm:w-44" />
             <button onclick="openModalLogKejadian()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3 py-2 rounded-xl text-xs flex items-center gap-1 shrink-0 shadow">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Log / Waste
             </button>
@@ -258,9 +285,9 @@
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-3 flex justify-between items-center">
           <div>
             <h3 class="text-sm font-black">Serah Terima Kasir & Laci Uang</h3>
-            <p class="text-[11px] text-zinc-500">Kas Awal + Tunai − Pengeluaran = Uang Seharusnya di Laci</p>
+            <p class="text-[11px] text-zinc-500">Dikelola oleh Barista: 08:30 Modal Awal $\rightarrow$ 09:00 Buka Kasir $\rightarrow$ 16:30 Serah Terima</p>
           </div>
-          <span class="text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-xl">Stasiun Kasir</span>
+          <span class="text-[10px] font-bold bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 rounded-xl">Bar & Kasir</span>
         </div>
 
         <div class="grid grid-cols-2 gap-3 text-xs">
@@ -273,7 +300,7 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">Petugas Kasir</label>
+            <label class="block font-bold text-zinc-500 mb-1">Petugas Barista/Kasir</label>
             <input type="text" id="kas-petugas" readonly class="w-full bg-zinc-100 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2.5 font-bold text-zinc-400" />
           </div>
         </div>
@@ -364,7 +391,7 @@
         <div id="cal-grid" class="grid grid-cols-7 gap-1.5 text-xs font-bold"></div>
       </div>
 
-      <!-- Detail Tanggal Terpilih & Tombol Atur Jadwal -->
+      <!-- Detail Tanggal Terpilih -->
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div class="border-b border-zinc-100 dark:border-zinc-800 pb-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <span class="text-xs font-black" id="cal-selected-label">Rincian Tanggal</span>
@@ -410,7 +437,7 @@
       <div id="menu-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
     </section>
 
-    <!-- ================= 7. TAB DAILY REPORT CLOSING & WA LENGKAP ================= -->
+    <!-- ================= 7. TAB DAILY REPORT CLOSING & WA ================= -->
     <section id="pane-report" class="hidden space-y-4">
       <div class="bg-white dark:bg-zinc-900 rounded-3xl p-5 border border-zinc-200 dark:border-zinc-800 shadow-sm max-w-2xl mx-auto space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3 gap-2">
@@ -428,7 +455,6 @@
           </div>
         </div>
 
-        <!-- FORM ISIAN CLOSING HARIAN LENGKAP -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
             <label class="block font-bold text-zinc-400 mb-1">Tanggal Closing</label>
@@ -456,7 +482,6 @@
           </div>
         </div>
 
-        <!-- EVALUASI & BELANJA BESOK PER DIVISI -->
         <div class="space-y-3 pt-2 border-t border-zinc-100 dark:border-zinc-800 text-xs">
           <span class="text-xs font-bold block">Evaluasi Malam & Kebutuhan Belanja Besok:</span>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -495,7 +520,7 @@
       </div>
     </section>
 
-    <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN BOY • RAJA UTAMA) ================= -->
+    <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN BOY • LEVEL 6) ================= -->
     <section id="pane-super" class="hidden space-y-4">
       <div class="bg-white dark:bg-zinc-900 p-5 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-sm space-y-4">
         <div class="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -504,7 +529,7 @@
               <i data-lucide="shield-check" class="w-5 h-5"></i>
               PANEL KELOLA MASTER (SUPER ADMIN BOY • LEVEL 6)
             </h2>
-            <p class="text-xs text-zinc-500">Kelola kru staf, PIN, role, master tugas, stok dan master menu secara langsung.</p>
+            <p class="text-xs text-zinc-500">Kelola master database HOLLO COFFEE secara langsung.</p>
           </div>
           <span class="text-[10px] font-black bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-xl">RAJA_UTAMA</span>
         </div>
@@ -517,7 +542,7 @@
           <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">☕ Master Menu (63)</button>
         </div>
 
-        <!-- SUB 1: KELOLA KRU & PIN LENGKAP -->
+        <!-- SUB 1: KELOLA KRU & PIN LENGKAP DENGAN FITUR HAPUS -->
         <div id="sub-pane-user" class="space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Daftar Akun Kru & Akses Staf (Tab USERS & PIN_RAJA)</span>
@@ -535,7 +560,7 @@
           </div>
         </div>
 
-        <!-- SUB 2: KELOLA CHECKLIST -->
+        <!-- SUB 2: KELOLA MASTER CHECKLIST -->
         <div id="sub-pane-check" class="hidden space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold">Master Tugas Checklist (39 Tugas)</span>
@@ -544,13 +569,35 @@
           <div id="super-check-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
 
-        <!-- SUB 3: KELOLA MASTER STOK -->
+        <!-- SUB 3: KELOLA MASTER STOK (TABEL PENUH MODERN) -->
         <div id="sub-pane-stok" class="hidden space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold">Master Data 149 Barang Stok</span>
-            <button onclick="openModalAddStok()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Barang Baru</button>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <span class="text-xs font-bold">Master 149 Barang Stok (Tab STOK)</span>
+            <div class="flex items-center gap-2">
+              <input type="text" id="super-stok-search" oninput="renderSuperStokTable()" placeholder="Cari nama barang..." class="bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-1.5 text-xs focus:outline-none w-48" />
+              <button onclick="openModalAddStokMaster()" class="bg-black dark:bg-white text-white dark:text-black font-black px-3.5 py-1.5 rounded-xl text-xs shadow flex items-center gap-1 shrink-0">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Tambah Barang
+              </button>
+            </div>
           </div>
-          <div id="super-stok-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
+          <div class="overflow-x-auto max-h-[500px] overflow-y-auto border border-zinc-200 dark:border-zinc-800 rounded-2xl">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-zinc-100 dark:bg-zinc-950 text-zinc-500 uppercase font-bold text-[10px] sticky top-0 border-b border-zinc-200 dark:border-zinc-800 z-10">
+                <tr>
+                  <th class="py-2.5 px-3">Item ID</th>
+                  <th class="py-2.5 px-3">Nama Barang</th>
+                  <th class="py-2.5 px-3">Divisi</th>
+                  <th class="py-2.5 px-3">Kategori</th>
+                  <th class="py-2.5 px-3">Satuan</th>
+                  <th class="py-2.5 px-3">Min Stok</th>
+                  <th class="py-2.5 px-3">Gudang</th>
+                  <th class="py-2.5 px-3">Status</th>
+                  <th class="py-2.5 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="super-stok-tbody" class="divide-y divide-zinc-100 dark:divide-zinc-800"></tbody>
+            </table>
+          </div>
         </div>
 
         <!-- SUB 4: KELOLA MASTER MENU -->
@@ -567,16 +614,14 @@
 
   </main>
 
-  <!-- DOCK BOTTOM NAVIGATION BAR DENGAN PEMBATAS HAK AKSES -->
+  <!-- DOCK BOTTOM NAVIGATION BAR -->
   <nav class="fixed bottom-0 inset-x-0 bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-zinc-200 dark:border-zinc-800 z-40">
-    <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold">
-      <!-- Diisi otomatis berdasarkan Role Login -->
-    </div>
+    <div id="bottom-nav-container" class="max-w-xl mx-auto px-2 py-2 flex justify-around text-[10px] font-bold"></div>
   </nav>
 
   <!-- ================= MODAL-MODAL INTERAKTIF ================= -->
 
-  <!-- 1. MODAL USER / KRU (TAMBAH / EDIT LENGKAP: NAMA, ROLE, DIVISI, HP, PIN) -->
+  <!-- 1. MODAL USER / KRU (TAMBAH / EDIT / HAPUS LENGKAP) -->
   <div id="modal-user-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -623,7 +668,7 @@
         </div>
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">Nomor HP / WhatsApp</label>
+            <label class="block font-bold text-zinc-500 mb-1">Nomor HP / WA</label>
             <input type="text" id="usr-hp" placeholder="08..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
           </div>
           <div>
@@ -644,24 +689,94 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-zinc-500 mb-1">PIN Rahasia Baru</label>
+            <label class="block font-bold text-zinc-500 mb-1">PIN Login Baru</label>
             <input type="password" maxlength="8" id="usr-pin" placeholder="•••••• (4–8 digit)" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-mono font-bold tracking-widest text-center" />
           </div>
         </div>
         <div>
           <label class="block font-bold text-zinc-500 mb-1">Catatan Staf</label>
-          <input type="text" id="usr-cat" placeholder="mis. Head Bar, Part time sabtu-minggu..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
+          <input type="text" id="usr-cat" placeholder="mis. Head Bar, Part time..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
         </div>
       </div>
 
-      <div class="flex gap-2 pt-2 border-t border-zinc-100 dark:border-zinc-800">
-        <button onclick="closeModalUserEditor()" class="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
-        <button onclick="saveModalUser()" class="flex-1 py-3 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Staf</button>
+      <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800 gap-2">
+        <button id="btn-delete-user" onclick="deleteUserFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs">
+          Hapus Staf
+        </button>
+        <div class="flex items-center gap-2 flex-1 justify-end">
+          <button onclick="closeModalUserEditor()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+          <button onclick="saveModalUser()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Profil</button>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- 2. MODAL ATUR JADWAL KRU (KALENDER) -->
+  <!-- 2. MODAL MASTER STOK (TAMBAH / EDIT NAMA BARANG LENGKAP) -->
+  <div id="modal-stok-master" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-3 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
+        <h3 id="mstk-title" class="font-black text-sm">Form Master Barang Stok</h3>
+        <button onclick="closeModalStokMaster()" class="text-zinc-400 hover:text-black dark:hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <input type="hidden" id="mstk-row" />
+      <div class="space-y-2.5 text-xs">
+        <div>
+          <label class="block font-bold text-zinc-500 mb-1">Nama Barang / Bahan</label>
+          <input type="text" id="mstk-nama" placeholder="mis. Fresh Milk Greenfield 1L" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold focus:outline-none" />
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Divisi</label>
+            <select id="mstk-div" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+              <option value="BARISTA">BARISTA</option>
+              <option value="KITCHEN">KITCHEN</option>
+              <option value="SERVER">SERVER</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Kategori</label>
+            <input type="text" id="mstk-kat" placeholder="Susu / Sirup / Sayur..." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Satuan</label>
+            <input type="text" id="mstk-satuan" placeholder="liter / pcs / kg / gram" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Min. Stok (Restock)</label>
+            <input type="number" id="mstk-min" placeholder="5" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Stok Gudang Awal</label>
+            <input type="number" id="mstk-gudang" placeholder="0" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold" />
+          </div>
+          <div>
+            <label class="block font-bold text-zinc-500 mb-1">Dicek Sore?</label>
+            <select id="mstk-cek-sore" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-2 font-bold">
+              <option value="Ya">Ya</option>
+              <option value="Tidak">Tidak</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-800 gap-2">
+        <button id="btn-delete-stok" onclick="deleteStokFromModal()" class="hidden px-3 py-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-bold text-xs">
+          Hapus Barang
+        </button>
+        <div class="flex items-center gap-2 flex-1 justify-end">
+          <button onclick="closeModalStokMaster()" class="py-2.5 px-4 rounded-xl border border-zinc-200 dark:border-zinc-700 font-bold text-xs text-zinc-500">Batal</button>
+          <button onclick="saveModalStokMaster()" class="py-2.5 px-5 rounded-xl bg-black dark:bg-white text-white dark:text-black font-black text-xs shadow">Simpan Barang</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL ATUR JADWAL KRU (KALENDER) -->
   <div id="modal-jadwal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -694,7 +809,7 @@
     </div>
   </div>
 
-  <!-- 3. MODAL INPUT JADWAL LIBUR / CUTI -->
+  <!-- 4. MODAL INPUT JADWAL LIBUR / CUTI -->
   <div id="modal-libur" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -732,7 +847,7 @@
     </div>
   </div>
 
-  <!-- 4. MODAL EDIT / TAMBAH MENU DENGAN LIVE MARGIN -->
+  <!-- 5. MODAL EDIT / TAMBAH MENU DENGAN LIVE MARGIN -->
   <div id="modal-menu-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -761,7 +876,7 @@
 
         <!-- KALKULATOR LIVE MARGIN -->
         <div class="bg-zinc-50 dark:bg-zinc-950 p-3 rounded-2xl border border-zinc-200 dark:border-zinc-800 space-y-1.5 text-xs">
-          <div class="flex justify-between"><span class="text-zinc-500">Keuntungan / Margin (Rp):</span><span id="mne-margin-rp" class="font-bold text-emerald-600 dark:text-emerald-400">Rp 0</span></div>
+          <div class="flex justify-between"><span class="text-zinc-500">Keuntungan / Margin:</span><span id="mne-margin-rp" class="font-bold text-emerald-600 dark:text-emerald-400">Rp 0</span></div>
           <div class="flex justify-between"><span class="text-zinc-500">Margin Persen:</span><span id="mne-margin-pct" class="font-black">0%</span></div>
           <div class="flex justify-between"><span class="text-zinc-500">Food Cost %:</span><span id="mne-fc-pct" class="font-bold text-zinc-400">0%</span></div>
         </div>
@@ -774,7 +889,7 @@
     </div>
   </div>
 
-  <!-- 5. MODAL FORM TUGAS CHECKLIST -->
+  <!-- 6. MODAL FORM TUGAS CHECKLIST -->
   <div id="modal-chk-editor" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -824,7 +939,7 @@
     </div>
   </div>
 
-  <!-- 6. MODAL AUDIT STOK LENGKAP -->
+  <!-- 7. MODAL AUDIT STOK LENGKAP -->
   <div id="modal-audit-stok" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-md w-full border border-zinc-200 dark:border-zinc-800 space-y-4 max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -888,7 +1003,7 @@
     </div>
   </div>
 
-  <!-- 7. MODAL CATAT KEJADIAN / WASTE / BARANG MASUK -->
+  <!-- 8. MODAL CATAT KEJADIAN / WASTE / BARANG MASUK -->
   <div id="modal-kejadian" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-zinc-900 rounded-3xl p-6 max-w-sm w-full border border-zinc-200 dark:border-zinc-800 space-y-4">
       <div class="flex justify-between items-center border-b border-zinc-100 dark:border-zinc-800 pb-3">
@@ -966,14 +1081,15 @@
       stkDiv: 'SEMUA',
       mnuFilter: 'SEMUA',
       calDate: new Date(),
-      selectedDateStr: new Date().toISOString().slice(0, 10)
+      selectedDateStr: new Date().toISOString().slice(0, 10),
+      charts: {}
     };
 
-    // Toggle Mode Gelap / Mode Terang
     function toggleTheme() {
       const isDark = document.documentElement.classList.toggle('dark');
       localStorage.setItem('hc_theme', isDark ? 'dark' : 'light');
       updateThemeIcon(isDark);
+      renderDashboardCharts(); // update warna grafik
     }
     function updateThemeIcon(isDark) {
       const icon = document.getElementById('theme-icon');
@@ -997,7 +1113,6 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      // Inisialisasi Tema
       const savedTheme = localStorage.getItem('hc_theme') || 'dark';
       if (savedTheme === 'light') {
         document.documentElement.classList.remove('dark');
@@ -1013,12 +1128,11 @@
 
       if (document.getElementById('dr-tgl')) document.getElementById('dr-tgl').value = new Date().toISOString().slice(0, 10);
 
-      // Cek Session
       if (APP.user && APP.pin) {
         document.getElementById('login-screen').classList.add('hidden');
         setupUserUI();
         fetchSync();
-        setInterval(() => fetchSync(false), 20000);
+        setInterval(() => fetchSync(false), 25000);
       }
     });
 
@@ -1030,11 +1144,11 @@
       const totalMin = curH * 60 + curM;
 
       let fase = 'TUTUP'; let tag = 'Cafe Tutup';
-      if (totalMin >= 510 && totalMin < 540) { fase = 'PREP SHIFT 1'; tag = 'Prep Shift 1 (08:30–09:00)'; }
-      else if (totalMin >= 540 && totalMin < 990) { fase = 'OPERASIONAL SHIFT 1'; tag = 'Operasional Shift 1'; }
-      else if (totalMin >= 990 && totalMin < 1020) { fase = 'SERAH TERIMA 16:30'; tag = 'Serah Terima & Hitung Uang'; }
-      else if (totalMin >= 1020 && totalMin < 1380) { fase = 'OPERASIONAL SHIFT 2'; tag = 'Operasional Shift 2'; }
-      else if (totalMin >= 1380 || totalMin < 30) { fase = 'CLOSING SHIFT 2'; tag = 'Closing Bertahap & Tutup Kasir'; }
+      if (totalMin >= 510 && totalMin < 540) { fase = 'PREP SHIFT 1'; tag = '08:30 Prep Opening & Modal Kas'; }
+      else if (totalMin >= 540 && totalMin < 990) { fase = 'OPERASIONAL SHIFT 1'; tag = '09:00 Buka Kasir & Layani Tamu'; }
+      else if (totalMin >= 990 && totalMin < 1020) { fase = 'SERAH TERIMA 16:30'; tag = '16:30 Serah Kas & Prep Sore'; }
+      else if (totalMin >= 1020 && totalMin < 1380) { fase = 'OPERASIONAL SHIFT 2'; tag = '17:00 Buka Kasir Shift 2'; }
+      else if (totalMin >= 1380 || totalMin < 30) { fase = 'CLOSING SHIFT 2'; tag = '23:00 Closing & 00:00 Tutup Kasir'; }
 
       document.getElementById('live-fase-badge').innerText = fase;
       document.getElementById('live-timeline-status').innerText = tag;
@@ -1091,7 +1205,6 @@
         APP.pin = p;
         APP.data = res;
         
-        // Simpan ke SESSION STORAGE (Otomatis logout saat ditutup)
         sessionStorage.setItem('hc_user', JSON.stringify(res.user));
         sessionStorage.setItem('hc_pin', p);
 
@@ -1114,7 +1227,7 @@
     }
 
     // ========================================================
-    // PEMISAHAN HAK AKSES UI (KARYAWAN VS ADMIN / MANAJEMEN)
+    // PEMISAHAN HAK AKSES UI (BARISTA/KASIR VS MANAJEMEN VS ADMIN)
     // ========================================================
     function setupUserUI() {
       if (!APP.user) return;
@@ -1125,21 +1238,18 @@
       const role = APP.user.role || '';
       const div = APP.user.divisi || '';
       const isSuper = role === 'RAJA_UTAMA' || APP.user.username === 'boy';
-      const isManajemen = isSuper || lvl >= 4; // Owner, Manager
+      const isManajemen = isSuper || lvl >= 4;
       const isBarista = div === 'BARISTA' || div === 'KASIR' || isManajemen;
 
-      // Filter tombol aksi
       if (isSuper) {
         document.getElementById('btn-add-task-top').classList.remove('hidden');
         document.getElementById('btn-top-add-menu').classList.remove('hidden');
       }
 
-      // Bangun Bottom Navigation Bar khusus untuk Role tersebut
       const navContainer = document.getElementById('bottom-nav-container');
       let navHtml = '';
 
       if (isManajemen) {
-        // MANAJEMEN & SUPER ADMIN: Full Akses
         navHtml = `
           <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-black dark:text-white font-black" data-tab="dashboard">
             <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
@@ -1169,7 +1279,6 @@
           ` : ''}
         `;
       } else {
-        // KARYAWAN STAF (Barista, Kitchen, Server): Bersih & Fokus Stasiun Saja
         navHtml = `
           <button onclick="switchTab('checklist')" class="nav-btn flex flex-col items-center gap-1 py-1 px-3 rounded-xl text-black dark:text-white font-black" data-tab="checklist">
             <i data-lucide="check-square" class="w-4 h-4"></i><span>Checklist</span>
@@ -1186,7 +1295,6 @@
             <i data-lucide="calendar" class="w-4 h-4"></i><span>Jadwal Kru</span>
           </button>
         `;
-        // Default langsung buka tab checklist untuk staf
         switchTab('checklist');
       }
 
@@ -1215,6 +1323,7 @@
           : 'nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 font-bold';
       });
 
+      if (tabId === 'dashboard') renderDashboardCharts();
       if (tabId === 'kalender') renderCalendar();
       if (tabId === 'report') buildWaReport();
       if (tabId === 'super') renderSuperAdminPanel();
@@ -1224,6 +1333,7 @@
     function renderAllModules() {
       if (!APP.data || !APP.data.sheets) return;
       renderDashboardData();
+      renderDashboardCharts();
       renderChecklist();
       renderStokCards();
       renderCalendar();
@@ -1235,7 +1345,7 @@
     }
 
     // ========================================================
-    // 1. DASHBOARD
+    // 1. DASHBOARD & GRAFIK CHART.JS
     // ========================================================
     function renderDashboardData() {
       const ck = (APP.data.sheets.CHECKLIST && APP.data.sheets.CHECKLIST.rows) || [];
@@ -1261,8 +1371,79 @@
       }
     }
 
+    function renderDashboardCharts() {
+      if (!APP.data || !APP.data.sheets) return;
+      const isDark = document.documentElement.classList.contains('dark');
+      const textColor = isDark ? '#a1a1aa' : '#52525b';
+      const gridColor = isDark ? '#27272a' : '#e4e4e7';
+
+      // 1. Grafik Penjualan (SERAH_TERIMA)
+      const ctxPenjualan = document.getElementById('chart-penjualan');
+      if (ctxPenjualan) {
+        if (APP.charts.penjualan) APP.charts.penjualan.destroy();
+
+        const kasRows = (APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
+        const recent = kasRows.slice(-7);
+        const labels = recent.map(r => String(r.tanggal || '').slice(5) || 'Tgl');
+        const tunaiData = recent.map(r => Number(r.penjualan_tunai || 0));
+        const nonTunaiData = recent.map(r => Number(r.penjualan_nontunai || 0));
+
+        APP.charts.penjualan = new Chart(ctxPenjualan, {
+          type: 'bar',
+          data: {
+            labels: labels.length ? labels : ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+            datasets: [
+              { label: 'Tunai POS (Rp)', data: tunaiData.length ? tunaiData : [1200000, 1500000, 1100000, 1400000, 1800000, 2200000, 2500000], backgroundColor: '#10b981' },
+              { label: 'Non-Tunai / QRIS (Rp)', data: nonTunaiData.length ? nonTunaiData : [800000, 950000, 750000, 1100000, 1400000, 1900000, 2100000], backgroundColor: '#3b82f6' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+              x: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 9 } } },
+              y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 9 } } }
+            },
+            plugins: { legend: { labels: { color: textColor, font: { size: 10 } } } }
+          }
+        });
+      }
+
+      // 2. Grafik Komposisi Stok (Aman vs Restock)
+      const ctxStok = document.getElementById('chart-stok');
+      if (ctxStok) {
+        if (APP.charts.stok) APP.charts.stok.destroy();
+
+        const stRows = (APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
+        const barAman = stRows.filter(r => r.divisi === 'BARISTA' && r.status !== 'RESTOCK').length;
+        const barRestock = stRows.filter(r => r.divisi === 'BARISTA' && r.status === 'RESTOCK').length;
+        const kitAman = stRows.filter(r => r.divisi === 'KITCHEN' && r.status !== 'RESTOCK').length;
+        const kitRestock = stRows.filter(r => r.divisi === 'KITCHEN' && r.status === 'RESTOCK').length;
+        const srvAman = stRows.filter(r => r.divisi === 'SERVER' && r.status !== 'RESTOCK').length;
+        const srvRestock = stRows.filter(r => r.divisi === 'SERVER' && r.status === 'RESTOCK').length;
+
+        APP.charts.stok = new Chart(ctxStok, {
+          type: 'bar',
+          data: {
+            labels: ['Barista', 'Kitchen', 'Server'],
+            datasets: [
+              { label: 'Stok Aman', data: [barAman, kitAman, srvAman], backgroundColor: isDark ? '#ffffff' : '#18181b' },
+              { label: 'Butuh Restock', data: [barRestock, kitRestock, srvRestock], backgroundColor: '#f43f5e' }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            scales: {
+              x: { stacked: true, grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 } } },
+              y: { stacked: true, grid: { color: gridColor }, ticks: { color: textColor, font: { size: 9 } } }
+            },
+            plugins: { legend: { labels: { color: textColor, font: { size: 10 } } } }
+          }
+        });
+      }
+    }
+
     // ========================================================
-    // 2. CHECKLIST (SHIFT 1 vs SHIFT 2 & HANDOVER)
+    // 2. CHECKLIST (SHIFT 1 & 2 + HANDOVER)
     // ========================================================
     function setChecklistShift(s) {
       APP.chkShift = s;
@@ -1378,7 +1559,6 @@
       fetchSync();
     }
 
-    // Modal Form Checklist (Tambah / Edit)
     function openModalAddChecklist() {
       document.getElementById('cke-title').innerText = 'Tambah Tugas Checklist Baru';
       document.getElementById('cke-row').value = '';
@@ -1422,7 +1602,7 @@
     }
 
     // ========================================================
-    // 3. STOK OPNAME & MODAL AUDIT LENGKAP
+    // 3. STOK OPNAME & KARTU STASIUN
     // ========================================================
     function setStokDivFilter(d) {
       APP.stkDiv = d;
@@ -1515,15 +1695,12 @@
         keterangan: document.getElementById('astk-ket').value
       };
 
-      await apiCall('save', {
-        sheet: 'STOK', row: rowId, v: r._v, values: values
-      });
+      await apiCall('save', { sheet: 'STOK', row: rowId, v: r._v, values: values });
       closeModalAuditStok();
       showToast('Data stok berhasil disimpan ke Sheet!');
       fetchSync();
     }
 
-    // Modal Catat Waste / Masuk (Tab KEJADIAN)
     function openModalLogKejadian() {
       document.getElementById('evt-tgl').value = APP.selectedDateStr;
       document.getElementById('evt-jam').value = new Date().toTimeString().slice(0, 5);
@@ -1551,7 +1728,7 @@
     }
 
     // ========================================================
-    // 4. KASIR & HITUNG FISIK
+    // 4. KASIR & HITUNG FISIK (BARISTA/KASIR)
     // ========================================================
     function togglePecahanCalc() {
       const g = document.getElementById('pecahan-grid');
@@ -1605,7 +1782,7 @@
     }
 
     // ========================================================
-    // 5. KALENDER OPERASIONAL & ATUR JADWAL KRU
+    // 5. KALENDER & JADWAL KRU
     // ========================================================
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1658,7 +1835,6 @@
       const dObj = new Date(dStr);
       document.getElementById('cal-selected-label').innerText = `Rincian: ${dObj.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}`;
 
-      // Kru Roster
       const container = document.getElementById('cal-staff-roster-list');
       const roster = (APP.data.sheets.ROSTER && APP.data.sheets.ROSTER.rows) || (APP.data.sheets.JADWAL && APP.data.sheets.JADWAL.rows) || [];
       const dayList = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr);
@@ -1674,7 +1850,6 @@
         `).join('');
       }
 
-      // Kejadian / Log
       const evCont = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayEvts = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
@@ -1691,13 +1866,11 @@
       }
     }
 
-    // TARIK NAMA KRU KE DROPDOWN DENGAN MULTI-FALLBACK LENGKAP
     function populateUserDropdowns() {
       let users = [];
       if (APP.data && APP.data.sheets && APP.data.sheets.USERS && APP.data.sheets.USERS.rows && APP.data.sheets.USERS.rows.length) {
         users = APP.data.sheets.USERS.rows.map(u => ({ username: u.username, nama: u.nama_lengkap || u.username, divisi: u.divisi || 'STAFF' }));
       } else {
-        // Fallback default kru resmi HOLLO
         users = [
           { username: 'pace', nama: 'Pace (Head Bar)', divisi: 'BARISTA' },
           { username: 'el', nama: 'El', divisi: 'BARISTA' },
@@ -1726,7 +1899,6 @@
       if (document.getElementById('lbr-user')) document.getElementById('lbr-user').innerHTML = opts;
     }
 
-    // Modal Jadwal Kru
     function openModalAturJadwal() {
       document.getElementById('jdw-tgl').value = APP.selectedDateStr;
       document.getElementById('modal-jadwal').classList.remove('hidden');
@@ -1747,7 +1919,6 @@
       fetchSync();
     }
 
-    // Modal Libur / Cuti
     function openModalLibur() {
       document.getElementById('lbr-mulai').value = APP.selectedDateStr;
       document.getElementById('lbr-selesai').value = APP.selectedDateStr;
@@ -1898,7 +2069,6 @@
       const tglPilih = document.getElementById('dr-tgl').value || new Date().toISOString().slice(0, 10);
       showToast('Menarik data harian ' + tglPilih + '...');
 
-      // 1. Tarik dari SERAH_TERIMA
       const kasRows = (APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
       const dayKas = kasRows.filter(r => String(r.tanggal || '').slice(0, 10) === tglPilih);
 
@@ -2026,11 +2196,11 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (!APP.data || !APP.data.sheets) return;
       renderSuperUsers();
       renderSuperChecklist();
-      renderSuperStok();
+      renderSuperStokTable();
       renderSuperMenu();
     }
 
-    // SUB 1: KELOLA KRU & PIN LENGKAP
+    // SUB 1: KELOLA KRU & PIN
     function renderSuperUsers() {
       const tbody = document.getElementById('super-users-tbody');
       const sheet = APP.data.sheets.USERS;
@@ -2044,13 +2214,19 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
           <td class="py-2.5 px-3 text-zinc-400 text-[11px]">${r.divisi || '-'}</td>
           <td class="py-2.5 px-3 font-mono text-[11px]">${r.no_hp || '-'}</td>
           <td class="py-2.5 px-3"><span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${r.status === 'Aktif' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400' : 'bg-zinc-200 text-zinc-600'}">${r.status || 'Aktif'}</span></td>
-          <td class="py-2.5 px-3 text-right">
+          <td class="py-2.5 px-3 text-right flex items-center justify-end gap-1.5">
             <button onclick="openModalEditUser(${r._row})" class="px-2.5 py-1 bg-black dark:bg-white text-white dark:text-black font-bold rounded-lg text-[10px]">
-              Edit Profil & PIN
+              Edit
             </button>
+            ${r.username !== 'boy' ? `
+              <button onclick="deleteUserRow(${r._row}, '${r.username}')" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] hover:bg-rose-100">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            ` : ''}
           </td>
         </tr>
       `).join('');
+      lucide.createIcons();
     }
 
     function openModalAddUser() {
@@ -2066,24 +2242,32 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       document.getElementById('usr-tipe').value = 'Tetap';
       document.getElementById('usr-pin').value = '123456';
       document.getElementById('usr-cat').value = '';
+      document.getElementById('btn-delete-user').classList.add('hidden');
       document.getElementById('modal-user-editor').classList.remove('hidden');
     }
 
     function openModalEditUser(rowNumber) {
       const r = APP.data.sheets.USERS.rows.find(x => x._row === rowNumber);
       if (!r) return;
-      document.getElementById('usr-modal-title').innerText = `Edit Kru: ${r.nama_lengkap || r.username}`;
+      document.getElementById('usr-modal-title').innerText = `Edit: ${r.nama_lengkap || r.username}`;
       document.getElementById('usr-row').value = r._row;
       document.getElementById('usr-username').value = r.username || '';
-      document.getElementById('usr-username').disabled = true; // username tidak boleh diganti karena terikat PIN
+      document.getElementById('usr-username').disabled = true;
       document.getElementById('usr-nama').value = r.nama_lengkap || '';
       document.getElementById('usr-role').value = r.role || 'BARISTA';
       document.getElementById('usr-div').value = r.divisi || 'BARISTA';
       document.getElementById('usr-hp').value = r.no_hp || '';
       document.getElementById('usr-status').value = r.status || 'Aktif';
       document.getElementById('usr-tipe').value = r.tipe_kerja || 'Tetap';
-      document.getElementById('usr-pin').value = ''; // kosongkan jika tidak ingin ganti PIN
+      document.getElementById('usr-pin').value = '';
       document.getElementById('usr-cat').value = r.catatan || '';
+
+      if (r.username !== 'boy') {
+        document.getElementById('btn-delete-user').classList.remove('hidden');
+      } else {
+        document.getElementById('btn-delete-user').classList.add('hidden');
+      }
+
       document.getElementById('modal-user-editor').classList.remove('hidden');
     }
 
@@ -2124,7 +2308,6 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
         values: values
       });
 
-      // Update langsung ke PIN_RAJA juga jika PIN diisi
       if (pin) {
         try {
           const pinSheet = APP.data.sheets.PIN_RAJA;
@@ -2138,11 +2321,38 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       }
 
       closeModalUserEditor();
-      showToast('Data kru & profil berhasil disimpan!');
+      showToast('Data kru berhasil disimpan!');
       fetchSync();
     }
 
-    // SUB 2: KELOLA MASTER CHECKLIST
+    async function deleteUserRow(rowNumber, uname) {
+      if (uname === 'boy') return alert('Akun Super Admin boy tidak boleh dihapus!');
+      if (!confirm(`Yakin ingin menghapus kru [${uname}] dari sistem?`)) return;
+
+      const r = APP.data.sheets.USERS.rows.find(x => x._row === rowNumber);
+      await apiCall('remove', { sheet: 'USERS', row: rowNumber, v: r ? r._v : undefined });
+
+      // Hapus dari PIN_RAJA jika ada
+      try {
+        const pinSheet = APP.data.sheets.PIN_RAJA;
+        if (pinSheet && pinSheet.rows) {
+          const pr = pinSheet.rows.find(x => String(x.username).toLowerCase() === uname.toLowerCase());
+          if (pr) await apiCall('remove', { sheet: 'PIN_RAJA', row: pr._row, v: pr._v });
+        }
+      } catch (e) {}
+
+      showToast(`Kru [${uname}] berhasil dihapus!`);
+      fetchSync();
+    }
+
+    function deleteUserFromModal() {
+      const rowId = Number(document.getElementById('usr-row').value);
+      const uname = document.getElementById('usr-username').value;
+      closeModalUserEditor();
+      deleteUserRow(rowId, uname);
+    }
+
+    // SUB 2: MASTER CHECKLIST
     function renderSuperChecklist() {
       const cont = document.getElementById('super-check-list');
       const sheet = APP.data.sheets.CHECKLIST;
@@ -2161,43 +2371,112 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       `).join('');
     }
 
-    // SUB 3: KELOLA MASTER STOK
-    function renderSuperStok() {
-      const cont = document.getElementById('super-stok-list');
+    // SUB 3: MASTER STOK (TABEL PENUH MODERN)
+    function renderSuperStokTable() {
+      const tbody = document.getElementById('super-stok-tbody');
       const sheet = APP.data.sheets.STOK;
       if (!sheet || !sheet.rows) return;
-      cont.innerHTML = sheet.rows.map(r => `
-        <div class="bg-zinc-50 dark:bg-zinc-950 p-2.5 rounded-xl border border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-          <div>
-            <span class="font-bold">${r.nama_barang}</span>
-            <span class="text-[9px] text-zinc-400 block">${r.divisi} • Satuan: ${r.satuan||'-'} • Min: ${r.min_stok||0}</span>
-          </div>
-          <div class="flex items-center gap-1.5">
-            <button onclick="openModalAuditStok(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('STOK', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
-          </div>
-        </div>
+
+      const q = (document.getElementById('super-stok-search') ? document.getElementById('super-stok-search').value : '').toLowerCase();
+      let rows = sheet.rows;
+      if (q) rows = rows.filter(r => String(r.nama_barang || '').toLowerCase().includes(q));
+
+      tbody.innerHTML = rows.map(r => `
+        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+          <td class="py-2.5 px-3 font-mono font-bold text-[11px]">${r.item_id || '-'}</td>
+          <td class="py-2.5 px-3 font-bold">${r.nama_barang}</td>
+          <td class="py-2.5 px-3 text-[11px] font-semibold">${r.divisi}</td>
+          <td class="py-2.5 px-3 text-zinc-400 text-[11px]">${r.kategori || '-'}</td>
+          <td class="py-2.5 px-3 text-[11px]">${r.satuan || '-'}</td>
+          <td class="py-2.5 px-3 font-bold text-rose-500">${r.min_stok || 0}</td>
+          <td class="py-2.5 px-3 font-bold">${r.stok_gudang || 0}</td>
+          <td class="py-2.5 px-3">
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${r.status === 'RESTOCK' ? 'bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400' : 'bg-zinc-200 dark:bg-zinc-800'}">
+              ${r.status || 'AMAN'}
+            </span>
+          </td>
+          <td class="py-2.5 px-3 text-right flex items-center justify-end gap-1">
+            <button onclick="openModalEditStokMaster(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('STOK', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px]"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+          </td>
+        </tr>
       `).join('');
+      lucide.createIcons();
     }
 
-    async function openModalAddStok() {
-      const n = prompt('Nama Bahan Baru:');
-      if (!n) return;
-      const d = prompt('Divisi (BARISTA / KITCHEN / SERVER):', 'BARISTA');
-      if (!d) return;
-      const s = prompt('Satuan (mis. liter, gram, pcs, botol):', 'pcs');
-      const m = prompt('Batas Minimum Restock:', '5');
-      const g = prompt('Stok Gudang Awal:', '10');
+    function openModalAddStokMaster() {
+      document.getElementById('mstk-title').innerText = 'Tambah Barang Baru ke Master Stok';
+      document.getElementById('mstk-row').value = '';
+      document.getElementById('mstk-nama').value = '';
+      document.getElementById('mstk-div').value = 'BARISTA';
+      document.getElementById('mstk-kat').value = 'Susu & Krimer';
+      document.getElementById('mstk-satuan').value = 'liter';
+      document.getElementById('mstk-min').value = '5';
+      document.getElementById('mstk-gudang').value = '10';
+      document.getElementById('mstk-cek-sore').value = 'Ya';
+      document.getElementById('btn-delete-stok').classList.add('hidden');
+      document.getElementById('modal-stok-master').classList.remove('hidden');
+    }
+
+    function openModalEditStokMaster(rowNumber) {
+      const r = APP.data.sheets.STOK.rows.find(x => x._row === rowNumber);
+      if (!r) return;
+      document.getElementById('mstk-title').innerText = `Edit: ${r.nama_barang}`;
+      document.getElementById('mstk-row').value = r._row;
+      document.getElementById('mstk-nama').value = r.nama_barang || '';
+      document.getElementById('mstk-div').value = r.divisi || 'BARISTA';
+      document.getElementById('mstk-kat').value = r.kategori || '';
+      document.getElementById('mstk-satuan').value = r.satuan || '';
+      document.getElementById('mstk-min').value = r.min_stok || 0;
+      document.getElementById('mstk-gudang').value = r.stok_gudang || 0;
+      document.getElementById('mstk-cek-sore').value = r.dicek_sore || 'Ya';
+      document.getElementById('btn-delete-stok').classList.remove('hidden');
+      document.getElementById('modal-stok-master').classList.remove('hidden');
+    }
+
+    function closeModalStokMaster() { document.getElementById('modal-stok-master').classList.add('hidden'); }
+
+    async function saveModalStokMaster() {
+      const rowId = document.getElementById('mstk-row').value;
+      const nama = document.getElementById('mstk-nama').value.trim();
+      const div = document.getElementById('mstk-div').value;
+      const kat = document.getElementById('mstk-kat').value.trim();
+      const sat = document.getElementById('mstk-satuan').value.trim();
+      const min = Number(document.getElementById('mstk-min').value) || 0;
+      const gudang = Number(document.getElementById('mstk-gudang').value) || 0;
+      const sore = document.getElementById('mstk-cek-sore').value;
+
+      if (!nama) return alert('Nama barang wajib diisi!');
+
+      const r = rowId ? APP.data.sheets.STOK.rows.find(x => x._row === Number(rowId)) : null;
+      const values = {
+        nama_barang: nama,
+        divisi: div,
+        kategori: kat,
+        satuan: sat,
+        min_stok: min,
+        stok_gudang: gudang,
+        dicek_sore: sore
+      };
 
       await apiCall('save', {
         sheet: 'STOK',
-        values: { nama_barang: n, divisi: d.toUpperCase(), satuan: s, min_stok: Number(m) || 5, stok_gudang: Number(g) || 0, dicek_sore: 'Ya' }
+        row: rowId ? Number(rowId) : undefined,
+        v: r ? r._v : undefined,
+        values: values
       });
-      showToast(`Bahan "${n}" ditambahkan ke Sheet!`);
+      closeModalStokMaster();
+      showToast(`Barang "${nama}" berhasil disimpan ke Sheet!`);
       fetchSync();
     }
 
-    // SUB 4: KELOLA MASTER MENU
+    function deleteStokFromModal() {
+      const rowId = Number(document.getElementById('mstk-row').value);
+      closeModalStokMaster();
+      deleteRowRaw('STOK', rowId);
+    }
+
+    // SUB 4: MASTER MENU
     function renderSuperMenu() {
       const cont = document.getElementById('super-menu-list');
       const sheet = APP.data.sheets.MENU;
@@ -2210,10 +2489,11 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
           </div>
           <div class="flex items-center gap-1.5">
             <button onclick="openModalEditMenu(${r._row})" class="px-2 py-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg text-[10px] font-bold">Edit</button>
-            <button onclick="deleteRowRaw('MENU', ${r._row})" class="px-2 py-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px] font-bold">Hapus</button>
+            <button onclick="deleteRowRaw('MENU', ${r._row})" class="p-1 bg-rose-50 dark:bg-rose-950/40 text-rose-500 rounded-lg text-[10px]"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
           </div>
         </div>
       `).join('');
+      lucide.createIcons();
     }
 
     async function deleteRowRaw(sheetName, rowNumber) {
