@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>HOLLO COFFEE & ROASTERY'S — Operational Station</title>
-  <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -18,7 +17,7 @@
 </head>
 <body class="bg-stone-950 text-stone-100 min-h-screen pb-24 select-none md:select-auto">
 
-  <!-- TOAST NOTIFIKASI INTERAKTIF -->
+  <!-- TOAST NOTIFIKASI -->
   <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-stone-900/95 backdrop-blur-md text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 text-xs font-semibold">
     <div id="toast-icon-bg" class="w-7 h-7 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400">
       <i id="toast-icon" data-lucide="info" class="w-4 h-4"></i>
@@ -26,7 +25,7 @@
     <span id="toast-msg">-</span>
   </div>
 
-  <!-- POP-UP LOGIN KRU HOLLO -->
+  <!-- POP-UP LOGIN KRU -->
   <div id="login-screen" class="fixed inset-0 z-50 bg-stone-950/95 backdrop-blur-xl flex items-center justify-center p-4">
     <div class="bg-stone-900 rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-stone-800 text-stone-100">
       <div class="text-center mb-6">
@@ -50,12 +49,12 @@
         </button>
       </div>
       <p class="text-[11px] text-center text-stone-500 mt-5 font-medium leading-relaxed">
-        Super Admin: Username <code class="text-amber-400 font-bold">boy</code>.<br>PIN tersimpan di tab <code class="text-stone-300 font-bold">PIN_RAJA</code>.
+        Super Admin: Username <code class="text-amber-400 font-bold">boy</code>.<br>PIN dilihat di tab <code class="text-stone-300 font-bold">PIN_RAJA</code> Sheet Anda.
       </p>
     </div>
   </div>
 
-  <!-- TOP STATUS BAR DENGAN FASE OPERASIONAL REAL-TIME -->
+  <!-- TOP APP BAR -->
   <header class="bg-stone-900/90 backdrop-blur-md border-b border-stone-800 sticky top-0 z-30">
     <div class="max-w-6xl mx-auto px-4 py-2.5 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -88,7 +87,7 @@
     </div>
   </header>
 
-  <!-- KONTEN UTAMA STASIUN -->
+  <!-- KONTEN UTAMA -->
   <main class="max-w-6xl mx-auto px-4 py-4 space-y-4">
 
     <!-- ================= 1. TAB DASHBOARD ================= -->
@@ -186,7 +185,7 @@
             <i data-lucide="arrow-right-left" class="w-4 h-4 text-amber-400"></i>
             Handover Pergantian Shift (16:30) — Catatan untuk Shift Berikutnya:
           </span>
-          <button onclick="saveHandoverNotes()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3 py-1 rounded-xl text-[10px] shadow">
+          <button onclick="saveHandoverNotes()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">
             Simpan Handover
           </button>
         </div>
@@ -215,12 +214,10 @@
         <button onclick="setChecklistDiv('KASIR')" class="chk-div-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-stone-900 text-stone-400" data-div="KASIR">Kasir</button>
       </div>
 
-      <div id="checklist-cards-container" class="space-y-2.5">
-        <!-- Render kartu via JS -->
-      </div>
+      <div id="checklist-cards-container" class="space-y-2.5"></div>
     </section>
 
-    <!-- ================= 3. TAB STOK OPNAME & CATAT LOG ================= -->
+    <!-- ================= 3. TAB STOK OPNAME ================= -->
     <section id="pane-stok" class="hidden space-y-4">
       <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg space-y-3">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
@@ -239,12 +236,10 @@
         </div>
       </div>
 
-      <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <!-- Render 149 barang stok via JS -->
-      </div>
+      <div id="stok-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
     </section>
 
-    <!-- ================= 4. TAB KASIR & SERAH TERIMA ================= -->
+    <!-- ================= 4. TAB KASIR & HITUNG FISIK ================= -->
     <section id="pane-kasir" class="hidden space-y-4">
       <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-xl mx-auto space-y-4">
         <div class="border-b border-stone-800 pb-3 flex justify-between items-center">
@@ -259,6 +254,7 @@
           <div>
             <label class="block font-bold text-stone-400 mb-1">Tipe Serah Terima</label>
             <select id="kas-tipe" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-200">
+              <option value="Kas Awal Shift 1">Kas Awal Shift 1 (Opening 08:30)</option>
               <option value="Serah Terima 16:30">Serah Terima 16:30 (Shift 1 → 2)</option>
               <option value="Tutup Kasir 00:00">Tutup Kasir 00:00 (Closing Akhir)</option>
             </select>
@@ -275,7 +271,7 @@
             <input type="number" id="kas-modal" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-stone-100" />
           </div>
           <div>
-            <label class="block font-bold text-stone-400 mb-1">Pengeluaran Tunai (Rp)</label>
+            <label class="block font-bold text-stone-400 mb-1">Pengeluaran Tunai / Nota (Rp)</label>
             <input type="number" id="kas-keluar" oninput="calcCashBalance()" placeholder="0" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2.5 font-bold text-rose-400" />
           </div>
         </div>
@@ -333,7 +329,7 @@
       </div>
     </section>
 
-    <!-- ================= 5. TAB KALENDER & LOG HARIAN ================= -->
+    <!-- ================= 5. TAB KALENDER (JADWAL KRU & LOG HARIAN) ================= -->
     <section id="pane-kalender" class="hidden space-y-4">
       <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-4">
         <div class="flex items-center justify-between">
@@ -355,26 +351,31 @@
         <div id="cal-grid" class="grid grid-cols-7 gap-1.5 text-xs font-bold"></div>
       </div>
 
-      <!-- Detail Tanggal Terpilih -->
+      <!-- Detail Tanggal Terpilih & Tombol Atur Jadwal -->
       <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl space-y-3">
         <div class="border-b border-stone-800 pb-2 flex justify-between items-center">
           <span class="text-xs font-black text-amber-400" id="cal-selected-label">Rincian Tanggal</span>
-          <button onclick="openModalLogKejadian()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3 py-1 rounded-xl text-[10px]">
-            + Catat di Tanggal Ini
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button onclick="openModalAturJadwal()" class="bg-cyan-600 hover:bg-cyan-500 text-stone-950 font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+              <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i> + Atur Jadwal Kru
+            </button>
+            <button onclick="openModalLogKejadian()" class="bg-rose-600 hover:bg-rose-500 text-white font-black px-3 py-1.5 rounded-xl text-xs shadow flex items-center gap-1">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i> + Catat Kejadian
+            </button>
+          </div>
         </div>
         <div class="space-y-2">
-          <span class="text-[11px] font-bold text-stone-400 block">Kru yang Masuk:</span>
+          <span class="text-[11px] font-bold text-stone-400 block">Jadwal Kru yang Masuk:</span>
           <div id="cal-staff-roster-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
         </div>
         <div class="space-y-2 pt-2 border-t border-stone-800">
-          <span class="text-[11px] font-bold text-stone-400 block">Catatan Kejadian / Waste:</span>
+          <span class="text-[11px] font-bold text-stone-400 block">Catatan Kejadian / Waste / Log:</span>
           <div id="cal-kejadian-list" class="space-y-1.5 text-xs"></div>
         </div>
       </div>
     </section>
 
-    <!-- ================= 6. TAB MENU & HPP (BISA DIEDIT) ================= -->
+    <!-- ================= 6. TAB MENU & HARGA (63 MENU) ================= -->
     <section id="pane-menu" class="hidden space-y-4">
       <div class="bg-stone-900 p-4 rounded-3xl border border-stone-800 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div class="flex items-center gap-2">
@@ -388,20 +389,20 @@
       <div id="menu-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
     </section>
 
-    <!-- ================= 7. TAB DAILY REPORT CLOSING & WA ================= -->
+    <!-- ================= 7. TAB DAILY REPORT CLOSING & WA LENGKAP ================= -->
     <section id="pane-report" class="hidden space-y-4">
       <div class="bg-stone-900 rounded-3xl p-5 border border-stone-800 shadow-xl max-w-2xl mx-auto space-y-4">
         <div class="flex items-center justify-between border-b border-stone-800 pb-3">
           <div>
             <h3 class="text-sm font-black text-amber-400">Daily Closing & WhatsApp Generator</h3>
-            <p class="text-[11px] text-stone-400">Rangkuman omset harian lengkap (Shift 1, Shift 2, EDC, GoFood, GrabFood).</p>
+            <p class="text-[11px] text-stone-400">Omset harian, evaluasi malam, dan prep belanja besok per divisi.</p>
           </div>
           <button onclick="copyWaReport()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow">
             <i data-lucide="copy" class="w-4 h-4"></i> Salin WA
           </button>
         </div>
 
-        <!-- FORM ISIAN CLOSING HARIAN (MENYIMPAN KE DAILY_REPORT) -->
+        <!-- FORM ISIAN CLOSING HARIAN LENGKAP -->
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs">
           <div>
             <label class="block font-bold text-stone-400 mb-1">Tanggal Closing</label>
@@ -409,27 +410,58 @@
           </div>
           <div>
             <label class="block font-bold text-stone-400 mb-1">Sales Shift 1 (Opening)</label>
-            <input type="number" id="dr-sales-op" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <input type="number" id="dr-sales-op" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
           </div>
           <div>
             <label class="block font-bold text-stone-400 mb-1">Sales Shift 2 (Closing)</label>
-            <input type="number" id="dr-sales-cl" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <input type="number" id="dr-sales-cl" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
           </div>
           <div>
             <label class="block font-bold text-stone-400 mb-1">Sales GoFood (Rp)</label>
-            <input type="number" id="dr-gofood" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <input type="number" id="dr-gofood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
           </div>
           <div>
             <label class="block font-bold text-stone-400 mb-1">Sales GrabFood (Rp)</label>
-            <input type="number" id="dr-grabfood" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <input type="number" id="dr-grabfood" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
           </div>
           <div>
             <label class="block font-bold text-stone-400 mb-1">Settlement EDC (Rp)</label>
-            <input type="number" id="dr-edc" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
+            <input type="number" id="dr-edc" oninput="recalcDailyReportPreview()" placeholder="Rp" class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 font-bold text-stone-200" />
           </div>
         </div>
 
-        <button onclick="saveDailyReportToSheet()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3 rounded-2xl text-xs uppercase tracking-wider shadow">
+        <!-- EVALUASI & BELANJA BESOK PER DIVISI -->
+        <div class="space-y-3 pt-2 border-t border-stone-800 text-xs">
+          <span class="text-xs font-bold text-amber-300 block">Evaluasi Malam & Kebutuhan Belanja Besok:</span>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">☕ Belanja Besok (Barista):</label>
+              <input type="text" id="dr-belanja-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Susu fresh 12L, aren 2 botol..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">☕ Evaluasi / Kendala Bar:</label>
+              <input type="text" id="dr-eval-bar" oninput="recalcDailyReportPreview()" placeholder="mis. Grinder agak bunyi, espresso lancar..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">🍳 Belanja Besok (Kitchen):</label>
+              <input type="text" id="dr-belanja-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Telur 2 tray, keju 1kg..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">🍳 Evaluasi / Kendala Kitchen:</label>
+              <input type="text" id="dr-eval-kit" oninput="recalcDailyReportPreview()" placeholder="mis. Kompor aman, gas diganti..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">🍽️ Belanja Besok (Server):</label>
+              <input type="text" id="dr-belanja-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Tisu 2 pack, sabun cuci..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+            <div>
+              <label class="block font-bold text-stone-400 mb-1">🍽️ Evaluasi Server & Kasir:</label>
+              <input type="text" id="dr-eval-srv" oninput="recalcDailyReportPreview()" placeholder="mis. Kas cocok, EDC normal, area bersih..." class="w-full bg-stone-950 border border-stone-800 rounded-xl p-2 text-stone-200" />
+            </div>
+          </div>
+        </div>
+
+        <button onclick="saveDailyReportToSheet()" class="w-full bg-amber-600 hover:bg-amber-500 text-stone-950 font-black py-3.5 rounded-2xl text-xs uppercase tracking-wider shadow">
           Simpan ke Tab DAILY_REPORT Sheet
         </button>
 
@@ -437,26 +469,26 @@
       </div>
     </section>
 
-    <!-- ================= 8. TAB SUPER KELOLA (SUPER ADMIN `boy` / RAJA UTAMA) ================= -->
+    <!-- ================= 8. TAB SUPER KELOLA (HAK EDIT PENUH SUPER ADMIN `boy`) ================= -->
     <section id="pane-super" class="hidden space-y-4">
       <div class="bg-gradient-to-r from-amber-950 to-stone-900 p-5 rounded-3xl border border-amber-600/40 shadow-xl space-y-4">
         <div class="flex items-center justify-between border-b border-amber-800/40 pb-3">
           <div>
             <h2 class="text-sm font-black text-amber-400 flex items-center gap-2">
               <i data-lucide="shield-check" class="w-5 h-5 text-amber-400"></i>
-              PANEL KELOLA SUPER ADMIN (RAJA UTAMA)
+              PANEL KELOLA MASTER (SUPER ADMIN BOY • RAJA_UTAMA)
             </h2>
-            <p class="text-xs text-amber-200/70">Hak akses penuh untuk Boy: Kelola PIN seluruh kru, ubah tugas checklist, tambah barang & edit menu.</p>
+            <p class="text-xs text-amber-200/70">Ubah PIN kru, edit/hapus tugas checklist, edit/hapus stok gudang, dan edit/hapus menu HPP.</p>
           </div>
-          <span class="text-[10px] font-black bg-amber-500/20 text-amber-300 px-3 py-1 rounded-xl border border-amber-500/40">LEVEL 6 • RAJA_UTAMA</span>
+          <span class="text-[10px] font-black bg-amber-500/20 text-amber-300 px-3 py-1 rounded-xl border border-amber-500/40">LEVEL 6</span>
         </div>
 
         <!-- 4 Sub-Menu Kelola -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
           <button onclick="showSuperSub('pin')" id="sub-btn-pin" class="super-sub-btn p-3 rounded-2xl bg-amber-500 text-stone-950 shadow">🔑 Kelola PIN Staf</button>
           <button onclick="showSuperSub('check')" id="sub-btn-check" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">📋 Kelola Checklist</button>
-          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">📦 Master Stok Barang</button>
-          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">☕ Master Menu & HPP</button>
+          <button onclick="showSuperSub('stok')" id="sub-btn-stok" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">📦 Master Stok (149)</button>
+          <button onclick="showSuperSub('menu')" id="sub-btn-menu" class="super-sub-btn p-3 rounded-2xl bg-stone-900 text-stone-400">☕ Master Menu (63)</button>
         </div>
 
         <!-- SUB 1: KELOLA PIN -->
@@ -476,7 +508,7 @@
         <div id="sub-pane-check" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold text-amber-300">Master Tugas Checklist (39 Tugas)</span>
-            <button onclick="openModalAddChecklist()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3 py-1 rounded-xl text-xs shadow">+ Tambah Tugas</button>
+            <button onclick="openModalAddChecklist()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Tugas Baru</button>
           </div>
           <div id="super-check-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -485,7 +517,7 @@
         <div id="sub-pane-stok" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold text-amber-300">Master Data 149 Barang Stok</span>
-            <button onclick="openModalAddStok()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3 py-1 rounded-xl text-xs shadow">+ Tambah Barang Baru</button>
+            <button onclick="openModalAddStok()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Barang Baru</button>
           </div>
           <div id="super-stok-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -494,7 +526,7 @@
         <div id="sub-pane-menu" class="hidden bg-stone-900 rounded-2xl p-4 border border-stone-800 space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold text-amber-300">Master 63 Menu, HPP & Harga Jual</span>
-            <button onclick="openModalAddMenu()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3 py-1 rounded-xl text-xs shadow">+ Tambah Menu Baru</button>
+            <button onclick="openModalAddMenu()" class="bg-amber-600 hover:bg-amber-500 text-stone-950 font-black px-3.5 py-1.5 rounded-xl text-xs shadow">+ Tambah Menu Baru</button>
           </div>
           <div id="super-menu-list" class="space-y-2 max-h-96 overflow-y-auto pr-1 text-xs"></div>
         </div>
@@ -528,43 +560,98 @@
       <button onclick="switchTab('report')" class="nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-stone-400 hover:text-stone-200" data-tab="report">
         <i data-lucide="file-text" class="w-4 h-4"></i><span>Daily WA</span>
       </button>
-      <!-- TOMBOL SUPER KELOLA (KHUSUS BOY) -->
+      <!-- TOMBOL SUPER KELOLA KHUSUS BOY -->
       <button id="nav-btn-super" onclick="switchTab('super')" class="hidden nav-btn flex flex-col items-center gap-1 py-1 px-2 rounded-xl text-amber-300 font-black" data-tab="super">
         <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i><span>Kelola</span>
       </button>
     </div>
   </nav>
 
-  <!-- MODAL CATAT KEJADIAN / WASTE / BARANG MASUK -->
+  <!-- MODAL ATUR JADWAL KRU (KALENDER) -->
+  <div id="modal-jadwal" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
+      <div class="flex justify-between items-center border-b border-stone-800 pb-3">
+        <h3 class="font-black text-sm text-cyan-400 flex items-center gap-2">
+          <i data-lucide="calendar-plus" class="w-4 h-4"></i> Atur Jadwal Kru
+        </h3>
+        <button onclick="closeModalJadwal()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div><label class="block font-bold text-stone-400 mb-1">Tanggal</label><input type="date" id="jdw-tgl" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+        <div>
+          <label class="block font-bold text-stone-400 mb-1">Pilih Kru Staf</label>
+          <select id="jdw-user" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200"></select>
+        </div>
+        <div>
+          <label class="block font-bold text-stone-400 mb-1">Kode Shift</label>
+          <select id="jdw-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200">
+            <option value="P">P (Shift Pagi • 08:30–17:00)</option>
+            <option value="MID">MID (Middle • 13:00–21:30)</option>
+            <option value="S">S (Shift Sore • 16:30–01:00)</option>
+            <option value="OFF">OFF (Libur Mingguan)</option>
+          </select>
+        </div>
+        <div><label class="block font-bold text-stone-400 mb-1">Catatan</label><input type="text" id="jdw-cat" placeholder="mis. Masuk jam 9, tukar shift..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
+      </div>
+      <div class="flex gap-2 pt-2 border-t border-stone-800">
+        <button onclick="closeModalJadwal()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
+        <button onclick="saveJadwalKru()" class="flex-1 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 font-black text-xs text-stone-950">Simpan Jadwal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CATAT KEJADIAN / WASTE / BARANG MASUK LENGKAP -->
   <div id="modal-kejadian" class="fixed inset-0 z-50 bg-stone-950/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-stone-900 rounded-3xl p-6 max-w-sm w-full border border-stone-800 space-y-4">
       <div class="flex justify-between items-center border-b border-stone-800 pb-3">
         <h3 class="font-black text-sm text-amber-400 flex items-center gap-2">
-          <i data-lucide="alert-circle" class="w-4 h-4"></i> Catat Waste / Barang Masuk
+          <i data-lucide="alert-circle" class="w-4 h-4"></i> Catat Log Kejadian / Waste
         </h3>
         <button onclick="closeModalKejadian()" class="text-stone-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
       </div>
       <div class="space-y-3 text-xs">
         <div class="grid grid-cols-2 gap-2">
           <div><label class="block font-bold text-stone-400 mb-1">Tanggal</label><input type="date" id="evt-tgl" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Jam Kejadian</label><input type="time" id="evt-jam" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+          <div><label class="block font-bold text-stone-400 mb-1">Jam</label><input type="time" id="evt-jam" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200" /></div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Shift</label>
+            <select id="evt-shift" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+              <option value="1">Shift 1</option>
+              <option value="2">Shift 2</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1">Divisi</label>
+            <select id="evt-div" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 font-bold text-stone-200">
+              <option value="BARISTA">BARISTA</option>
+              <option value="KITCHEN">KITCHEN</option>
+              <option value="SERVER">SERVER</option>
+              <option value="KASIR">KASIR</option>
+            </select>
+          </div>
         </div>
         <div>
           <label class="block font-bold text-stone-400 mb-1">Jenis Catatan</label>
           <select id="evt-jenis" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200">
-            <option value="Waste">Waste (Bahan Terbuang/Basi)</option>
-            <option value="Barang Masuk">Barang Masuk (Belanjaan Datang)</option>
+            <option value="Waste">Waste (Bahan Basi/Terbuang)</option>
+            <option value="Barang Masuk">Barang Masuk (Belanja/Supplier)</option>
             <option value="Barang Keluar">Barang Keluar</option>
             <option value="Rusak/Basi">Rusak/Basi</option>
-            <option value="Kerusakan Alat">Kerusakan Alat / Komplain</option>
+            <option value="Retur">Retur</option>
+            <option value="Komplain Tamu">Komplain Tamu</option>
+            <option value="Kerusakan Alat">Kerusakan Alat</option>
+            <option value="Catatan Lain">Catatan Lain</option>
           </select>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Nama Barang</label><input type="text" id="evt-barang" placeholder="mis. Susu Greenfield 1L" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
+        <div><label class="block font-bold text-stone-400 mb-1">Nama Barang / Kejadian</label><input type="text" id="evt-barang" placeholder="mis. Fresh Milk 1L / Grinder macet..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
         <div class="grid grid-cols-2 gap-2">
           <div><label class="block font-bold text-stone-400 mb-1">Jumlah</label><input type="number" id="evt-qty" placeholder="1" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 font-bold text-stone-200" /></div>
-          <div><label class="block font-bold text-stone-400 mb-1">Satuan</label><input type="text" id="evt-satuan" placeholder="Liter / pcs / kg" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
+          <div><label class="block font-bold text-stone-400 mb-1">Satuan</label><input type="text" id="evt-satuan" placeholder="Liter/pcs/kg" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200" /></div>
         </div>
-        <div><label class="block font-bold text-stone-400 mb-1">Keterangan / Alasan</label><textarea id="evt-ket" rows="2" placeholder="Susu basi / nomor nota belanja..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200"></textarea></div>
+        <div><label class="block font-bold text-stone-400 mb-1">Perkiraan Nilai Rp (Opsional)</label><input type="number" id="evt-nilai" placeholder="mis. 38000" class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2 text-stone-200" /></div>
+        <div><label class="block font-bold text-stone-400 mb-1">Keterangan / Alasan</label><textarea id="evt-ket" rows="2" placeholder="Penyebab susu basi, nota supplier, dll..." class="w-full bg-stone-800 border border-stone-700 rounded-xl p-2.5 text-stone-200"></textarea></div>
       </div>
       <div class="flex gap-2 pt-2 border-t border-stone-800">
         <button onclick="closeModalKejadian()" class="flex-1 py-3 rounded-xl border border-stone-700 font-bold text-xs text-stone-400">Batal</button>
@@ -576,7 +663,7 @@
   <!-- JAVASCRIPT LOGIKA HOLLO COFFEE -->
   <script>
     // ========================================================
-    // KONFIGURASI DUA KUNCI DARI GOOGLE APPS SCRIPT ANDA
+    // KUNCI ASLI DARI GOOGLE APPS SCRIPT ANDA (SUDAH TERPASANG)
     // ========================================================
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
     const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
@@ -598,15 +685,13 @@
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+        osc.connect(gain); gain.connect(ctx.destination);
         osc.type = 'sine';
         osc.frequency.setValueAtTime(587.33, ctx.currentTime);
         osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
         gain.gain.setValueAtTime(0.12, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.3);
+        osc.start(); osc.stop(ctx.currentTime + 0.3);
       } catch (e) {}
     }
 
@@ -706,7 +791,7 @@
     }
 
     function handleLogout() {
-      if (!confirm('Keluar dari stasiun?')) return;
+      if (!confirm('Keluar dari stasiun operasional?')) return;
       localStorage.clear();
       location.reload();
     }
@@ -716,7 +801,6 @@
       document.getElementById('hdr-user-info').innerText = `${APP.user.nama} (${APP.user.role})`;
       document.getElementById('kas-petugas').value = APP.user.nama;
 
-      // HAK SUPER ADMIN: Role RAJA_UTAMA atau Username boy
       const isSuper = APP.user.role === 'RAJA_UTAMA' || APP.user.username === 'boy' || APP.user.level >= 5;
       if (isSuper) {
         document.getElementById('nav-btn-super').classList.remove('hidden');
@@ -760,6 +844,7 @@
       renderMenuCards();
       buildWaReport();
       renderSuperAdminPanel();
+      populateUserDropdown();
       lucide.createIcons();
     }
 
@@ -781,7 +866,6 @@
       const mn = (APP.data.sheets.MENU && APP.data.sheets.MENU.rows) || [];
       document.getElementById('dash-total-menu').innerText = mn.length || '63';
 
-      // Load catatan handover terakhir dari SERAH_TERIMA
       const stKas = (APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
       if (stKas.length > 0) {
         const last = stKas[stKas.length - 1];
@@ -818,12 +902,8 @@
       if (!sheet || !sheet.rows) return;
 
       let rows = sheet.rows;
-      if (APP.chkShift !== 'SEMUA') {
-        rows = rows.filter(r => String(r.shift) === APP.chkShift);
-      }
-      if (APP.chkDiv !== 'SEMUA') {
-        rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.chkDiv);
-      }
+      if (APP.chkShift !== 'SEMUA') rows = rows.filter(r => String(r.shift) === APP.chkShift);
+      if (APP.chkDiv !== 'SEMUA') rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.chkDiv);
 
       const totalShift = rows.length;
       const doneShift = rows.filter(r => r.status === 'Selesai').length;
@@ -866,14 +946,8 @@
       renderChecklist();
 
       await apiCall('save', {
-        sheet: 'CHECKLIST',
-        row: row,
-        v: v,
-        values: {
-          status: newStatus,
-          petugas: newStatus === 'Selesai' ? APP.user.username : '',
-          jam_selesai: newStatus === 'Selesai' ? jam : ''
-        }
+        sheet: 'CHECKLIST', row: row, v: v,
+        values: { status: newStatus, petugas: newStatus === 'Selesai' ? APP.user.username : '', jam_selesai: newStatus === 'Selesai' ? jam : '' }
       });
       fetchSync();
     }
@@ -916,13 +990,8 @@
 
       let rows = sheet.rows;
       const q = document.getElementById('stok-search').value.toLowerCase();
-
-      if (APP.stkDiv !== 'SEMUA') {
-        rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.stkDiv);
-      }
-      if (q) {
-        rows = rows.filter(r => String(r.nama_barang || '').toLowerCase().includes(q));
-      }
+      if (APP.stkDiv !== 'SEMUA') rows = rows.filter(r => String(r.divisi || '').toUpperCase() === APP.stkDiv);
+      if (q) rows = rows.filter(r => String(r.nama_barang || '').toLowerCase().includes(q));
 
       container.innerHTML = rows.map(r => {
         const isRestock = r.status === 'RESTOCK';
@@ -977,11 +1046,11 @@
 
     async function promptEditStokFull(row, v, nama) {
       const r = APP.data.sheets.STOK.rows.find(x => x._row === row);
-      const g = prompt(`Koreksi STOK GUDANG untuk [${nama}]:`, r.stok_gudang || 0);
+      const g = prompt(`Koreksi STOK GUDANG [${nama}]:`, r.stok_gudang || 0);
       if (g === null) return;
-      const p = prompt(`Koreksi STOK MEJA PAGI untuk [${nama}]:`, r.tersedia_pagi || 0);
+      const p = prompt(`Koreksi STOK MEJA PAGI [${nama}]:`, r.tersedia_pagi || 0);
       if (p === null) return;
-      const s = prompt(`Koreksi SISA SORE (CLOSING) untuk [${nama}]:`, r.sisa_sore || 0);
+      const s = prompt(`Koreksi SISA SORE (CLOSING) [${nama}]:`, r.sisa_sore || 0);
       if (s === null) return;
 
       await apiCall('save', {
@@ -994,21 +1063,22 @@
 
     // Modal Catat Waste / Masuk (Tab KEJADIAN)
     function openModalLogKejadian() {
-      document.getElementById('evt-tgl').value = new Date().toISOString().slice(0, 10);
+      document.getElementById('evt-tgl').value = APP.selectedDateStr;
       document.getElementById('evt-jam').value = new Date().toTimeString().slice(0, 5);
       document.getElementById('modal-kejadian').classList.remove('hidden');
     }
-    function closeModalKejadian() {
-      document.getElementById('modal-kejadian').classList.add('hidden');
-    }
+    function closeModalKejadian() { document.getElementById('modal-kejadian').classList.add('hidden'); }
     async function saveKejadian() {
       const payload = {
         tanggal: document.getElementById('evt-tgl').value,
         jam: document.getElementById('evt-jam').value,
+        shift: Number(document.getElementById('evt-shift').value),
+        divisi: document.getElementById('evt-div').value,
         jenis: document.getElementById('evt-jenis').value,
         nama_barang: document.getElementById('evt-barang').value,
         qty: document.getElementById('evt-qty').value,
         satuan: document.getElementById('evt-satuan').value,
+        nilai_rp: document.getElementById('evt-nilai').value,
         keterangan: document.getElementById('evt-ket').value,
         pelapor: APP.user.username
       };
@@ -1073,7 +1143,7 @@
     }
 
     // ========================================================
-    // 5. KALENDER OPERASIONAL
+    // 5. KALENDER & ATUR JADWAL KRU
     // ========================================================
     function navCalMonth(d) { APP.calDate.setMonth(APP.calDate.getMonth() + d); renderCalendar(); }
     function navCalToday() { APP.calDate = new Date(); APP.selectedDateStr = new Date().toISOString().slice(0, 10); renderCalendar(); }
@@ -1132,7 +1202,7 @@
       const dayList = roster.filter(r => String(r.tanggal || '').slice(0, 10) === dStr);
 
       if (dayList.length === 0) {
-        container.innerHTML = '<div class="col-span-2 text-stone-500 text-xs py-2">Belum ada jadwal kru yang diinput.</div>';
+        container.innerHTML = '<div class="col-span-2 text-stone-500 text-xs py-2">Belum ada jadwal kru yang diinput untuk tanggal ini.</div>';
       } else {
         container.innerHTML = dayList.map(r => `
           <div class="bg-stone-950 p-2.5 rounded-2xl border border-stone-800 flex justify-between items-center">
@@ -1142,7 +1212,7 @@
         `).join('');
       }
 
-      // Kejadian / Waste
+      // Kejadian
       const evCont = document.getElementById('cal-kejadian-list');
       const evts = (APP.data.sheets.KEJADIAN && APP.data.sheets.KEJADIAN.rows) || [];
       const dayEvts = evts.filter(e => String(e.tanggal || '').slice(0, 10) === dStr);
@@ -1157,6 +1227,32 @@
           </div>
         `).join('');
       }
+    }
+
+    function populateUserDropdown() {
+      const sel = document.getElementById('jdw-user');
+      const users = (APP.data.sheets.USERS && APP.data.sheets.USERS.rows) || [];
+      sel.innerHTML = users.map(u => `<option value="${u.username}">${u.nama_lengkap || u.username} (${u.divisi})</option>`).join('');
+    }
+
+    function openModalAturJadwal() {
+      document.getElementById('jdw-tgl').value = APP.selectedDateStr;
+      document.getElementById('modal-jadwal').classList.remove('hidden');
+    }
+    function closeModalJadwal() { document.getElementById('modal-jadwal').classList.add('hidden'); }
+    async function saveJadwalKru() {
+      const tgl = document.getElementById('jdw-tgl').value;
+      const uname = document.getElementById('jdw-user').value;
+      const kode = document.getElementById('jdw-shift').value;
+      const cat = document.getElementById('jdw-cat').value;
+
+      await apiCall('save', {
+        sheet: 'ROSTER',
+        values: { tanggal: tgl, username: uname, kode: kode, catatan: cat }
+      });
+      closeModalJadwal();
+      showToast('Jadwal kru berhasil diupdate!');
+      fetchSync();
     }
 
     // ========================================================
@@ -1209,9 +1305,14 @@
             </div>
 
             ${isSuper ? `
-              <button onclick="promptEditMenuPrice(${r._row}, '${r._v}', '${r.nama_produk}', ${r.hpp || 0}, ${r.harga_jual || 0})" class="w-full py-1.5 bg-stone-800 hover:bg-stone-700 rounded-xl text-[10px] font-bold text-amber-300">
-                Ubah HPP / Harga Jual
-              </button>
+              <div class="flex gap-1.5 pt-1">
+                <button onclick="promptEditMenu(${r._row}, '${r._v}', '${r.nama_produk}', ${r.hpp || 0}, ${r.harga_jual || 0})" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-xl text-[10px] font-bold text-amber-300">
+                  Ubah HPP & Harga
+                </button>
+                <button onclick="deleteRowRaw('MENU', ${r._row}, '${r._v}')" class="p-1.5 bg-rose-950/40 hover:bg-rose-900 text-rose-400 rounded-xl text-[10px]">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
             ` : ''}
           </div>
         `;
@@ -1219,7 +1320,7 @@
       lucide.createIcons();
     }
 
-    async function promptEditMenuPrice(row, v, nama, oldHpp, oldHarga) {
+    async function promptEditMenu(row, v, nama, oldHpp, oldHarga) {
       const hpp = prompt(`Ubah HPP Pokok untuk [${nama}]:`, oldHpp);
       if (hpp === null) return;
       const jual = prompt(`Ubah HARGA JUAL untuk [${nama}]:`, oldHarga);
@@ -1240,29 +1341,46 @@
       const now = new Date();
       const tgl = now.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
+      const op = Number(document.getElementById('dr-sales-op') ? document.getElementById('dr-sales-op').value : 0) || 0;
+      const cl = Number(document.getElementById('dr-sales-cl') ? document.getElementById('dr-sales-cl').value : 0) || 0;
+      const gf = Number(document.getElementById('dr-gofood') ? document.getElementById('dr-gofood').value : 0) || 0;
+      const gr = Number(document.getElementById('dr-grabfood') ? document.getElementById('dr-grabfood').value : 0) || 0;
+      const ed = Number(document.getElementById('dr-edc') ? document.getElementById('dr-edc').value : 0) || 0;
+      const totalRev = op + cl;
+
+      const belBar = document.getElementById('dr-belanja-bar') ? document.getElementById('dr-belanja-bar').value : '';
+      const evalBar = document.getElementById('dr-eval-bar') ? document.getElementById('dr-eval-bar').value : '';
+      const belKit = document.getElementById('dr-belanja-kit') ? document.getElementById('dr-belanja-kit').value : '';
+      const evalKit = document.getElementById('dr-eval-kit') ? document.getElementById('dr-eval-kit').value : '';
+      const belSrv = document.getElementById('dr-belanja-srv') ? document.getElementById('dr-belanja-srv').value : '';
+      const evalSrv = document.getElementById('dr-eval-srv') ? document.getElementById('dr-eval-srv').value : '';
+
       const stRows = (APP.data && APP.data.sheets.STOK && APP.data.sheets.STOK.rows) || [];
       const restockList = stRows.filter(r => r.status === 'RESTOCK').map(r => `• ${r.nama_barang}: sisa ${r.total_makro || 0} ${r.satuan || ''}`).join('\n') || '• Semua bahan aman';
-
-      const kasRows = (APP.data && APP.data.sheets.SERAH_TERIMA && APP.data.sheets.SERAH_TERIMA.rows) || [];
-      const lastKas = kasRows[kasRows.length - 1] || {};
 
       const wa = `*DAILY OPERATIONAL REPORT — HOLLO COFFEE & ROASTERY'S*
 📅 Tanggal: ${tgl}
 👤 PIC Closing: ${APP.user ? APP.user.nama : '-'}
 
-*1. PENJUALAN & OMSET*
-• Penjualan Tunai POS: Rp ${Number(lastKas.penjualan_tunai || 0).toLocaleString('id-ID')}
-• Non-Tunai / EDC / QRIS: Rp ${Number(lastKas.penjualan_nontunai || 0).toLocaleString('id-ID')}
-• Pengeluaran Kas (Petty): Rp ${Number(lastKas.pengeluaran_tunai || 0).toLocaleString('id-ID')}
-• Total Fisik Uang Laci: Rp ${Number(lastKas.uang_fisik || 0).toLocaleString('id-ID')}
-• Status Selisih: ${lastKas.status || 'COCOK'}
+*1. OMSET & PENJUALAN*
+• Penjualan Shift 1: Rp ${op.toLocaleString('id-ID')}
+• Penjualan Shift 2: Rp ${cl.toLocaleString('id-ID')}
+• *TOTAL REVENUE:* Rp ${totalRev.toLocaleString('id-ID')}
+• GoFood: Rp ${gf.toLocaleString('id-ID')}
+• GrabFood: Rp ${gr.toLocaleString('id-ID')}
+• Settlement EDC: Rp ${ed.toLocaleString('id-ID')}
 
-*2. PREP MENIPIS (UNTUK SHIFT BESOK)*
-• Barista: ${lastKas.prep_kurang_bar || '-'}
-• Kitchen: ${lastKas.prep_kurang_kitchen || '-'}
-• Server: ${lastKas.prep_kurang_server || '-'}
+*2. PREP KURANG & BELANJA BESOK*
+• Barista: ${belBar || '-'}
+• Kitchen: ${belKit || '-'}
+• Server: ${belSrv || '-'}
 
-*3. BAHAN MENIPIS (STOK OPNAME)*
+*3. EVALUASI OPERASIONAL MALAM*
+• Barista: ${evalBar || 'Operasional lancar, mesin bersih'}
+• Kitchen: ${evalKit || 'Kompor & gas aman, FIFO berjalan'}
+• Server & Kasir: ${evalSrv || 'Area bersih, kas cocok'}
+
+*4. BAHAN MENIPIS (STOK OPNAME)*
 ${restockList}
 
 _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
@@ -1270,10 +1388,12 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       document.getElementById('wa-preview-text').innerText = wa;
     }
 
+    function recalcDailyReportPreview() { buildWaReport(); }
+
     function copyWaReport() {
       const t = document.getElementById('wa-preview-text').innerText;
       navigator.clipboard.writeText(t).then(() => {
-        showToast('Teks laporan berhasil disalin ke clipboard!');
+        showToast('Laporan WA berhasil disalin ke clipboard!');
       });
     }
 
@@ -1285,6 +1405,12 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
         sales_gofood: document.getElementById('dr-gofood').value,
         sales_grabfood: document.getElementById('dr-grabfood').value,
         settlement_edc: document.getElementById('dr-edc').value,
+        belanja_bar: document.getElementById('dr-belanja-bar').value,
+        evaluasi_bar: document.getElementById('dr-eval-bar').value,
+        belanja_kitchen: document.getElementById('dr-belanja-kit').value,
+        evaluasi_kitchen: document.getElementById('dr-eval-kit').value,
+        belanja_server: document.getElementById('dr-belanja-srv').value,
+        evaluasi_server: document.getElementById('dr-eval-srv').value,
         pelapor: APP.user.username
       };
       await apiCall('save', { sheet: 'DAILY_REPORT', values: payload });
@@ -1293,7 +1419,7 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     }
 
     // ========================================================
-    // 8. PANEL SUPER KELOLA (SUPER ADMIN `boy`)
+    // 8. PANEL SUPER KELOLA (SUPER ADMIN BOY)
     // ========================================================
     function showSuperSub(tab) {
       document.querySelectorAll('.super-sub-btn').forEach(b => {
@@ -1334,12 +1460,12 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     }
 
     async function promptChangeUserPin(uname, row, v) {
-      const p = prompt(`Masukkan PIN Baru (4–8 Digit Angka) untuk kru [${uname}]:`);
+      const p = prompt(`Ubah PIN baru (4–8 digit angka) untuk kru [${uname}]:`);
       if (!p) return;
       if (!/^\d{4,8}$/.test(p)) return alert('PIN harus berupa 4 sampai 8 digit angka!');
 
       await apiCall('save', { sheet: 'PIN_RAJA', row: row, v: v, values: { pin: p } });
-      showToast(`PIN ${uname} berhasil diubah ke ${p}!`);
+      showToast(`PIN ${uname} berhasil diubah!`);
       fetchSync();
     }
 
@@ -1353,7 +1479,10 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
             <span class="font-bold text-stone-200">${r.tugas}</span>
             <span class="text-[9px] text-stone-500 block">${r.divisi} • Shift ${r.shift} • Target: ${r.jam_target || '-'}</span>
           </div>
-          <button onclick="promptEditTask(${r._row}, '${r._v}', '${r.tugas}')" class="px-2.5 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
+          <div class="flex gap-1.5">
+            <button onclick="promptEditTask(${r._row}, '${r._v}', '${r.tugas}')" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('CHECKLIST', ${r._row}, '${r._v}')" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+          </div>
         </div>
       `).join('');
     }
@@ -1367,16 +1496,17 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
     }
 
     async function openModalAddChecklist() {
-      const t = prompt('Masukkan uraian tugas baru:');
+      const t = prompt('Uraian Tugas Baru:');
       if (!t) return;
       const d = prompt('Divisi (BARISTA / KITCHEN / SERVER / KASIR):', 'BARISTA');
       if (!d) return;
       const s = prompt('Shift (1 atau 2):', '1');
       if (!s) return;
+      const j = prompt('Jam Target (mis. 08:30 / 16:30 / 23:00):', '08:30');
 
       await apiCall('save', {
         sheet: 'CHECKLIST',
-        values: { tugas: t, divisi: d.toUpperCase(), shift: Number(s), status: 'Belum', fase: 'Operasional' }
+        values: { tugas: t, divisi: d.toUpperCase(), shift: Number(s), jam_target: j, status: 'Belum', fase: 'Operasional' }
       });
       showToast('Tugas baru ditambahkan ke Sheet!');
       fetchSync();
@@ -1386,12 +1516,32 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       const cont = document.getElementById('super-stok-list');
       const sheet = APP.data.sheets.STOK;
       if (!sheet || !sheet.rows) return;
-      cont.innerHTML = sheet.rows.slice(0, 40).map(r => `
+      cont.innerHTML = sheet.rows.map(r => `
         <div class="bg-stone-950 p-2.5 rounded-xl border border-stone-800 flex justify-between items-center">
-          <div><span class="font-bold text-stone-200">${r.nama_barang}</span><span class="text-[9px] text-stone-500 block">${r.divisi} • Min: ${r.min_stok || 0}</span></div>
-          <span class="text-xs font-bold text-amber-400">Gudang: ${r.stok_gudang || 0}</span>
+          <div>
+            <span class="font-bold text-stone-200">${r.nama_barang}</span>
+            <span class="text-[9px] text-stone-500 block">${r.divisi} • Satuan: ${r.satuan||'-'} • Min: ${r.min_stok||0}</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="promptEditItemStok(${r._row}, '${r._v}', '${r.nama_barang}', ${r.min_stok||0}, '${r.satuan||''}')" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('STOK', ${r._row}, '${r._v}')" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+          </div>
         </div>
-      `).join('') + '<div class="text-stone-500 text-center py-2 text-[10px]">Menampilkan 40 barang pertama...</div>';
+      `).join('');
+    }
+
+    async function promptEditItemStok(row, v, nama, oldMin, oldSat) {
+      const min = prompt(`Ubah Batas Minimum Restock [${nama}]:`, oldMin);
+      if (min === null) return;
+      const sat = prompt(`Ubah Satuan [${nama}]:`, oldSat);
+      if (sat === null) return;
+
+      await apiCall('save', {
+        sheet: 'STOK', row: row, v: v,
+        values: { min_stok: Number(min), satuan: sat }
+      });
+      showToast(`Item ${nama} diupdate!`);
+      fetchSync();
     }
 
     async function openModalAddStok() {
@@ -1401,10 +1551,11 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (!d) return;
       const s = prompt('Satuan (mis. liter, gram, pcs, botol):', 'pcs');
       const m = prompt('Batas Minimum Restock:', '5');
+      const g = prompt('Stok Gudang Awal:', '10');
 
       await apiCall('save', {
         sheet: 'STOK',
-        values: { nama_barang: n, divisi: d.toUpperCase(), satuan: s, min_stok: Number(m) || 5, dicek_sore: 'Ya' }
+        values: { nama_barang: n, divisi: d.toUpperCase(), satuan: s, min_stok: Number(m) || 5, stok_gudang: Number(g) || 0, dicek_sore: 'Ya' }
       });
       showToast(`Bahan "${n}" ditambahkan ke Sheet!`);
       fetchSync();
@@ -1416,8 +1567,14 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
       if (!sheet || !sheet.rows) return;
       cont.innerHTML = sheet.rows.map(r => `
         <div class="bg-stone-950 p-2.5 rounded-xl border border-stone-800 flex justify-between items-center">
-          <div><span class="font-bold text-stone-200">${r.nama_produk}</span><span class="text-[9px] text-stone-500 block">${r.jenis} • HPP: Rp ${Number(r.hpp||0).toLocaleString('id-ID')}</span></div>
-          <span class="text-xs font-bold text-amber-300">Rp ${Number(r.harga_jual||0).toLocaleString('id-ID')}</span>
+          <div>
+            <span class="font-bold text-stone-200">${r.nama_produk}</span>
+            <span class="text-[9px] text-stone-500 block">${r.jenis} • HPP: Rp ${Number(r.hpp||0).toLocaleString('id-ID')} • Jual: Rp ${Number(r.harga_jual||0).toLocaleString('id-ID')}</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <button onclick="promptEditMenu(${r._row}, '${r._v}', '${r.nama_produk}', ${r.hpp || 0}, ${r.harga_jual || 0})" class="px-2 py-1 bg-stone-800 text-amber-300 rounded-lg text-[10px] font-bold">Edit</button>
+            <button onclick="deleteRowRaw('MENU', ${r._row}, '${r._v}')" class="px-2 py-1 bg-rose-950 text-rose-300 rounded-lg text-[10px] font-bold">Hapus</button>
+          </div>
         </div>
       `).join('');
     }
@@ -1434,6 +1591,13 @@ _Laporan resmi otomatis Stasiun Operasional HOLLO COFFEE_`;
         values: { nama_produk: p, jenis: j, hpp: Number(h), harga_jual: Number(hj) }
       });
       showToast(`Menu "${p}" ditambahkan ke Sheet!`);
+      fetchSync();
+    }
+
+    async function deleteRowRaw(sheetName, row, v) {
+      if (!confirm(`Yakin ingin menghapus baris #${row} dari tab [${sheetName}] di Sheet?`)) return;
+      await apiCall('remove', { sheet: sheetName, row: row, v: v });
+      showToast(`Baris dihapus dari ${sheetName}!`);
       fetchSync();
     }
   </script>
