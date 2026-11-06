@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>HOLLO COFFEE — Universal Database Station</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-stone-100 text-stone-900 min-h-screen pb-20 select-none md:select-auto">
+
+  <!-- TOAST NOTIFIKASI -->
+  <div id="toast" class="fixed top-4 right-4 z-50 transform transition-all duration-300 translate-y-[-150%] opacity-0 bg-stone-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-stone-700 text-xs font-semibold">
+    <i id="toast-icon" data-lucide="info" class="w-4 h-4 text-amber-400"></i>
+    <span id="toast-msg">-</span>
+  </div>
+
+  <!-- POP-UP LOGIN -->
+  <div id="login-screen" class="fixed inset-0 z-40 bg-stone-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-7 max-w-sm w-full shadow-2xl border border-stone-200">
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 bg-amber-800 text-amber-100 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-black shadow-lg">HC</div>
+        <h1 class="text-xl font-extrabold tracking-tight text-stone-900">HOLLO COFFEE</h1>
+        <p class="text-xs text-stone-500 font-medium">Stasiun Operasional & Database Universal</p>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-bold text-stone-600 uppercase tracking-wider mb-1">Username</label>
+          <input id="login-user" type="text" placeholder="mis. boy / nama staf" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-amber-700" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-stone-600 uppercase tracking-wider mb-1">PIN Rahasia</label>
+          <input id="login-pin" type="password" maxlength="8" placeholder="••••••" class="w-full bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 text-center tracking-widest text-base font-bold focus:outline-none focus:ring-2 focus:ring-amber-700" />
+        </div>
+        <button onclick="handleLogin()" id="btn-login" class="w-full bg-amber-800 hover:bg-amber-900 text-white font-bold py-3.5 rounded-xl text-xs shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+          <span>Masuk Database</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+      <p class="text-[11px] text-center text-stone-400 mt-5 font-medium leading-relaxed">
+        Super Admin: Username <code class="text-amber-800 font-bold">boy</code> (PIN default: 123456).
+      </p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="bg-stone-900 text-stone-100 sticky top-0 z-30 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 bg-amber-700 rounded-xl flex items-center justify-center font-bold text-xs text-white">HC</div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-black tracking-wider text-amber-400 uppercase">HOLLO COFFEE</span>
+            <span id="badge-role" class="text-[9px] font-bold bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-full border border-amber-500/30">STAFF</span>
+          </div>
+          <div class="text-[10px] text-stone-400 flex items-center gap-1.5 mt-0.5">
+            <span id="live-clock">00:00:00</span>
+            <span>•</span>
+            <span id="hdr-user-info" class="text-stone-300 font-medium">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="fetchSync(true)" title="Sinkronkan Sheet" class="p-2 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 active:rotate-180 transition duration-300">
+          <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+        </button>
+        <button onclick="handleLogout()" title="Keluar" class="p-2 rounded-xl bg-stone-800 hover:bg-rose-900/50 text-stone-400 hover:text-rose-300 transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- KONTEN UNIVERSAL DATABASE -->
+  <main class="max-w-7xl mx-auto px-4 py-5 space-y-4">
+
+    <!-- BAR CONTROL TAB SHEET -->
+    <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto" id="sheet-tabs-container">
+        <!-- Tab-tab yang ada di Sheet dimasukkan dinamis di sini -->
+      </div>
+      
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btn-add-col" onclick="promptNewColumn()" class="hidden bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition">
+          <i data-lucide="columns" class="w-4 h-4 text-stone-500"></i> + Kolom
+        </button>
+        <button id="btn-add-row" onclick="openAddRowModal()" class="hidden bg-amber-800 hover:bg-amber-900 text-white font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition">
+          <i data-lucide="plus" class="w-4 h-4"></i> + Tambah Baris
+        </button>
+      </div>
+    </div>
+
+    <!-- PENCARIAN & INFO TAB -->
+    <div class="flex items-center justify-between gap-3 px-1">
+      <div class="text-xs text-stone-500 font-medium">
+        Menampilkan data dari tab: <span id="current-tab-name" class="font-bold text-stone-900 uppercase">...</span>
+        (<span id="total-rows-info">0</span> baris)
+      </div>
+      <input type="text" id="search-box" oninput="renderCurrentSheetTable()" placeholder="Cari di tabel ini..." class="bg-white border border-stone-200 rounded-xl px-3 py-1.5 text-xs font-medium w-48 sm:w-64 focus:ring-2 focus:ring-amber-700 outline-none" />
+    </div>
+
+    <!-- TABEL DINAMIS SEMUA KOLOM SHEET -->
+    <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden shadow-sm">
+      <div class="overflow-x-auto max-h-[600px] overflow-y-auto">
+        <table class="w-full text-left text-xs whitespace-nowrap">
+          <thead id="dyn-thead" class="bg-stone-50 border-b border-stone-200 text-stone-500 uppercase font-bold text-[10px] sticky top-0 bg-stone-100 z-10">
+            <!-- Kolom header dinamis -->
+          </thead>
+          <tbody id="dyn-tbody" class="divide-y divide-stone-100">
+            <!-- Data baris dinamis -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL EDIT / TAMBAH BARIS DINAMIS -->
+  <div id="modal-row-editor" class="fixed inset-0 z-50 bg-stone-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl border border-stone-200 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div>
+          <h4 id="mdl-title" class="font-extrabold text-sm text-stone-900">Form Data</h4>
+          <p id="mdl-sub" class="text-xs text-stone-400">Tersinkron langsung ke Google Sheet</p>
+        </div>
+        <button onclick="closeRowModal()" class="text-stone-400 hover:text-stone-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <input type="hidden" id="mdl-row-id" />
+      <div id="mdl-form-fields" class="space-y-3 overflow-y-auto pr-1 text-xs"></div>
+
+      <div class="flex gap-2 pt-3 border-t">
+        <button onclick="closeRowModal()" class="flex-1 py-3 rounded-xl border border-stone-200 font-bold text-xs text-stone-600 hover:bg-stone-50">Batal</button>
+        <button onclick="saveRowData()" class="flex-1 py-3 rounded-xl bg-amber-800 hover:bg-amber-900 text-white font-bold text-xs shadow">Simpan ke Google Sheet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT ENGINE -->
+  <script>
+    // ========================================================
+    // MASUKKAN 2 KUNCI DARI TAHAP 1 DI SINI:
+    // ========================================================
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3v_RPOI9m_Ql2deXgVTh9JtQfIBw4YsAAuWk3dBUz6C3KLxh92QS-Rcd9Pe-raq5z/exec';
+    const SHEETS_SECRET = '47cf1fe8697e45dea6286e053ff6594e6ae860ee639940e590531aa5b7af9cd9';
+
+    let APP = {
+      user: JSON.parse(localStorage.getItem('hc_user') || 'null'),
+      pin: localStorage.getItem('hc_pin') || '',
+      data: null,
+      activeTab: ''
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      setInterval(() => {
+        document.getElementById('live-clock').innerText = new Date().toLocaleTimeString('id-ID', { hour12: false });
+      }, 1000);
+
+      if (APP.user && APP.pin) {
+        document.getElementById('login-screen').classList.add('hidden');
+        setupUserUI();
+        fetchSync();
+        setInterval(() => fetchSync(false), 25000); // Polling 25 detik
+      }
+    });
+
+    function showToast(msg, isErr = false) {
+      const el = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      el.className = el.className.replace(/border-[a-z0-9-]+/g, isErr ? 'border-rose-500' : 'border-stone-700');
+      document.getElementById('toast-icon').className = isErr ? 'w-4 h-4 text-rose-400' : 'w-4 h-4 text-amber-400';
+      el.classList.remove('translate-y-[-150%]', 'opacity-0');
+      setTimeout(() => el.classList.add('translate-y-[-150%]', 'opacity-0'), 3000);
+    }
+
+    async function apiCall(action, payload = {}) {
+      try {
+        const bodyData = {
+          secret: SHEETS_SECRET,
+          action: action,
+          username: APP.user ? APP.user.username : (payload.username || ''),
+          pin: APP.pin || (payload.pin || ''),
+          payload: payload
+        };
+
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(bodyData)
+        });
+
+        const json = await res.json();
+        if (json.error) {
+          if (json.error === 'invalid_login') throw new Error('Username atau PIN salah!');
+          if (json.error === 'unauthorized') throw new Error('SHEETS_SECRET salah atau tidak cocok!');
+          throw new Error(json.error);
+        }
+        return json;
+      } catch (err) {
+        showToast(err.message, true);
+        throw err;
+      }
+    }
+
+    async function handleLogin() {
+      const u = document.getElementById('login-user').value.trim().toLowerCase();
+      const p = document.getElementById('login-pin').value.trim();
+      if (!u || !p) return showToast('Isi username dan PIN!', true);
+
+      const btn = document.getElementById('btn-login');
+      btn.disabled = true; btn.innerText = 'Memverifikasi...';
+
+      try {
+        const res = await apiCall('login', { username: u, pin: p });
+        APP.user = res.user;
+        APP.pin = p;
+        APP.data = res;
+        localStorage.setItem('hc_user', JSON.stringify(res.user));
+        localStorage.setItem('hc_pin', p);
+
+        document.getElementById('login-screen').classList.add('hidden');
+        setupUserUI();
+        renderAllTabs();
+        showToast('Login berhasil sebagai ' + res.user.nama);
+      } catch (e) {
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Masuk Database</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>';
+        lucide.createIcons();
+      }
+    }
+
+    function handleLogout() {
+      if (!confirm('Keluar dari stasiun?')) return;
+      localStorage.clear();
+      location.reload();
+    }
+
+    function setupUserUI() {
+      if (!APP.user) return;
+      document.getElementById('hdr-user-info').innerText = `${APP.user.nama}`;
+      document.getElementById('badge-role').innerText = APP.user.role;
+
+      const isSuper = APP.user.role === 'RAJA_UTAMA';
+      if (isSuper) {
+        document.getElementById('btn-add-col').classList.remove('hidden');
+        document.getElementById('btn-add-row').classList.remove('hidden');
+      }
+    }
+
+    async function fetchSync(notify = false) {
+      try {
+        const res = await apiCall('getAll');
+        APP.data = res;
+        renderAllTabs();
+        if (notify) showToast('Data Sheet tersinkronisasi!');
+      } catch (e) {}
+    }
+
+    function renderAllTabs() {
+      if (!APP.data || !APP.data.sheets) return;
+      const container = document.getElementById('sheet-tabs-container');
+      const sheetKeys = Object.keys(APP.data.sheets);
+
+      if (!APP.activeTab || !sheetKeys.includes(APP.activeTab)) {
+        APP.activeTab = sheetKeys[0] || '';
+      }
+
+      container.innerHTML = sheetKeys.map(key => {
+        const isActive = key === APP.activeTab;
+        return `
+          <button onclick="setActiveTab('${key}')" class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${
+            isActive ? 'bg-amber-800 text-white shadow' : 'bg-stone-100 hover:bg-stone-200 text-stone-600'
+          }">
+            ${key}
+          </button>
+        `;
+      }).join('');
+
+      renderCurrentSheetTable();
+    }
+
+    function setActiveTab(tabKey) {
+      APP.activeTab = tabKey;
+      renderAllTabs();
+    }
+
+    function renderCurrentSheetTable() {
+      if (!APP.activeTab || !APP.data.sheets[APP.activeTab]) return;
+
+      const sheet = APP.data.sheets[APP.activeTab];
+      const headers = sheet.headers || [];
+      const formulaCols = sheet.formulaCols || [];
+      const search = document.getElementById('search-box').value.toLowerCase();
+      const isSuper = APP.user && APP.user.role === 'RAJA_UTAMA';
+
+      document.getElementById('current-tab-name').innerText = sheet.name;
+
+      // Filter Baris sesuai pencarian
+      let rows = sheet.rows || [];
+      if (search) {
+        rows = rows.filter(r => headers.some(h => String(r[h] || '').toLowerCase().includes(search)));
+      }
+      document.getElementById('total-rows-info').innerText = rows.length;
+
+      // Render Headings
+      const thead = document.getElementById('dyn-thead');
+      thead.innerHTML = `<tr>
+        <th class="py-3 px-3 w-16 text-center">Aksi</th>
+        ${headers.map(h => `
+          <th class="py-3 px-3">
+            ${h}
+            ${formulaCols.includes(h) ? '<span class="text-[8px] bg-stone-200 text-stone-600 px-1 py-0.2 rounded font-normal ml-1">RUMUS</span>' : ''}
+          </th>
+        `).join('')}
+      </tr>`;
+
+      // Render Body
+      const tbody = document.getElementById('dyn-tbody');
+      if (rows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${headers.length + 1}" class="py-8 text-center text-stone-400">Tidak ada baris data.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = rows.map(r => `
+        <tr class="hover:bg-stone-50 border-b border-stone-100 transition">
+          <td class="py-2 px-3 text-center flex items-center justify-center gap-1">
+            <button onclick="openEditRowModal(${r._row})" class="p-1.5 rounded-lg bg-amber-50 text-amber-800 hover:bg-amber-100" title="Edit Baris">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+            ${isSuper ? `
+              <button onclick="deleteRow(${r._row})" class="p-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100" title="Hapus Baris">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            ` : ''}
+          </td>
+          ${headers.map(h => `
+            <td class="py-2.5 px-3 ${formulaCols.includes(h) ? 'bg-stone-50/70 font-semibold text-stone-500' : 'text-stone-800'}">
+              ${r[h] !== undefined && r[h] !== null ? r[h] : ''}
+            </td>
+          `).join('')}
+        </tr>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    function openAddRowModal() {
+      const sheet = APP.data.sheets[APP.activeTab];
+      if (!sheet) return;
+      document.getElementById('mdl-title').innerText = `Tambah Baris di [${sheet.name}]`;
+      document.getElementById('mdl-row-id').value = '';
+      buildModalFields(sheet, {});
+      document.getElementById('modal-row-editor').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function openEditRowModal(rowNumber) {
+      const sheet = APP.data.sheets[APP.activeTab];
+      const r = sheet.rows.find(row => row._row === rowNumber);
+      if (!r) return;
+      document.getElementById('mdl-title').innerText = `Edit Baris #${rowNumber} [${sheet.name}]`;
+      document.getElementById('mdl-row-id').value = r._row;
+      buildModalFields(sheet, r);
+      document.getElementById('modal-row-editor').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function buildModalFields(sheet, rowValues) {
+      const container = document.getElementById('mdl-form-fields');
+      const headers = sheet.headers || [];
+      const formulaCols = sheet.formulaCols || [];
+
+      container.innerHTML = headers.map(h => {
+        const isFormula = formulaCols.includes(h);
+        const val = rowValues[h] !== undefined && rowValues[h] !== null ? rowValues[h] : '';
+
+        return `
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">
+              ${h}
+              ${isFormula ? '<span class="text-[9px] text-stone-400 font-normal ml-1">(Rumus Terkunci)</span>' : ''}
+            </label>
+            <input type="text" data-col="${h}" value="${val}" ${isFormula ? 'disabled class="w-full bg-stone-100 border border-stone-200 rounded-xl p-2.5 text-stone-400 font-semibold cursor-not-allowed"' : 'class="w-full bg-stone-50 border border-stone-200 rounded-xl p-2.5 font-medium outline-none focus:ring-2 focus:ring-amber-700"'} />
+          </div>
+        `;
+      }).join('');
+    }
+
+    function closeRowModal() {
+      document.getElementById('modal-row-editor').classList.add('hidden');
+    }
+
+    async function saveRowData() {
+      const rowId = document.getElementById('mdl-row-id').value;
+      const values = {};
+      document.querySelectorAll('#mdl-form-fields [data-col]').forEach(el => {
+        if (!el.disabled) values[el.getAttribute('data-col')] = el.value;
+      });
+
+      try {
+        await apiCall('save', {
+          sheet: APP.activeTab,
+          row: rowId || undefined,
+          values: values
+        });
+        closeRowModal();
+        showToast('Data berhasil disimpan ke Google Sheet!');
+        fetchSync();
+      } catch (e) {}
+    }
+
+    async function deleteRow(rowNumber) {
+      if (!confirm('Yakin ingin menghapus baris ini dari Google Sheet?')) return;
+      try {
+        await apiCall('remove', { sheet: APP.activeTab, row: rowNumber });
+        showToast('Baris berhasil dihapus dari Google Sheet!');
+        fetchSync();
+      } catch (e) {}
+    }
+
+    async function promptNewColumn() {
+      const colName = prompt(`Ketik nama kolom baru untuk tab [${APP.activeTab}]:`);
+      if (!colName || !colName.trim()) return;
+
+      try {
+        await apiCall('addNewColumn', { sheet: APP.activeTab, columnName: colName.trim() });
+        showToast(`Kolom "${colName}" berhasil ditambahkan ke Sheet!`);
+        fetchSync();
+      } catch (e) {}
+    }
+  </script>
+</body>
+</html>
